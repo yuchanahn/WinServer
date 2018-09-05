@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="MysqlManager.h">
+      <Filter>DB\mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="mysqlpool.h">
+      <Filter>DB\mysql</Filter>
+    </ClInclude>
+    <ClInclude Include="Logmanager.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvertUTF8.h">
+      <Filter>UTF8</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSession.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Base_generated.h">
+      <Filter>FlatBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadManager.h">
+      <Filter>Read</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteManager.h">
+      <Filter>Write</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="COMPONENT_H.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="cPing.h">
+      <Filter>Component\Ping</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPositionManager.h">
+      <Filter>Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateManager.h">
+      <Filter>Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogin.h">
+      <Filter>Login</Filter>
+    </ClInclude>
+    <ClInclude Include="cMonsterManager.h">
+      <Filter>Component\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Component\core</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Component\core</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterPositionManager.h">
+      <Filter>Component\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterStateManager.h">
+      <Filter>Component\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="FCDataManager.h">
+      <Filter>Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="cServerFPS.h">
+      <Filter>Component\core</Filter>
+    </ClInclude>
+    <ClInclude Include="CPoint.h">
+      <Filter>Component\Monster\core</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Component\Monster\core</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Component\Inventory\core</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Component\Item\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MysqlManager.cpp">
+      <Filter>DB\mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="mysqlpool.cpp">
+      <Filter>DB\mysql</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvertUTF8.cpp">
+      <Filter>UTF8</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadManager.cpp">
+      <Filter>Read</Filter>
+    </ClCompile>
+    <ClCompile Include="TLS.cpp">
+      <Filter>Write</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="cPing.cpp">
+      <Filter>Component\Ping</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPositionManager.cpp">
+      <Filter>Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStateManager.cpp">
+      <Filter>Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="cLogin.cpp">
+      <Filter>Login</Filter>
+    </ClCompile>
+    <ClCompile Include="cMonsterManager.cpp">
+      <Filter>Component\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Component\core</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Component\core</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterPositionManager.cpp">
+      <Filter>Component\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterStateManager.cpp">
+      <Filter>Component\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="FCDataManager.cpp">
+      <Filter>Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="cServerFPS.cpp">
+      <Filter>Component\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Component\Monster\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Component\Inventory\core</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Component\Item\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DB">
+      <UniqueIdentifier>{a6447f59-6ba2-4dfd-9962-62949dd36428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{41ae1571-95de-4fe9-939d-a438d34020ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{6601e9e6-0921-40f2-9911-8bef5e7cf59b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{f330badc-f41f-4b4f-82b2-df7a3efe4eb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Write">
+      <UniqueIdentifier>{b7a74688-cb93-4cc9-945d-490bbb2762ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SendRecv">
+      <UniqueIdentifier>{eb9bd58b-665a-4869-9b90-336e19cb65a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Read">
+      <UniqueIdentifier>{5b0f2d34-0562-42b0-ba1b-9836e8143301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB\mysql">
+      <UniqueIdentifier>{2b1771f1-6516-49b5-b692-b5dc52d17221}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB\redis">
+      <UniqueIdentifier>{d354eac7-4103-4c47-8e43-af2841be1cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UTF8">
+      <UniqueIdentifier>{12ed65cc-2bae-46ce-92d4-aa11344a27b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{30a49cf6-f4cf-422c-95c3-a0d506c87002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Login">
+      <UniqueIdentifier>{417774be-c1c6-42bf-b7ea-7e1efdafb0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlatBuffer">
+      <UniqueIdentifier>{0f9b4c7f-36a9-4910-bfc6-04cf5e837f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Branch">
+      <UniqueIdentifier>{09e237d0-3165-4d01-a752-379844bf6c69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{e8753572-88c0-4cd4-84f9-e88daad92b2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{11d7984e-c164-4bb6-8ee5-cffae8c8592a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Player">
+      <UniqueIdentifier>{d2644e73-4ab9-421c-a39a-ac3b15e07327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Ping">
+      <UniqueIdentifier>{055c68c6-e4e9-4111-a4f8-216e8d805db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\LoginManager">
+      <UniqueIdentifier>{9f1c1bdb-97ef-46d6-ae8d-77fc5b3644e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Monster">
+      <UniqueIdentifier>{f15757e8-00a5-4aa9-9281-4e50d4ed503a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\core">
+      <UniqueIdentifier>{52b14112-f2aa-4aa3-a35c-63c5bf282996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Monster\core">
+      <UniqueIdentifier>{8c52e99d-ab7e-498c-894b-54634c372e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Inventory">
+      <UniqueIdentifier>{8f0621ac-148d-4a1e-bd4e-5a9d20a13d77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Inventory\core">
+      <UniqueIdentifier>{a727ea2d-b88b-4e49-b862-85123dfef55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Item">
+      <UniqueIdentifier>{e8df2330-2f5a-41cc-ba58-fb95f4f7cdaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Item\core">
+      <UniqueIdentifier>{fbb45acd-5df2-4365-88f1-8b9ca4c6a438}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

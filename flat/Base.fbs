@@ -1,0 +1,138 @@
+enum Class : int{
+Base = 0,
+Player,
+id,
+test,
+ping,
+PlayerStat,
+SendMeStat,
+Monster,
+MonsterStat,
+LogIn,
+FirstCharacterData,
+fItem,
+fInventory
+}
+
+
+
+
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
+}
+
+table FirstCharacterData{
+cType:Class;
+Pos:Vec3;
+
+
+HP:int;
+HPLim:int;
+MP:int;
+MPLim:int;
+LV:int;
+
+ID:int;
+}
+
+table fItem{
+cType:Class;
+
+id:int;
+name:string;
+type:int;
+val1:int;
+val2:int;
+val3:int;
+val4:int;
+val5:int;
+val6:int;
+val7:int;
+val8:int;
+count:int;
+}
+
+table fInventory{
+cType:Class;
+
+Slot:[30];
+}
+
+table Login{
+cType:Class;
+isSignin:bool;
+id:string;
+pass:string;
+isSuccess:bool;
+}
+
+table id{
+cType:Class;
+ID:int;
+}
+
+table ping{
+cType:Class;
+time:long;
+}
+
+table test{
+cType:Class;
+num:long;
+}
+
+table Player{
+cType:Class;
+pos:Vec3;
+vel:Vec3;
+rot:Vec3;
+w:float;
+ID:int;
+
+Vertical:float;
+Horizontal:float;
+Jump:bool;
+Attack:bool;
+Run:bool;
+}
+
+
+table Monster{
+cType:Class;
+pos:Vec3;
+ID:int;
+TargetID:int;
+TargetPos:Vec3;
+Ani:float;
+}
+
+table MonsterStat{
+cType:Class;
+HP:int;
+ID:int;
+}
+
+table PlayerStat{
+cType:Class;
+HP:int;
+HPLim:int;
+MP:int;
+MPLim:int;
+LV:int;
+ID:int;
+}
+
+table SendMeStat{
+cType:Class;
+StatDataType:Class;
+ID:int;
+}
+
+
+table Base{
+cType:Class;
+}
+
+root_type Base;
