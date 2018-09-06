@@ -57,7 +57,7 @@ count:int;
 table fInventory{
 cType:Class;
 
-Slot:[30];
+Slot:[int];
 }
 
 table Login{

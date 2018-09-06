@@ -88,7 +88,9 @@
     <ClInclude Include="InventoryManager.h">
       <Filter>Component\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="ItemManager.h">
+      <Filter>Component\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -167,7 +169,9 @@
     <ClCompile Include="InventoryManager.cpp">
       <Filter>Component\Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>Component\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DB">

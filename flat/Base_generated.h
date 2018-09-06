@@ -14,6 +14,9 @@ struct FirstCharacterDataT;
 struct fItem;
 struct fItemT;
 
+struct fInventory;
+struct fInventoryT;
+
 struct Login;
 struct LoginT;
 
@@ -57,11 +60,12 @@ enum Class {
   Class_LogIn = 9,
   Class_FirstCharacterData = 10,
   Class_fItem = 11,
+  Class_fInventory = 12,
   Class_MIN = Class_Base,
-  Class_MAX = Class_fItem
+  Class_MAX = Class_fInventory
 };
 
-inline const Class (&EnumValuesClass())[12] {
+inline const Class (&EnumValuesClass())[13] {
   static const Class values[] = {
     Class_Base,
     Class_Player,
@@ -74,7 +78,8 @@ inline const Class (&EnumValuesClass())[12] {
     Class_MonsterStat,
     Class_LogIn,
     Class_FirstCharacterData,
-    Class_fItem
+    Class_fItem,
+    Class_fInventory
   };
   return values;
 }
@@ -93,6 +98,7 @@ inline const char * const *EnumNamesClass() {
     "LogIn",
     "FirstCharacterData",
     "fItem",
+    "fInventory",
     nullptr
   };
   return names;
@@ -496,6 +502,82 @@ inline flatbuffers::Offset<fItem> CreatefItemDirect(
 }
 
 flatbuffers::Offset<fItem> CreatefItem(flatbuffers::FlatBufferBuilder &_fbb, const fItemT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fInventoryT : public flatbuffers::NativeTable {
+  typedef fInventory TableType;
+  Class cType;
+  std::vector<int32_t> Slot;
+  fInventoryT()
+      : cType(Class_Base) {
+  }
+};
+
+struct fInventory FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fInventoryT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_SLOT = 6
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  const flatbuffers::Vector<int32_t> *Slot() const {
+    return GetPointer<const flatbuffers::Vector<int32_t> *>(VT_SLOT);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyOffset(verifier, VT_SLOT) &&
+           verifier.Verify(Slot()) &&
+           verifier.EndTable();
+  }
+  fInventoryT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fInventoryT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fInventory> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fInventoryT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fInventoryBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fInventory::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_Slot(flatbuffers::Offset<flatbuffers::Vector<int32_t>> Slot) {
+    fbb_.AddOffset(fInventory::VT_SLOT, Slot);
+  }
+  explicit fInventoryBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fInventoryBuilder &operator=(const fInventoryBuilder &);
+  flatbuffers::Offset<fInventory> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fInventory>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fInventory> CreatefInventory(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    flatbuffers::Offset<flatbuffers::Vector<int32_t>> Slot = 0) {
+  fInventoryBuilder builder_(_fbb);
+  builder_.add_Slot(Slot);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fInventory> CreatefInventoryDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    const std::vector<int32_t> *Slot = nullptr) {
+  return CreatefInventory(
+      _fbb,
+      cType,
+      Slot ? _fbb.CreateVector<int32_t>(*Slot) : 0);
+}
+
+flatbuffers::Offset<fInventory> CreatefInventory(flatbuffers::FlatBufferBuilder &_fbb, const fInventoryT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct LoginT : public flatbuffers::NativeTable {
   typedef Login TableType;
@@ -1539,6 +1621,35 @@ inline flatbuffers::Offset<fItem> CreatefItem(flatbuffers::FlatBufferBuilder &_f
       _val7,
       _val8,
       _count);
+}
+
+inline fInventoryT *fInventory::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fInventoryT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fInventory::UnPackTo(fInventoryT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = Slot(); if (_e) { _o->Slot.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->Slot[_i] = _e->Get(_i); } } };
+}
+
+inline flatbuffers::Offset<fInventory> fInventory::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fInventoryT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefInventory(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fInventory> CreatefInventory(flatbuffers::FlatBufferBuilder &_fbb, const fInventoryT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fInventoryT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _Slot = _o->Slot.size() ? _fbb.CreateVector(_o->Slot) : 0;
+  return CreatefInventory(
+      _fbb,
+      _cType,
+      _Slot);
 }
 
 inline LoginT *Login::UnPack(const flatbuffers::resolver_function_t *_resolver) const {

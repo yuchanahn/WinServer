@@ -6,6 +6,7 @@
 
 cInventory::~cInventory()
 {
+
 }
 
 void cInventory::Start()
