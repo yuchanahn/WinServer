@@ -8,17 +8,8 @@ class Inventory
 {
 	int inventory[Inventory_MAX];
 
-	//mysql 에서 받아서 저장.
-	//
-
-
-
-
-
-
-
 public:
-	Inventory();
+	Inventory(int id);
 	~Inventory();
 
 	int Get(int index);

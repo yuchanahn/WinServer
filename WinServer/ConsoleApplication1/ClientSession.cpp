@@ -22,6 +22,7 @@
 #include "Base_generated.h"
 #include "ClientSession.h"
 #include "InputComponent.h"
+#include "InventoryManager.h"
 #include "COMPONENT_H.h"
 
 #include "PlayerPositionManager.h"
@@ -74,6 +75,7 @@ session::~session()
 {
 	if (state != nullptr)	delete state;
 	if (position != nullptr)delete position;
+	if (inventoryManager != nullptr) delete inventoryManager;
 	printf("클라이언트 접속 종료\nID : %d\n", id);
 }
 
@@ -97,6 +99,10 @@ void session::do_read()
 	});
 }
 
+void session::IsLogined() {
+	//// strand 문제있을 수 있음.
+	inventoryManager = new InventoryManager(id);
+}
 
 
 
@@ -131,9 +137,15 @@ void server::ServerStart()
 	InputComponent* MonsterManager = new InputComponent;
 
 	PingManager->AddComponent<cPing>();
+
 	LoginManager->AddComponent<cLogin>();
+
 	PlayerManager->AddComponent<cPlayer>();
+	PlayerManager->AddComponent<cItem>();
+	PlayerManager->AddComponent<cInventory>();
+
 	ServerFpsManger->AddComponent<cServerFPS>();
+
 	MonsterManager->AddComponent<cMonsterManager>();
 
 	gameObjects->AddComponent(PingManager);

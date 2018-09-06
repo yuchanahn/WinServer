@@ -2,3 +2,5 @@
 *.lib
 *.dll
 WinServer/.vs/Server/v15/Browse.VC.db
+WinServer/.vs/Server/v15/.suo
+*.ipch

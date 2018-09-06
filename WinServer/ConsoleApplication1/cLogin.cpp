@@ -29,6 +29,7 @@ void cLogin::Start()
 					client->id = oID;
 					wdata->id = std::to_string(oID);
 					isSuccess(client->shared_from_this());
+					client->IsLogined();
 				}
 				break;
 			case eLogin::idSame:

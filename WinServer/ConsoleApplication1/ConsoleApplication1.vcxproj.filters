@@ -44,7 +44,7 @@
       <Filter>Component\Player</Filter>
     </ClInclude>
     <ClInclude Include="cLogin.h">
-      <Filter>Login</Filter>
+      <Filter>Component\LoginManager\Login</Filter>
     </ClInclude>
     <ClInclude Include="cMonsterManager.h">
       <Filter>Component\Monster</Filter>
@@ -79,6 +79,16 @@
     <ClInclude Include="Item.h">
       <Filter>Component\Item\core</Filter>
     </ClInclude>
+    <ClInclude Include="cItem.h">
+      <Filter>Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="cInventory.h">
+      <Filter>Component\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryManager.h">
+      <Filter>Component\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -116,7 +126,7 @@
       <Filter>Component\Player</Filter>
     </ClCompile>
     <ClCompile Include="cLogin.cpp">
-      <Filter>Login</Filter>
+      <Filter>Component\LoginManager\Login</Filter>
     </ClCompile>
     <ClCompile Include="cMonsterManager.cpp">
       <Filter>Component\Monster</Filter>
@@ -148,6 +158,16 @@
     <ClCompile Include="Item.cpp">
       <Filter>Component\Item\core</Filter>
     </ClCompile>
+    <ClCompile Include="cItem.cpp">
+      <Filter>Component\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="cInventory.cpp">
+      <Filter>Component\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryManager.cpp">
+      <Filter>Component\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DB">
@@ -182,9 +202,6 @@
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{30a49cf6-f4cf-422c-95c3-a0d506c87002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Login">
-      <UniqueIdentifier>{417774be-c1c6-42bf-b7ea-7e1efdafb0a9}</UniqueIdentifier>
     </Filter>
     <Filter Include="FlatBuffer">
       <UniqueIdentifier>{0f9b4c7f-36a9-4910-bfc6-04cf5e837f4c}</UniqueIdentifier>
@@ -227,6 +244,9 @@
     </Filter>
     <Filter Include="Component\Item\core">
       <UniqueIdentifier>{fbb45acd-5df2-4365-88f1-8b9ca4c6a438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\LoginManager\Login">
+      <UniqueIdentifier>{417774be-c1c6-42bf-b7ea-7e1efdafb0a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

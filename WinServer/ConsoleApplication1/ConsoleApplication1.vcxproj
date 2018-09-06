@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base_generated.h" />
+    <ClInclude Include="cInventory.h" />
+    <ClInclude Include="cItem.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="cLogin.h" />
     <ClInclude Include="cMonsterManager.h" />
@@ -32,7 +34,9 @@
     <ClInclude Include="FCDataManager.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryManager.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="Logmanager.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterPositionManager.h" />
@@ -47,6 +51,8 @@
     <ClInclude Include="WriteManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cInventory.cpp" />
+    <ClCompile Include="cItem.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="cLogin.cpp" />
     <ClCompile Include="cMonsterManager.cpp" />
@@ -57,7 +63,9 @@
     <ClCompile Include="FCDataManager.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryManager.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterPositionManager.cpp" />

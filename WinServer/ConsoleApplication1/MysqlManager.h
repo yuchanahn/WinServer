@@ -43,6 +43,10 @@ public:
 
 	int isPlayerIDandPass(char * id, char * pass);
 
+	void GetPlayerInventory(int id, int inven[30]);
+
+	void GetItems();
+
 	int GetDataCount_LogIn(char * str);
 
 

@@ -1,12 +1,12 @@
 #include "Inventory.h"
+#include "MysqlManager.h"
 
 
-
-Inventory::Inventory()
+Inventory::Inventory(int id)
 {
-
+	MysqlManager m;
+	m.GetPlayerInventory(id, inventory);
 }
-
 
 Inventory::~Inventory()
 {

@@ -6,3 +6,5 @@
 #include "cPlayer.h"
 #include "cLogin.h"
 #include "cMonsterManager.h"
+#include "cInventory.h"
+#include "cItem.h"

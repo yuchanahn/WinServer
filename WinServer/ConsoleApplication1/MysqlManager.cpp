@@ -2,6 +2,7 @@
 #include <iostream>
 #include "mysqlpool.h"
 #include "Base_generated.h"
+#include "ItemManager.h"
 #include "cMonsterManager.h"
 
 
@@ -134,6 +135,30 @@ int MysqlManager::isPlayerIDandPass(char * id, char * pass)
 	}
 	return -1;
 }
+
+void MysqlManager::GetPlayerInventory(int id , int inven[30]) {
+	char str[256];
+	sprintf_s(str, "select * from Inventory WHERE `UserKey`=%d LIMIT 1;", id);
+	auto m = mysql->executeSql(str);
+
+	for (int i = 0; i < 30;	i++) {
+		inven[i] = stoi(m[std::to_string(i + 1)][0]);
+	}
+}
+
+void MysqlManager::GetItems() {
+	char str[256];
+	sprintf_s(str, "select * from Item;");
+	auto Item = mysql->executeSql(str);
+	sprintf_s(str, "select * from UserItem;");
+	auto uItem = mysql->executeSql(str);
+
+	ItemManager im;
+	im.ItemSeting(uItem, Item);
+}
+
+
+
 
 
 int MysqlManager::GetDataCount_LogIn(char * str)

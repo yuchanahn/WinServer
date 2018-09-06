@@ -29,7 +29,7 @@ class InputComponent;
 class PlayerStateManager;
 class PlayerPositionManager;
 class SendStateTo;
-
+class InventoryManager;
 
 using asio::ip::tcp;
 
@@ -48,6 +48,7 @@ public:
 
 	PlayerStateManager*		state    = nullptr;
 	PlayerPositionManager*	position = nullptr;
+	InventoryManager*		inventoryManager = nullptr;
 
 	int id;
 	bool isOffLine = false;
@@ -61,6 +62,7 @@ public:
 		strand_(socket.get_io_service())
 	{}
 	~session();
+	void IsLogined();
 private:
 	void do_read();
 };
