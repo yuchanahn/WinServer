@@ -16,14 +16,14 @@ InventoryManager::~InventoryManager()
 
 void InventoryManager::Write(int id)
 {
-	WriteManager<fInventory, fInventoryT> Inven;
-	Inven.wdata->cType = Class::Class_fInventory;
-	Inven.wdata->Slot.resize(30);
-
 	for (int i = 0; i > 30; i++) {
-		Inven.wdata->Slot[i] = inventory->Get(i);
+		if (inventory->Get(i) != 0) {
+			WriteManager<fItem, fItemT> tem;
+			*tem.wdata = *Item::Items[inventory->Get(i)].wdata;
+			tem.wdata->id = i;
+			tem.Write(session::InputSession[id]->shared_from_this());
+		}
 	}
-	Inven.Write(session::InputSession[id]->shared_from_this());
 }
 
 fItemT * InventoryManager::Get(int index)
