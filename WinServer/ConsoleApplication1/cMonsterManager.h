@@ -27,6 +27,8 @@ class cMonsterManager :
 	public Component
 {
 	float dt = .0f;
+	float dt2 = .0f;
+	float SendRate = .3f;
 public:
 	std::map<int, oMonster*> Monsters;
 

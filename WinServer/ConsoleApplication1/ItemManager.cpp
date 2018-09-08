@@ -15,10 +15,9 @@ ItemManager::~ItemManager()
 
 void ItemManager::ItemSeting(map<const string, vector<const char*>> uItem, map<const string, vector<const char*>> Item)
 {
-	for (int i = 0; i < uItem["ItemKey"].size(); i++) {
+	for (int i = 1; i < uItem["ItemKey"].size()+1; i++) {
 		
-		auto ItemID = stoi(uItem["ItemId"][i]);
-
+		auto ItemID = stoi(uItem["ItemId"][i-1]) - 1;
 		Item::Items[i].wdata->cType = Class::Class_fItem;
 		Item::Items[i].wdata->id = stoi(Item["Id"][ItemID]);
 		Item::Items[i].wdata->name = Item["Name"][ItemID];
@@ -31,6 +30,6 @@ void ItemManager::ItemSeting(map<const string, vector<const char*>> uItem, map<c
 		Item::Items[i].wdata->val6 = stoi(Item["6"][ItemID]);
 		Item::Items[i].wdata->val7 = stoi(Item["7"][ItemID]);
 		Item::Items[i].wdata->val8 = stoi(Item["8"][ItemID]);
-		Item::Items[i].wdata->count = stoi(uItem["Count"][i]);
+		Item::Items[i].wdata->count = stoi(uItem["Count"][i-1]);
 	}
 }

@@ -15,7 +15,7 @@ void cMonsterManager::Start()
 	auto monList = m.GetMonsterInfo();
 
 	int n=0;
-
+	
 	for (auto i : monList)
 	{
 		for (int ii = 0; ii < 11; ii++) {
@@ -48,11 +48,19 @@ void cMonsterManager::Update()
 
 	if (dt > .1f)
 	{
+		dt2 += dt;
 		dt = .0f;
-		
+
 		for (auto i : Monsters)
 		{
 			i.second->UpdatePosition();			
+		}
+		if (dt2 > SendRate) {
+			dt2 = 0;		
+			for (auto i : Monsters)
+			{
+				i.second->Position->Write();
+			}
 		}
 	}
 	

@@ -116,7 +116,6 @@ void oMonster::UpdatePosition()
 		Position->wdata->TargetID = target->id;
 		Position->wdata->TargetPos.reset(new Vec3(TargetPos.x,0,TargetPos.y));
 	}
-	Position->Write();
 }
 
 void oMonster::Update()

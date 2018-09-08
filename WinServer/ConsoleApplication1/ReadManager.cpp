@@ -16,7 +16,7 @@ void ReadManager::Read(char data_[1024], size_t length ,std::shared_ptr<session>
 	memcpy(packData->data, data_, length);
 
 	auto data(GetBase(packData->data));
-	
+
 	if (ReadSome.find(data->cType()) == ReadSome.end()) {
 		printf("잘못된 패킷 받음. type num : %d\n", data->cType());
 		return;
