@@ -16,7 +16,7 @@ InventoryManager::~InventoryManager()
 }
 
 void InventoryManager::Write(int id)
-{	
+{
 	for (int i = 0; i < 30; i++) {
 		if (inventory->Get(i) != 0) {
 			WriteManager<fItem, fItemT> tem;
@@ -24,7 +24,7 @@ void InventoryManager::Write(int id)
 			tem.wdata->name = Item::Items[inventory->Get(i)].wdata->name;
 			printf("Item Send name : %s\n", tem.wdata->name.c_str());
 			tem.wdata->id = i;
-			auto ipc = session::InputSession[id];
+			auto ipc = session::InputSession[id]->shared_from_this();
 			tem.Write(session::InputSession[id]->shared_from_this());
 		}
 	}
@@ -34,7 +34,7 @@ fItemT * InventoryManager::Get(int index)
 {
 	auto index_ = inventory->Get(index);
 
-	if(index_ != 0)
+	if (index_ != 0)
 		return Item::Items[index_].wdata;
 	return nullptr;
 }
