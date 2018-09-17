@@ -24,7 +24,6 @@ void InventoryManager::Write(int id)
 			tem.wdata->name = Item::Items[inventory->Get(i)].wdata->name;
 			printf("Item Send name : %s\n", tem.wdata->name.c_str());
 			tem.wdata->id = i;
-			auto ipc = session::InputSession[id]->shared_from_this();
 			tem.Write(session::InputSession[id]->shared_from_this());
 		}
 	}

@@ -22,7 +22,7 @@ void ReadManager::Read(char data_[1024], size_t length ,std::shared_ptr<session>
 		return;
 	}
 
-	ReadSome[data->cType()](packData, Client);
+	ReadSome[data->cType()](packData, Client->shared_from_this());
 }
 
 std::map<Class, std::function<void(PackData*, std::shared_ptr<session>) >> ReadManager::ReadSome;

@@ -9,7 +9,9 @@ void cPing::Start()
 {
 	ReadManager::ReadSome[Class::Class_ping] = [this](PackData* data, std::shared_ptr<session> client) {
 		data->Get<ping, pingT>(wdata);
-		Write(client);
+
+		
+		Write(client->shared_from_this());
 		delete data;
 	};
 }

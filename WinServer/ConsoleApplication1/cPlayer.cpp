@@ -96,5 +96,5 @@ void cPlayer::FristSend(std::shared_ptr<session> client)
 	fcdManager.wdata->HP = client->state->wdata->HP;
 	fcdManager.wdata->HPLim = client->state->wdata->HPLim;
 
-	fcdManager.Write(client);
+	fcdManager.Write(client->shared_from_this());
 }

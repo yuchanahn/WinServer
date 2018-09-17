@@ -9,7 +9,6 @@ void cLogin::Start()
 {
 	ReadManager::ReadSome[Class::Class_LogIn] = [this](PackData* data, std::shared_ptr<session> client) {
 
-		auto self(client->shared_from_this());
 		server::UseStrand([=]() {
 			
 			data->Get < Login, LoginT > (wdata);
@@ -27,7 +26,7 @@ void cLogin::Start()
 				}
 				else
 				{
-					//session::InputSession[oID] = self->shared_from_this();
+					session::InputSession[oID] = client->shared_from_this();
 					client->id = oID;
 					wdata->id = std::to_string(oID);
 					isSuccess(client->shared_from_this());
