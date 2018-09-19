@@ -37,8 +37,10 @@ void cPlayer::Start()
 	ReadManager::ReadSome[Class::Class_Player] = [this](PackData* data, std::shared_ptr<session> client) 
 	{
 		client->UseStrand([=]() {
-			data->Get<Player, PlayerT>(client->position->wdata);
-			client->position->Write();
+			if (client->position != nullptr) {
+				data->Get<Player, PlayerT>(client->position->wdata);
+				client->position->Write();
+			}
 			delete data;
 		});
 	};
