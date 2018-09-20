@@ -92,6 +92,48 @@ void MysqlManager::SetPlayerPos(PlayerT * player)
 	mysql->executeSql(str); 
 }
 
+void MysqlManager::SetInv(int inv[30],int id)
+{
+	char str[50];
+	string m_kstr = "";
+
+	sprintf_s(str, "UPDATE `Main`.`Inventory` SET `1`='%d'", inv[0]);
+	m_kstr.append(str);
+
+	string m_kstrEnd = "WHERE  `UserKey`=%d;";
+
+	for (int i = 2; i < 31; i++) {
+		sprintf_s(str, ",`%d`='%d'", i, inv[i-1]);
+		m_kstr.append(str);
+	}
+
+	sprintf_s(str, "WHERE  `UserKey`=%d;", id);
+	m_kstr.append(str);
+
+	mysql->executeSql(m_kstr.c_str());
+}
+
+void MysqlManager::SetItem(int userItemid, int count)
+{
+	char str[256];
+	sprintf_s(str, "UPDATE `Main`.`UserItem` SET `Count`='%d' WHERE  `ItemKey`=%d;", count,userItemid);
+	auto m = mysql->executeSql(str);
+}
+
+// : delete Item
+void MysqlManager::SetItem(int userItemid)
+{
+	char str[256];
+	sprintf_s(str, "DELETE FROM `Main`.`UserItem` WHERE  `ItemKey`=%d;", userItemid);
+	auto m = mysql->executeSql(str);
+}
+
+
+
+
+
+
+
 PlayerStatT * MysqlManager::GetPlayerStat(int id)
 {
 	char str[256];

@@ -37,6 +37,10 @@ public:
 	void SetPlayerStat(PlayerStatT * stat);
 	void SetPlayerPos(PlayerT * player);
 	
+	void SetInv(int inv[30],int id);
+	void SetItem(int userItemid, int count);
+	void SetItem(int userItemid);
+
 	PlayerStatT * GetPlayerStat(int id);
 	Vec3 * GetPlayerPos(int id);
 

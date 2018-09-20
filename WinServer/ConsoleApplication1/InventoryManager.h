@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class Inventory;
 
@@ -12,7 +13,10 @@ public:
 	~InventoryManager();
 
 	void Write(int id);
-
+	
+	void InvUpdate(fItemT *);
+	void SwapSlot(std::vector<int>);
+	void UseItem(fItemT *);
 	fItemT * Get(int);
 };
 

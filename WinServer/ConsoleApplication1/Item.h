@@ -10,5 +10,8 @@ public:
 		
 	Item();
 	~Item();
+
+	static void SetUserItem(int useritemID);
+	static void SetUserItem(int useritemID,int count);
 };
 
