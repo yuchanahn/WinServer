@@ -8,11 +8,16 @@ struct fItemT;
 class InventoryManager
 {
 	Inventory * inventory;
+	int playerID;
 public:
 	InventoryManager(int ID);
 	~InventoryManager();
 
-	void Write(int id);
+	void Write();
+
+	void writefItem(int id, int slotNum);
+
+	void WriteNewItem(int id);
 	
 	void InvUpdate(fItemT *);
 	void SwapSlot(std::vector<int>);

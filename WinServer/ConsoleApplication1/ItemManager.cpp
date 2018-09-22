@@ -1,5 +1,6 @@
 #include "ItemManager.h"
 #include "Item.h"
+#include "MysqlManager.h"
 
 using namespace std;
 
@@ -32,4 +33,28 @@ void ItemManager::ItemSeting(map<const string, vector<const char*>> uItem, map<c
 		Item::Items[i].wdata->val8 = stoi(Item["8"][ItemID]);
 		Item::Items[i].wdata->count = stoi(uItem["Count"][i-1]);
 	}
+
 }
+
+void ItemManager::ItemSeting(int itemid, int itemcode)
+{
+	if (m_items.empty()) {
+		MysqlManager m;
+		m_items = m.GetThisItems();
+	}
+
+	Item::Items[itemid].wdata->cType = Class::Class_fItem;
+	Item::Items[itemid].wdata->id = stoi(m_items["Id"][itemcode]);
+	Item::Items[itemid].wdata->name = m_items["Name"][itemcode];
+	Item::Items[itemid].wdata->type = stoi(m_items["type"][itemcode]);
+	Item::Items[itemid].wdata->val1 = stoi(m_items["1"][itemcode]);
+	Item::Items[itemid].wdata->val2 = stoi(m_items["2"][itemcode]);
+	Item::Items[itemid].wdata->val3 = stoi(m_items["3"][itemcode]);
+	Item::Items[itemid].wdata->val4 = stoi(m_items["4"][itemcode]);
+	Item::Items[itemid].wdata->val5 = stoi(m_items["5"][itemcode]);
+	Item::Items[itemid].wdata->val6 = stoi(m_items["6"][itemcode]);
+	Item::Items[itemid].wdata->val7 = stoi(m_items["7"][itemcode]);
+	Item::Items[itemid].wdata->val8 = stoi(m_items["8"][itemcode]);
+}
+
+std::map<const std::string, std::vector<const char*>> ItemManager::m_items;

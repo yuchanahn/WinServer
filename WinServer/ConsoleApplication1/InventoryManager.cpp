@@ -6,8 +6,8 @@
 InventoryManager::InventoryManager(int id)
 {
 	inventory = new Inventory(id);
-
-	Write(id);
+	playerID = id;
+	Write();
 }
 
 
@@ -16,22 +16,34 @@ InventoryManager::~InventoryManager()
 	delete inventory;
 }
 
-void InventoryManager::Write(int id)
+void InventoryManager::Write()
 {
 	for (int i = 0; i < 30; i++) {
 		if (inventory->Get(i) != 0) {
-			WriteManager<fItem, fItemT> tem;
-			*tem.wdata = *Item::Items[inventory->Get(i)].wdata;
-			printf("Item Send name : %s\n", tem.wdata->name.c_str());
-			tem.wdata->val8 = i;
-			tem.Write(session::InputSession[id]->shared_from_this());
+			writefItem(inventory->Get(i), i);
+		}
+	}
+}
+
+void InventoryManager::WriteNewItem(int id)
+{
+	for (int i = 0; i < 30; i++) {
+		if (inventory->Get(i) == 0) {
+			writefItem(id, i);
+			inventory->Set(id, i);
+			return;
 		}
 	}
 }
 
 void InventoryManager::InvUpdate(fItemT * item)
 {
-	if (Item::Items[inventory->Get(item->id)].wdata->count != item->count) 
+	if (item->type == -1)
+	{
+		int itemid = Item::CreateItem(item->id,item->count);
+		WriteNewItem(itemid);
+	}
+	else if (Item::Items[inventory->Get(item->id)].wdata->count != item->count) 
 	{
 		printf("-- item update --\n");
 		UseItem(item);
@@ -71,3 +83,10 @@ fItemT * InventoryManager::Get(int index)
 	return nullptr;
 }
 
+void InventoryManager::writefItem(int id, int slotNum) {
+	WriteManager<fItem, fItemT> tem;
+	*tem.wdata = *Item::Items[id].wdata;
+	printf("Item Send name : %s\n", tem.wdata->name.c_str());
+	tem.wdata->val8 = slotNum;
+	tem.Write(session::InputSession[playerID]->shared_from_this());
+}

@@ -128,6 +128,16 @@ void MysqlManager::SetItem(int userItemid)
 	auto m = mysql->executeSql(str);
 }
 
+int MysqlManager::CreateItem(int ItemCode, int count)
+{
+	char str[256];
+	sprintf_s(str, "INSERT INTO `Main`.`UserItem` (`ItemId`, `Count`) VALUES ('%d', '%d');", ItemCode, count);
+	auto m = mysql->executeSql(str);
+
+	auto m2 = mysql->executeSql("SELECT * FROM `Main`.`UserItem`;");
+	return stoi( m2["ItemKey"][m2["ItemKey"].size()-1] );
+}
+
 
 
 
@@ -202,8 +212,9 @@ void MysqlManager::GetItems() {
 	im.ItemSeting(uItem, Item);
 }
 
-
-
+std::map<const std::string, std::vector<const char*>> MysqlManager::GetThisItems() {
+	return mysql->executeSql("select * from Item;");
+}
 
 
 int MysqlManager::GetDataCount_LogIn(char * str)

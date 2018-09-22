@@ -13,6 +13,6 @@ public:
 	~Inventory();
 
 	int Get(int index);
-	void Set(int, int);
+	void Set(int val, int index);
 };
 

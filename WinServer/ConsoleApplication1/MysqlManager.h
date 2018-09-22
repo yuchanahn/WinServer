@@ -40,6 +40,7 @@ public:
 	void SetInv(int inv[30],int id);
 	void SetItem(int userItemid, int count);
 	void SetItem(int userItemid);
+	int CreateItem(int ItemCode, int count);
 
 	PlayerStatT * GetPlayerStat(int id);
 	Vec3 * GetPlayerPos(int id);
@@ -50,6 +51,7 @@ public:
 	void GetPlayerInventory(int id, int inven[30]);
 
 	void GetItems();
+	std::map<const std::string, std::vector<const char*>> GetThisItems();
 
 	int GetDataCount_LogIn(char * str);
 
