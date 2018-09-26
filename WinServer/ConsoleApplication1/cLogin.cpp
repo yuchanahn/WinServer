@@ -12,10 +12,10 @@ void cLogin::Start()
 		server::UseStrand([=]() {
 			
 			data->Get < Login, LoginT > (wdata);
-			MysqlManager m;
+
 
 			int oID;
-			auto e = m.GetLoginData(wdata, &oID);
+			auto e = MysqlManager::GetInstance()->GetLoginData(wdata, &oID);
 
 			switch (e)
 			{
@@ -47,7 +47,7 @@ void cLogin::Start()
 			case eLogin::idNone:
 				if (!wdata->isSignin)
 				{
-					int ID = m.CreateID(wdata);
+					int ID = MysqlManager::GetInstance()->CreateID(wdata);
 					isSuccess(client->shared_from_this());
 				}
 				else

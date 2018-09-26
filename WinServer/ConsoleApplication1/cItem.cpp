@@ -8,6 +8,5 @@ cItem::~cItem()
 
 void cItem::Start()
 {
-	MysqlManager m;
-	m.GetItems();
+	MysqlManager::GetInstance()->GetItems();
 }

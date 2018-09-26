@@ -8,8 +8,7 @@ PlayerPositionManager::PlayerPositionManager()
 
 PlayerPositionManager::~PlayerPositionManager()
 {
-	MysqlManager m;
-	m.SetPlayerPos(wdata);
+	MysqlManager::GetInstance()->SetPlayerPos(wdata);
 }
 
 void PlayerPositionManager::Update(PlayerT* p)

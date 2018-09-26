@@ -4,16 +4,23 @@
 #include <string>
 #include <map>
 
+struct fItemT;
+
 class ItemManager
 {
 public:
-	static std::map<const std::string, std::vector<const char*>> m_items;
+	static std::map<int, fItemT*> Items;
+
+
+
 
 	ItemManager();
 	~ItemManager();
 
-	void ItemSeting(std::map<const std::string, std::vector<const char*>>,std::map<const std::string, std::vector<const char*>>);
-	static void ItemSeting(int itemid, int itemcode);
+	static void Input(std::map<const std::string, std::vector<const char*>> uItem);
+	static void AddItem(int itemid, int itemcode);
+
+	static void getItemData();
 
 
 };

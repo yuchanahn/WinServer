@@ -6,55 +6,69 @@ using namespace std;
 
 ItemManager::ItemManager()
 {
-	
 }
 
 
 ItemManager::~ItemManager()
 {
 }
-
-void ItemManager::ItemSeting(map<const string, vector<const char*>> uItem, map<const string, vector<const char*>> Item)
+void ItemManager::Input(map<const string, vector<const char*>> uItem)
 {
-	for (int i = 1; i < uItem["ItemKey"].size()+1; i++) {
-		
-		auto ItemID = stoi(uItem["ItemId"][i-1]) - 1;
-		Item::Items[i].wdata->cType = Class::Class_fItem;
-		Item::Items[i].wdata->id = stoi(Item["Id"][ItemID]);
-		Item::Items[i].wdata->name = Item["Name"][ItemID];
-		Item::Items[i].wdata->type = stoi(Item["type"][ItemID]);
-		Item::Items[i].wdata->val1 = stoi(Item["1"][ItemID]);
-		Item::Items[i].wdata->val2 = stoi(Item["2"][ItemID]);
-		Item::Items[i].wdata->val3 = stoi(Item["3"][ItemID]);
-		Item::Items[i].wdata->val4 = stoi(Item["4"][ItemID]);
-		Item::Items[i].wdata->val5 = stoi(Item["5"][ItemID]);
-		Item::Items[i].wdata->val6 = stoi(Item["6"][ItemID]);
-		Item::Items[i].wdata->val7 = stoi(Item["7"][ItemID]);
-		Item::Items[i].wdata->val8 = stoi(Item["8"][ItemID]);
-		Item::Items[i].wdata->count = stoi(uItem["Count"][i-1]);
+	getItemData();
+	auto UserItems = uItem;
+	auto size = UserItems["ItemKey"].size();
+
+	vector<int> key(size);
+	vector<int> code(size);
+	vector<int> count(size);
+
+	for (int i = 0; i < size; i++) {
+		key[i] = stoi(UserItems["ItemKey"][i]);
+		code[i] = stoi(UserItems["ItemId"][i]);
+		count[i] = stoi(UserItems["Count"][i]);
 	}
 
-}
 
-void ItemManager::ItemSeting(int itemid, int itemcode)
-{
-	if (m_items.empty()) {
-		MysqlManager m;
-		m_items = m.GetThisItems();
+	for (int i = 0; i < size; i++) {
+		*Item::Items[key[i]].wdata = *Items[i];
+		Item::Items[key[i]].wdata->count = count[i];
+
+		printf("[%s][%s] -- item load [%d] code : %d\n", Item::Items[key[i]].wdata->name.c_str(), Items[i]->name.c_str(), key[i], code[i]);
 	}
-
-	Item::Items[itemid].wdata->cType = Class::Class_fItem;
-	Item::Items[itemid].wdata->id = stoi(m_items["Id"][itemcode]);
-	Item::Items[itemid].wdata->name = m_items["Name"][itemcode];
-	Item::Items[itemid].wdata->type = stoi(m_items["type"][itemcode]);
-	Item::Items[itemid].wdata->val1 = stoi(m_items["1"][itemcode]);
-	Item::Items[itemid].wdata->val2 = stoi(m_items["2"][itemcode]);
-	Item::Items[itemid].wdata->val3 = stoi(m_items["3"][itemcode]);
-	Item::Items[itemid].wdata->val4 = stoi(m_items["4"][itemcode]);
-	Item::Items[itemid].wdata->val5 = stoi(m_items["5"][itemcode]);
-	Item::Items[itemid].wdata->val6 = stoi(m_items["6"][itemcode]);
-	Item::Items[itemid].wdata->val7 = stoi(m_items["7"][itemcode]);
-	Item::Items[itemid].wdata->val8 = stoi(m_items["8"][itemcode]);
 }
 
-std::map<const std::string, std::vector<const char*>> ItemManager::m_items;
+void ItemManager::AddItem(int itemid, int itemCode)
+{
+	getItemData();
+	*Item::Items[itemid].wdata = *Items[itemCode];
+}
+
+
+
+void ItemManager::getItemData() {
+	if (Items.empty())
+	{
+		auto m_items = MysqlManager::GetInstance()->GetThisItems();
+		for (int i = 0; i < m_items["Id"].size(); i++) {
+			Items[i] = new fItemT;
+			Items[i]->cType = Class::Class_fItem;
+			Items[i]->id = i;
+			Items[i]->name.append(m_items["Name"][i]);
+			Items[i]->type = stoi(m_items["type"][i]);
+			Items[i]->val1 = stoi(m_items["1"][i]);
+			Items[i]->val2 = stoi(m_items["2"][i]);
+			Items[i]->val3 = stoi(m_items["3"][i]);
+			Items[i]->val4 = stoi(m_items["4"][i]);
+			Items[i]->val5 = stoi(m_items["5"][i]);
+			Items[i]->val6 = stoi(m_items["6"][i]);
+			Items[i]->val7 = stoi(m_items["7"][i]);
+			Items[i]->val8 = stoi(m_items["8"][i]);
+		}
+
+	}
+}
+
+
+
+
+std::map<int, fItemT*> ItemManager::Items;

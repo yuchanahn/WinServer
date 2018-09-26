@@ -14,24 +14,21 @@ Item::~Item()
 
 void Item::SetUserItem(int useritemID)
 {
-	MysqlManager m;
-	m.SetItem(useritemID);
+	MysqlManager::GetInstance()->SetItem(useritemID);
 }
 
 void Item::SetUserItem(int useritemID, int count)
 {
-	MysqlManager m;
-	m.SetItem(useritemID,count);
+	MysqlManager::GetInstance()->SetItem(useritemID,count);
 }
 
 int Item::CreateItem(int itemcode, int count)
 {
-	MysqlManager m;
-
-	auto temid = m.CreateItem(itemcode, count);
+	auto temid = MysqlManager::GetInstance()->CreateItem(itemcode, count);
 	Items[temid].wdata->count = count;
 
-	ItemManager::ItemSeting(temid, itemcode);
+
+	ItemManager::AddItem(temid, itemcode);
 
 	return temid;
 }

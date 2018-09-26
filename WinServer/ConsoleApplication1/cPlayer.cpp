@@ -77,14 +77,12 @@ void cPlayer::Update()
 
 void cPlayer::FristSend(std::shared_ptr<session> client)
 {
-	MysqlManager m;
-
 	PlayerPositionManager * position_ = new PlayerPositionManager;
 	PlayerStateManager * state_ = new PlayerStateManager;
 
-	position_->wdata->pos.reset(m.GetPlayerPos(client->id));
+	position_->wdata->pos.reset(MysqlManager::GetInstance()->GetPlayerPos(client->id));
 	position_->wdata->cType = Class::Class_Player;
-	state_->wdata = m.GetPlayerStat(client->id);
+	state_->wdata = MysqlManager::GetInstance()->GetPlayerStat(client->id);
 
 	client->position = position_;
 	client->state = state_;

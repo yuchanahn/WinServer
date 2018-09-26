@@ -141,9 +141,10 @@ void server::ServerStart()
 
 	LoginManager->AddComponent<cLogin>();
 
+	
+	PlayerManager->AddComponent<cInventory>(); 
 	PlayerManager->AddComponent<cPlayer>();
 	PlayerManager->AddComponent<cItem>();
-	PlayerManager->AddComponent<cInventory>();
 
 	ServerFpsManger->AddComponent<cServerFPS>();
 

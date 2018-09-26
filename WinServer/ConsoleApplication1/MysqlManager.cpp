@@ -41,12 +41,12 @@ bool MysqlManager::IsIdNone(LoginT * data)
 std::list<CreateMonsterData*> MysqlManager::GetMonsterInfo()
 {
 	std::list<CreateMonsterData*> Monsters;
-	
+
 	auto m = mysql->executeSql("select * from MonsterInfo");
-	
+
 	for (size_t i = 0; i < m["StartX"].size(); i++) {
 		Monsters.push_back(new CreateMonsterData(
-			m["Name"][i], 
+			m["Name"][i],
 			atof(m["StartX"][i]),
 			atof(m["StartY"][i]),
 			atoi(m["HP"][i]),
@@ -57,6 +57,13 @@ std::list<CreateMonsterData*> MysqlManager::GetMonsterInfo()
 	return Monsters;
 }
 
+MysqlManager * MysqlManager::GetInstance()
+{
+	static MysqlManager * m = new MysqlManager();
+
+	return m;
+}
+
 int MysqlManager::CreateID(LoginT * data)
 {
 	char str[256];
@@ -65,13 +72,13 @@ int MysqlManager::CreateID(LoginT * data)
 
 	sprintf_s(str, "select LoginData.key from LoginData Where LoginData.id = '%s';", data->id.c_str());
 	int ID = stoi(mysql->executeSql(str)["key"][0]);
-	
-	
-	sprintf_s(str , "INSERT INTO `Inventory`  (`UserKey`) VALUES ('%d');", ID);
+
+
+	sprintf_s(str, "INSERT INTO `Inventory`  (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
-	sprintf_s(str , "INSERT INTO `SkillInfo`  (`UserKey`) VALUES ('%d');", ID);
+	sprintf_s(str, "INSERT INTO `SkillInfo`  (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
-	sprintf_s(str , "INSERT INTO `PlayerInfo` (`UserKey`) VALUES ('%d');", ID);
+	sprintf_s(str, "INSERT INTO `PlayerInfo` (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
 
 	return ID;
@@ -89,10 +96,10 @@ void MysqlManager::SetPlayerPos(PlayerT * player)
 	char str[256];
 	auto pos = new Vec3(player->pos->x(), player->pos->y(), player->pos->z());
 	sprintf_s(str, "UPDATE `Main`.`PlayerInfo` SET `X`='%lf' ,`Y`='%lf' ,`Z`='%lf' WHERE  `UserKey`=%d LIMIT 1;", pos->x(), pos->y(), pos->z(), player->ID);
-	mysql->executeSql(str); 
+	mysql->executeSql(str);
 }
 
-void MysqlManager::SetInv(int inv[30],int id)
+void MysqlManager::SetInv(int inv[30], int id)
 {
 	char str[50];
 	string m_kstr = "";
@@ -102,8 +109,8 @@ void MysqlManager::SetInv(int inv[30],int id)
 
 	string m_kstrEnd = "WHERE  `UserKey`=%d;";
 
-	for (int i = 2; i < 31; i++) {
-		sprintf_s(str, ",`%d`='%d'", i, inv[i-1]);
+	for (int i = 1; i < 30; i++) {
+		sprintf_s(str, ",`%d`='%d'", i + 1, inv[i]);
 		m_kstr.append(str);
 	}
 
@@ -116,7 +123,8 @@ void MysqlManager::SetInv(int inv[30],int id)
 void MysqlManager::SetItem(int userItemid, int count)
 {
 	char str[256];
-	sprintf_s(str, "UPDATE `Main`.`UserItem` SET `Count`='%d' WHERE  `ItemKey`=%d;", count,userItemid);
+	sprintf_s(str, "UPDATE `Main`.`UserItem` SET `Count`='%d' WHERE  `ItemKey`=%d;", count, userItemid);
+	printf("uid : %d , count : %d\n", userItemid, count);
 	auto m = mysql->executeSql(str);
 }
 
@@ -125,6 +133,7 @@ void MysqlManager::SetItem(int userItemid)
 {
 	char str[256];
 	sprintf_s(str, "DELETE FROM `Main`.`UserItem` WHERE  `ItemKey`=%d;", userItemid);
+	printf("[delete] uid : %d\n", userItemid);
 	auto m = mysql->executeSql(str);
 }
 
@@ -135,7 +144,8 @@ int MysqlManager::CreateItem(int ItemCode, int count)
 	auto m = mysql->executeSql(str);
 
 	auto m2 = mysql->executeSql("SELECT * FROM `Main`.`UserItem`;");
-	return stoi( m2["ItemKey"][m2["ItemKey"].size()-1] );
+	auto val = stoi(m2["ItemKey"][m2["ItemKey"].size() - 1]);
+	return val;
 }
 
 
@@ -177,9 +187,9 @@ int MysqlManager::isPlayerIDandPass(char * id, char * pass)
 	if (GetDataCount_LogIn(str)) {
 		sprintf_s(str, "select LoginData.pass from LoginData Where LoginData.id = '%s';", id);
 
-		if ( !strcmp(mysql->executeSql(str)["pass"][0], pass) ) {
+		if (!strcmp(mysql->executeSql(str)["pass"][0], pass)) {
 			sprintf_s(str, "select LoginData.key from LoginData Where LoginData.id = '%s';", id);
-			printf("mysql : %s\n" , mysql->executeSql(str)["key"][0]);
+			printf("mysql : %s\n", mysql->executeSql(str)["key"][0]);
 			int d = stoi(mysql->executeSql(str)["key"][0]);
 			return d;
 		}
@@ -188,32 +198,29 @@ int MysqlManager::isPlayerIDandPass(char * id, char * pass)
 	return -1;
 }
 
-void MysqlManager::GetPlayerInventory(int id , int inven[30]) {
+void MysqlManager::GetPlayerInventory(int id, int inven[30]) {
+	bool DataNoneSave = true;
+
+	std::cout << "-- load inventory -- \n";
 	char str[256];
-	sprintf_s(str, "select * from Inventory WHERE `UserKey`=%d LIMIT 1;", id);
+	sprintf_s(str, "SELECT * FROM `Main`.`Inventory` WHERE `UserKey`=%d LIMIT 1;", id);
 	auto m = mysql->executeSql(str);
 
-	for (int i = 0; i < 30;	i++) {
-
-		auto SlotNum = m[ std::to_string(i + 1) ][0];
-
-		inven[i] = stoi(SlotNum);
+	for (int i = 0; i < 30; i++) {
+		inven[i] = stoi(m[std::to_string(i + 1)][0]);
 	}
+
+
+	std::cout << "-- load inventory end -- \n";
 }
 
 void MysqlManager::GetItems() {
-	char str[256];
-	sprintf_s(str, "select * from Item;");
-	auto Item = mysql->executeSql(str);
-	sprintf_s(str, "select * from UserItem;");
-	auto uItem = mysql->executeSql(str);
-
-	ItemManager im;
-	im.ItemSeting(uItem, Item);
+	auto uItem = mysql->executeSql("SELECT * FROM `Main`.`UserItem` LIMIT 1000;");
+	ItemManager::Input(uItem);
 }
 
 std::map<const std::string, std::vector<const char*>> MysqlManager::GetThisItems() {
-	return mysql->executeSql("select * from Item;");
+	return mysql->executeSql("SELECT * FROM `Main`.`Item` LIMIT 1000;");
 }
 
 
@@ -231,7 +238,7 @@ eLogin MysqlManager::GetLoginData(LoginT * data, int * ID)
 	auto stat = isPlayerIDandPass((char*)data->id.c_str(), (char*)data->pass.c_str());
 
 	if (stat >= 0) {
-		if(ID != nullptr) *ID = stat;
+		if (ID != nullptr) *ID = stat;
 		return eLogin::passSame;
 	}
 	else if (stat == -1) {

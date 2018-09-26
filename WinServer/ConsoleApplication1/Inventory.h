@@ -13,6 +13,7 @@ public:
 	~Inventory();
 
 	int Get(int index);
+	int GetSlotNum(int Itemkey);
 	void Set(int val, int index);
 };
 

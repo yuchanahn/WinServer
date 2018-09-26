@@ -11,8 +11,8 @@ cMonsterManager::~cMonsterManager()
 void cMonsterManager::Start()
 {
 	srand((unsigned int)time(NULL));
-	MysqlManager m;
-	auto monList = m.GetMonsterInfo();
+
+	auto monList = MysqlManager::GetInstance()->GetMonsterInfo();
 
 	int n=0;
 	

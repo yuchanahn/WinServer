@@ -20,12 +20,12 @@ enum class eLogin
 class MysqlManager
 {
 
+	MysqlManager();
 	MysqlPool * mysql;
 
 
 
 public:
-	MysqlManager();
 	~MysqlManager();
 
 	bool IsIdPassSame(LoginT * data , int * Id);
@@ -59,5 +59,8 @@ public:
 	eLogin GetLoginData(LoginT * data, int * ID);
 
 	std::list<CreateMonsterData*> GetMonsterInfo();
+
+
+	static MysqlManager* GetInstance();
 };
 

@@ -9,8 +9,7 @@ PlayerStateManager::PlayerStateManager()
 
 PlayerStateManager::~PlayerStateManager()
 {
-	MysqlManager m;
-	m.SetPlayerStat(wdata);
+	MysqlManager::GetInstance()->SetPlayerStat(wdata);
 }
 
 void PlayerStateManager::Update(PlayerStatT newState)
