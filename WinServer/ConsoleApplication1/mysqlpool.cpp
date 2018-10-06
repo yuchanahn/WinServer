@@ -1,4 +1,5 @@
 ﻿#include "mysqlpool.h"
+#include <list>
 
 MysqlPool* MysqlPool::mysqlpool_object = NULL;
 std::mutex MysqlPool::objectlock;
@@ -112,39 +113,54 @@ void MysqlPool::close(MYSQL* conn) {
 }
 
 std::map<const std::string,std::vector<const char*> >  MysqlPool::executeSql(const char* sql) {
-    MYSQL* conn = getOneConnect();
-    std::map<const std::string,std::vector<const char*> > results;
-	std::list<std::vector<const char*>*> r_list;
+	MYSQL* conn = getOneConnect();
+	std::map<const std::string, std::vector<const char*> > results;
+	std::list<std::string> r_list;
 
-    if (conn) {
-        if (mysql_query(conn,sql) == 0) {
-            MYSQL_RES *res = mysql_store_result(conn);
-            if (res) {
-                MYSQL_FIELD *field;
-                while ((field = mysql_fetch_field(res))) {
-                    results.insert(make_pair(field->name,std::vector<const char*>()));
-					r_list.push_back(&results[field->name]);
-                }
+	if (conn) {
+		if (mysql_query(conn, sql) == 0) {
+			MYSQL_RES *res = mysql_store_result(conn);
+			if (res) {
+				MYSQL_FIELD *field;
+
+				while ((field = mysql_fetch_field(res))) {
+					std::string str;
+					str.append(field->name);
+					r_list.push_back(str);
+					//첫번째것만 문자열 깨짐//
+				}
 				MYSQL_ROW row;
-                while ((row = mysql_fetch_row(res))) {
-                    unsigned int i = 0;
-					for (auto it = r_list.begin(); it != r_list.end(); ++it) {
-						(*it)->push_back(row[i++]);
-                    }
-                }
-                mysql_free_result(res);
-            } else {
-                if (mysql_field_count(conn) != 0)
-                    std::cerr << mysql_error(conn) << std::endl;
-            }
-        } else {
-            std::cerr << mysql_error(conn) <<std::endl;
-        }
-        close(conn);
-    } else {
-        std::cerr << mysql_error(conn) << std::endl;
-    }
-    return results;
+				while ((row = mysql_fetch_row(res))) {
+					unsigned int i = 0;
+
+					for (auto it = r_list.begin(); it != r_list.end(); it++) {
+						if (row[i] != nullptr) {
+							auto rowSize = strlen(row[i]);
+							char * str = new char[rowSize + 1];
+							memcpy(str, row[i], rowSize);
+							str[rowSize] = '\0';
+							results[*it].push_back(str);
+							i++;
+						}
+					}
+				}
+				mysql_free_result(res);
+				r_list.clear();
+			}
+			else {
+				if (mysql_field_count(conn) != 0)
+					std::cerr << mysql_error(conn) << std::endl;
+			}
+		}
+		else {
+			std::cerr << mysql_error(conn) << std::endl;
+		}
+		close(conn);
+	}
+	else {
+		std::cerr << mysql_error(conn) << std::endl;
+	}
+	return results;
 }
 
 

@@ -87,7 +87,8 @@ int MysqlManager::CreateID(LoginT * data)
 void MysqlManager::SetPlayerStat(PlayerStatT * stat)
 {
 	char str[256];
-	sprintf_s(str, "UPDATE `Main`.`PlayerInfo` SET `Hp`='%d' WHERE  `UserKey`=%d LIMIT 1;", stat->HP, stat->ID);
+	sprintf_s(str, "UPDATE `Main`.`PlayerInfo` SET `Hp`='%d', `HpLim`='%d', `Mp`='%d', `MpLim`='%d', `Exp`='%d',`Lv`='%d',`Attack`='%d' WHERE  `UserKey`=%d LIMIT 1;", 
+		stat->HP, stat->HPLim,stat->MP, stat->MPLim, stat->EXP, stat->LV, stat->Attack, stat->ID);
 	mysql->executeSql(str);
 }
 
@@ -165,6 +166,11 @@ PlayerStatT * MysqlManager::GetPlayerStat(int id)
 	stat->cType = Class::Class_PlayerStat;
 	stat->HP = stoi(m["Hp"][0]);
 	stat->HPLim = stoi(m["HpLim"][0]);
+	stat->MP = stoi(m["Mp"][0]);
+	stat->MPLim= stoi(m["MpLim"][0]);
+	stat->EXP = stoi(m["Exp"][0]);
+	stat->Attack = stoi(m["Attack"][0]);
+	stat->LV = stoi(m["Lv"][0]);
 	stat->ID = id;
 
 	return stat;
@@ -207,6 +213,7 @@ void MysqlManager::GetPlayerInventory(int id, int inven[30]) {
 	auto m = mysql->executeSql(str);
 
 	for (int i = 0; i < 30; i++) {
+		printf("inv : %s\n", m[std::to_string(i + 1)][0]);
 		inven[i] = stoi(m[std::to_string(i + 1)][0]);
 	}
 

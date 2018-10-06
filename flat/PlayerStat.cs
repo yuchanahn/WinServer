@@ -19,8 +19,10 @@ public struct PlayerStat : IFlatbufferObject
   public int HPLim { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int MP { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int MPLim { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int LV { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int ID { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int EXP { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Attack { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int LV { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int ID { get { int o = __p.__offset(20); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<PlayerStat> CreatePlayerStat(FlatBufferBuilder builder,
       Class cType = Class.Base,
@@ -28,11 +30,15 @@ public struct PlayerStat : IFlatbufferObject
       int HPLim = 0,
       int MP = 0,
       int MPLim = 0,
+      int EXP = 0,
+      int Attack = 0,
       int LV = 0,
       int ID = 0) {
-    builder.StartObject(7);
+    builder.StartObject(9);
     PlayerStat.AddID(builder, ID);
     PlayerStat.AddLV(builder, LV);
+    PlayerStat.AddAttack(builder, Attack);
+    PlayerStat.AddEXP(builder, EXP);
     PlayerStat.AddMPLim(builder, MPLim);
     PlayerStat.AddMP(builder, MP);
     PlayerStat.AddHPLim(builder, HPLim);
@@ -41,14 +47,16 @@ public struct PlayerStat : IFlatbufferObject
     return PlayerStat.EndPlayerStat(builder);
   }
 
-  public static void StartPlayerStat(FlatBufferBuilder builder) { builder.StartObject(7); }
+  public static void StartPlayerStat(FlatBufferBuilder builder) { builder.StartObject(9); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddHP(FlatBufferBuilder builder, int HP) { builder.AddInt(1, HP, 0); }
   public static void AddHPLim(FlatBufferBuilder builder, int HPLim) { builder.AddInt(2, HPLim, 0); }
   public static void AddMP(FlatBufferBuilder builder, int MP) { builder.AddInt(3, MP, 0); }
   public static void AddMPLim(FlatBufferBuilder builder, int MPLim) { builder.AddInt(4, MPLim, 0); }
-  public static void AddLV(FlatBufferBuilder builder, int LV) { builder.AddInt(5, LV, 0); }
-  public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(6, ID, 0); }
+  public static void AddEXP(FlatBufferBuilder builder, int EXP) { builder.AddInt(5, EXP, 0); }
+  public static void AddAttack(FlatBufferBuilder builder, int Attack) { builder.AddInt(6, Attack, 0); }
+  public static void AddLV(FlatBufferBuilder builder, int LV) { builder.AddInt(7, LV, 0); }
+  public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(8, ID, 0); }
   public static Offset<PlayerStat> EndPlayerStat(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<PlayerStat>(o);

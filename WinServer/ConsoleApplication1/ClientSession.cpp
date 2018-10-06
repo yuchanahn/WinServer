@@ -101,7 +101,9 @@ void session::do_read()
 
 void session::IsLogined() {
 	//// strand 문제있을 수 있음.
-	inventoryManager = new InventoryManager(id);
+	UseStrand([=]() {
+		inventoryManager = new InventoryManager(id); 
+	});
 }
 
 

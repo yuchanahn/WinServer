@@ -11,10 +11,25 @@ MonsterStat,
 LogIn,
 FirstCharacterData,
 fItem,
-fInventory
+fInventory,
+fEquipSlots
 }
 
 
+table fNetEffect{
+cType:Class;
+EffectType:int;
+target:int;
+targetMonster:int;
+targetPos:Vec3;
+StartPos:Vec3;
+}
+
+
+table fEquipSlots{
+cType:Class;
+Slot:[int];
+}
 
 
 struct Vec3 {
@@ -26,12 +41,15 @@ struct Vec3 {
 table FirstCharacterData{
 cType:Class;
 Pos:Vec3;
+Name:string;
 
 
 HP:int;
 HPLim:int;
 MP:int;
 MPLim:int;
+EXP:int;
+Attack:int;
 LV:int;
 
 ID:int;
@@ -95,6 +113,7 @@ Vertical:float;
 Horizontal:float;
 Jump:bool;
 Attack:bool;
+Anicode:float;
 Run:bool;
 }
 
@@ -120,6 +139,8 @@ HP:int;
 HPLim:int;
 MP:int;
 MPLim:int;
+EXP:int;
+Attack:int;
 LV:int;
 ID:int;
 }

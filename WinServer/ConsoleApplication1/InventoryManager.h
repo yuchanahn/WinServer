@@ -15,13 +15,13 @@ public:
 
 	void Write();
 
-	void writefItem(int id, int slotNum);
+	void writefItem(fItemT *, int id);
 
 	void WriteNewItem(int id);
 	
 	void InvUpdate(fItemT *);
 	void SwapSlot(std::vector<int>);
-	void UseItem(fItemT *);
+	void ItemCountUpdate(fItemT *);
 	fItemT * Get(int);
 };
 

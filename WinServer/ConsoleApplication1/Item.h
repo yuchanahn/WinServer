@@ -13,7 +13,6 @@ public:
 
 	static void SetUserItem(int useritemID);
 	static void SetUserItem(int useritemID,int count);
-
 	static int CreateItem(int itemcode, int count);
 };
 

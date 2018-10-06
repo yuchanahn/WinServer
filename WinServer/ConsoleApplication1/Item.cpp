@@ -25,10 +25,9 @@ void Item::SetUserItem(int useritemID, int count)
 int Item::CreateItem(int itemcode, int count)
 {
 	auto temid = MysqlManager::GetInstance()->CreateItem(itemcode, count);
-	Items[temid].wdata->count = count;
-
-
 	ItemManager::AddItem(temid, itemcode);
+	Items[temid].wdata->count = count;
+	Items[temid].wdata->cType = Class::Class_fItem;
 
 	return temid;
 }

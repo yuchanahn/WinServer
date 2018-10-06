@@ -20,17 +20,18 @@ void InventoryManager::Write()
 {
 	for (int i = 0; i < 30; i++) {
 		if (inventory->Get(i) != 0) {
-			writefItem(inventory->Get(i), i);
+			auto ItemKey = inventory->Get(i);
+			writefItem(Item::Items[ItemKey].wdata, ItemKey);
 		}
 	}
 }
 
-void InventoryManager::WriteNewItem(int id)
+void InventoryManager::WriteNewItem(int ItemKey)
 {
 	for (int i = 0; i < 30; i++) {
 		if (inventory->Get(i) == 0) {
-			writefItem(id, i);
-			inventory->Set(id, i);
+			inventory->Set(ItemKey, i);
+			writefItem(Item::Items[ItemKey].wdata, ItemKey);
 			return;
 		}
 	}
@@ -38,41 +39,59 @@ void InventoryManager::WriteNewItem(int id)
 
 void InventoryManager::InvUpdate(fItemT * item)
 {
-	if (item->type == -1)
-	{
-		int itemid = Item::CreateItem(item->id,item->count);
+	if (item->type == -1) {
+		printf("**** ITEM [+] ****\n");
+	}
+	else
+		printf("**** ITEM [-] ****\n");
+
+
+	if (item->type == -1) { // id-> Code
+		for (int i = 0; i < 30; i++) {
+			if (inventory->Get(i) == 0) continue;
+			if (Item::Items[inventory->Get(i)].wdata->id == item->id) {
+				item->count += Item::Items[inventory->Get(i)].wdata->count;
+				item->id = inventory->Get(i);
+				ItemCountUpdate(item);
+				writefItem(Item::Items[inventory->Get(i)].wdata, inventory->Get(i));
+				return;
+			}
+		}
+		int itemid = Item::CreateItem(item->id, item->count);
 		WriteNewItem(itemid);
 	}
-	else if (Item::Items[item->id].wdata->count != item->count)
-	{
-		printf("-- item update --\n");
-		UseItem(item);
+	else {					// id-> ItemKey
+		ItemCountUpdate(item); 
+		return;
 	}
+
+
 }
 
 void InventoryManager::SwapSlot(std::vector<int> NewInv)
 {
 	printf("-- inv update --\n");
 	for (int i = 0; i < 30; i++) {
-		inventory->Set(NewInv[i],i);
+		inventory->Set(NewInv[i], i);
 	}
 }
 
-void InventoryManager::UseItem(fItemT * item)
+void InventoryManager::ItemCountUpdate(fItemT * item)
 {
-	
-	if (item->count < 1) 
+
+	if (item->count < 1)
 	{
 		Item::Items.erase(item->id);
 		Item::SetUserItem(item->id);
-		inventory->Set(inventory->GetSlotNum(item->id), 0);
+		inventory->Set(0, inventory->GetSlotNum(item->id));
 	}
-	else 
+	else
 	{
 		Item::Items[item->id].wdata->count = item->count;
 		Item::SetUserItem(item->id, item->count);
 	}
 }
+
 
 fItemT * InventoryManager::Get(int index)
 {
@@ -83,13 +102,15 @@ fItemT * InventoryManager::Get(int index)
 	return nullptr;
 }
 
-void InventoryManager::writefItem(int id, int slotNum) {
+
+void InventoryManager::writefItem(fItemT * item, int ItemKey)
+{
 	WriteManager<fItem, fItemT> tem;
-	*tem.wdata = *Item::Items[id].wdata;
-	tem.wdata->id = id;
-	printf("Item[id] Send name : %s\n", Item::Items[id].wdata->name.c_str());
-	printf("Item Send name : %s\n", tem.wdata->name.c_str());
-	printf("id : %d, slotnum : %d\n", id, slotNum);
-	tem.wdata->val8 = slotNum;
-	tem.Write(session::InputSession[playerID]->shared_from_this());
+	*tem.wdata = *item;
+	tem.wdata->id = ItemKey;
+	printf(">> name : %s | ", tem.wdata->name.c_str());
+	printf("id : %d | slotnum : %d | Count : %d\n", ItemKey, inventory->GetSlotNum(ItemKey), item->count);
+	tem.wdata->val8 = inventory->GetSlotNum(ItemKey);
+	if(session::InputSession.find(playerID)!= session::InputSession.end())
+		tem.Write(session::InputSession[playerID]->shared_from_this());
 }

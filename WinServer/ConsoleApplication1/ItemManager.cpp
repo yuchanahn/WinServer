@@ -14,32 +14,29 @@ ItemManager::~ItemManager()
 }
 void ItemManager::Input(map<const string, vector<const char*>> uItem)
 {
-	getItemData();
-	auto UserItems = uItem;
-	auto size = UserItems["ItemKey"].size();
+		auto UserItems = uItem;
+		auto size = UserItems["ItemKey"].size();
 
-	vector<int> key(size);
-	vector<int> code(size);
-	vector<int> count(size);
-
-	for (int i = 0; i < size; i++) {
-		key[i] = stoi(UserItems["ItemKey"][i]);
-		code[i] = stoi(UserItems["ItemId"][i]);
-		count[i] = stoi(UserItems["Count"][i]);
-	}
+		vector<int> key(size);
+		vector<int> code(size);
+		vector<int> count(size);
+		for (int i = 0; i < size; i++) {
+			key[i] = stoi(UserItems["ItemKey"][i]);
+			code[i] = stoi(UserItems["ItemId"][i]);
+			count[i] = stoi(UserItems["Count"][i]);
+		}
 
 
-	for (int i = 0; i < size; i++) {
-		*Item::Items[key[i]].wdata = *Items[i];
-		Item::Items[key[i]].wdata->count = count[i];
+		for (int i = 0; i < size; i++) {
+			*Item::Items[key[i]].wdata = *Items[code[i]];
+			Item::Items[key[i]].wdata->count = count[i];
 
-		printf("[%s][%s] -- item load [%d] code : %d\n", Item::Items[key[i]].wdata->name.c_str(), Items[i]->name.c_str(), key[i], code[i]);
-	}
+			printf("<< [%s] item load... key : %d, code : %d\n",  Items[code[i]]->name.c_str(), key[i], code[i]);
+		}
 }
 
 void ItemManager::AddItem(int itemid, int itemCode)
 {
-	getItemData();
 	*Item::Items[itemid].wdata = *Items[itemCode];
 }
 
@@ -49,6 +46,7 @@ void ItemManager::getItemData() {
 	if (Items.empty())
 	{
 		auto m_items = MysqlManager::GetInstance()->GetThisItems();
+		auto n = m_items["Id"].size();
 		for (int i = 0; i < m_items["Id"].size(); i++) {
 			Items[i] = new fItemT;
 			Items[i]->cType = Class::Class_fItem;
@@ -63,6 +61,8 @@ void ItemManager::getItemData() {
 			Items[i]->val6 = stoi(m_items["6"][i]);
 			Items[i]->val7 = stoi(m_items["7"][i]);
 			Items[i]->val8 = stoi(m_items["8"][i]);
+
+			printf("Item Load : %s\n", Items[i]->name.c_str());
 		}
 
 	}

@@ -10,12 +10,13 @@ cMonsterManager::~cMonsterManager()
 
 void cMonsterManager::Start()
 {
-	srand((unsigned int)time(NULL));
+
+		srand((unsigned int)time(NULL));
 
 	auto monList = MysqlManager::GetInstance()->GetMonsterInfo();
 
-	int n=0;
-	
+	int n = 0;
+
 	for (auto i : monList)
 	{
 		for (int ii = 0; ii < 11; ii++) {
@@ -28,6 +29,7 @@ void cMonsterManager::Start()
 			mons->CurrentPos.y += mons->StartPos.y;
 		}
 	}
+
 
 
 

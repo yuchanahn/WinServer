@@ -24,9 +24,10 @@ public struct Player : IFlatbufferObject
   public float Horizontal { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public bool Jump { get { int o = __p.__offset(20); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
   public bool Attack { get { int o = __p.__offset(22); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public bool Run { get { int o = __p.__offset(24); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public float Anicode { get { int o = __p.__offset(24); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public bool Run { get { int o = __p.__offset(26); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
 
-  public static void StartPlayer(FlatBufferBuilder builder) { builder.StartObject(11); }
+  public static void StartPlayer(FlatBufferBuilder builder) { builder.StartObject(12); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddPos(FlatBufferBuilder builder, Offset<Vec3> posOffset) { builder.AddStruct(1, posOffset.Value, 0); }
   public static void AddVel(FlatBufferBuilder builder, Offset<Vec3> velOffset) { builder.AddStruct(2, velOffset.Value, 0); }
@@ -37,7 +38,8 @@ public struct Player : IFlatbufferObject
   public static void AddHorizontal(FlatBufferBuilder builder, float Horizontal) { builder.AddFloat(7, Horizontal, 0.0f); }
   public static void AddJump(FlatBufferBuilder builder, bool Jump) { builder.AddBool(8, Jump, false); }
   public static void AddAttack(FlatBufferBuilder builder, bool Attack) { builder.AddBool(9, Attack, false); }
-  public static void AddRun(FlatBufferBuilder builder, bool Run) { builder.AddBool(10, Run, false); }
+  public static void AddAnicode(FlatBufferBuilder builder, float Anicode) { builder.AddFloat(10, Anicode, 0.0f); }
+  public static void AddRun(FlatBufferBuilder builder, bool Run) { builder.AddBool(11, Run, false); }
   public static Offset<Player> EndPlayer(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<Player>(o);

@@ -57,8 +57,14 @@ void cPlayer::Start()
 				if (session::InputSession.find(data->Get<PlayerStat>()->ID) != session::InputSession.end()) {
 					auto Target = session::InputSession[data->Get<PlayerStat>()->ID]->state;
 
-					data->Get<PlayerStat, PlayerStatT>(Target->wdata);
-
+					if (Target != client->state)
+					{
+						Target->wdata->HP = data->Get<PlayerStat>()->HP;
+					}
+					else 
+					{
+						data->Get<PlayerStat, PlayerStatT>(Target->wdata);
+					}
 
 					Target->Write();
 				}
@@ -95,6 +101,14 @@ void cPlayer::FristSend(std::shared_ptr<session> client)
 
 	fcdManager.wdata->HP = client->state->wdata->HP;
 	fcdManager.wdata->HPLim = client->state->wdata->HPLim;
+
+	fcdManager.wdata->MP = client->state->wdata->MP;
+	fcdManager.wdata->MPLim = client->state->wdata->MPLim;
+	fcdManager.wdata->EXP = client->state->wdata->EXP;
+	fcdManager.wdata->Attack = client->state->wdata->Attack;
+	fcdManager.wdata->LV = client->state->wdata->LV;
+	
+
 
 	fcdManager.Write(client->shared_from_this());
 }
