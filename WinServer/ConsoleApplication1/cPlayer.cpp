@@ -3,6 +3,8 @@
 #include "FCDataManager.h"
 #include "PlayerStateManager.h"
 #include "PlayerPositionManager.h"
+#include "Monster.h"
+#include "MonsterStateManager.h"
 
 cPlayer::~cPlayer()
 {
@@ -14,8 +16,7 @@ void cPlayer::Start()
 	{
 		if (data->Get<SendMeStat>()->StatDataType == Class::Class_MonsterStat) {
 			client->UseStrand([=]() {
-				// 몬스터 번호 불러.
-				// 몬스터 스텟 들어가 라이트.
+				MonsterManager->GetComponent<cMonsterManager>()->Monsters[data->Get<SendMeStat>()->ID]->State->Write(client);
 				printf("몬스터 스텟 요청, 몬스터 번호 : %d\n", data->Get<SendMeStat>()->ID);
 			});
 		}

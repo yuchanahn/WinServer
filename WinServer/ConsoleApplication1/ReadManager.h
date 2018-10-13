@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <map>
+#include <vector>
 #include <memory>
 
 
@@ -25,6 +26,7 @@ public:
 
 
 
+
 	Base* m_GetBase(char * data_);
 
 	PackData(int len) {
@@ -38,12 +40,15 @@ public:
 private:
 };
 
+
 class ReadManager
 {
 public:
 	ReadManager();
 	~ReadManager();
 	static void Read(char data_[1024], size_t,std::shared_ptr<session>);
+	static int byteToInt(char data[], int idx);
+	static int buffToInteger(char * buffer);
 	static std::map<Class, std::function<void (PackData*,std::shared_ptr<session>) >> ReadSome;
 };
 

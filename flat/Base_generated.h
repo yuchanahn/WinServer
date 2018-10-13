@@ -6,6 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fheader;
+struct fheaderT;
+
 struct fNetEffect;
 struct fNetEffectT;
 
@@ -68,11 +71,12 @@ enum Class {
   Class_fItem = 11,
   Class_fInventory = 12,
   Class_fEquipSlots = 13,
+  Class_fheader = 14,
   Class_MIN = Class_Base,
-  Class_MAX = Class_fEquipSlots
+  Class_MAX = Class_fheader
 };
 
-inline const Class (&EnumValuesClass())[14] {
+inline const Class (&EnumValuesClass())[15] {
   static const Class values[] = {
     Class_Base,
     Class_Player,
@@ -87,7 +91,8 @@ inline const Class (&EnumValuesClass())[14] {
     Class_FirstCharacterData,
     Class_fItem,
     Class_fInventory,
-    Class_fEquipSlots
+    Class_fEquipSlots,
+    Class_fheader
   };
   return values;
 }
@@ -108,6 +113,7 @@ inline const char * const *EnumNamesClass() {
     "fItem",
     "fInventory",
     "fEquipSlots",
+    "fheader",
     nullptr
   };
   return names;
@@ -144,6 +150,72 @@ MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 STRUCT_END(Vec3, 12);
+
+struct fheaderT : public flatbuffers::NativeTable {
+  typedef fheader TableType;
+  Class cType;
+  int32_t PacketSize;
+  fheaderT()
+      : cType(Class_Base),
+        PacketSize(0) {
+  }
+};
+
+struct fheader FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fheaderT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_PACKETSIZE = 6
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t PacketSize() const {
+    return GetField<int32_t>(VT_PACKETSIZE, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_PACKETSIZE) &&
+           verifier.EndTable();
+  }
+  fheaderT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fheaderT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fheader> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fheaderT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fheaderBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fheader::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_PacketSize(int32_t PacketSize) {
+    fbb_.AddElement<int32_t>(fheader::VT_PACKETSIZE, PacketSize, 0);
+  }
+  explicit fheaderBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fheaderBuilder &operator=(const fheaderBuilder &);
+  flatbuffers::Offset<fheader> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fheader>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fheader> Createfheader(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t PacketSize = 0) {
+  fheaderBuilder builder_(_fbb);
+  builder_.add_PacketSize(PacketSize);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<fheader> Createfheader(flatbuffers::FlatBufferBuilder &_fbb, const fheaderT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fNetEffectT : public flatbuffers::NativeTable {
   typedef fNetEffect TableType;
@@ -1455,10 +1527,12 @@ struct MonsterStatT : public flatbuffers::NativeTable {
   typedef MonsterStat TableType;
   Class cType;
   int32_t HP;
+  int32_t MAXHP;
   int32_t ID;
   MonsterStatT()
       : cType(Class_Base),
         HP(0),
+        MAXHP(0),
         ID(0) {
   }
 };
@@ -1468,13 +1542,17 @@ struct MonsterStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum {
     VT_CTYPE = 4,
     VT_HP = 6,
-    VT_ID = 8
+    VT_MAXHP = 8,
+    VT_ID = 10
   };
   Class cType() const {
     return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
   }
   int32_t HP() const {
     return GetField<int32_t>(VT_HP, 0);
+  }
+  int32_t MAXHP() const {
+    return GetField<int32_t>(VT_MAXHP, 0);
   }
   int32_t ID() const {
     return GetField<int32_t>(VT_ID, 0);
@@ -1483,6 +1561,7 @@ struct MonsterStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_CTYPE) &&
            VerifyField<int32_t>(verifier, VT_HP) &&
+           VerifyField<int32_t>(verifier, VT_MAXHP) &&
            VerifyField<int32_t>(verifier, VT_ID) &&
            verifier.EndTable();
   }
@@ -1499,6 +1578,9 @@ struct MonsterStatBuilder {
   }
   void add_HP(int32_t HP) {
     fbb_.AddElement<int32_t>(MonsterStat::VT_HP, HP, 0);
+  }
+  void add_MAXHP(int32_t MAXHP) {
+    fbb_.AddElement<int32_t>(MonsterStat::VT_MAXHP, MAXHP, 0);
   }
   void add_ID(int32_t ID) {
     fbb_.AddElement<int32_t>(MonsterStat::VT_ID, ID, 0);
@@ -1519,9 +1601,11 @@ inline flatbuffers::Offset<MonsterStat> CreateMonsterStat(
     flatbuffers::FlatBufferBuilder &_fbb,
     Class cType = Class_Base,
     int32_t HP = 0,
+    int32_t MAXHP = 0,
     int32_t ID = 0) {
   MonsterStatBuilder builder_(_fbb);
   builder_.add_ID(ID);
+  builder_.add_MAXHP(MAXHP);
   builder_.add_HP(HP);
   builder_.add_cType(cType);
   return builder_.Finish();
@@ -1810,6 +1894,35 @@ inline flatbuffers::Offset<Base> CreateBase(
 }
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline fheaderT *fheader::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fheaderT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fheader::UnPackTo(fheaderT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = PacketSize(); _o->PacketSize = _e; };
+}
+
+inline flatbuffers::Offset<fheader> fheader::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fheaderT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return Createfheader(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fheader> Createfheader(flatbuffers::FlatBufferBuilder &_fbb, const fheaderT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fheaderT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _PacketSize = _o->PacketSize;
+  return Createfheader(
+      _fbb,
+      _cType,
+      _PacketSize);
+}
 
 inline fNetEffectT *fNetEffect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = new fNetEffectT();
@@ -2264,6 +2377,7 @@ inline void MonsterStat::UnPackTo(MonsterStatT *_o, const flatbuffers::resolver_
   (void)_resolver;
   { auto _e = cType(); _o->cType = _e; };
   { auto _e = HP(); _o->HP = _e; };
+  { auto _e = MAXHP(); _o->MAXHP = _e; };
   { auto _e = ID(); _o->ID = _e; };
 }
 
@@ -2277,11 +2391,13 @@ inline flatbuffers::Offset<MonsterStat> CreateMonsterStat(flatbuffers::FlatBuffe
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MonsterStatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _cType = _o->cType;
   auto _HP = _o->HP;
+  auto _MAXHP = _o->MAXHP;
   auto _ID = _o->ID;
   return CreateMonsterStat(
       _fbb,
       _cType,
       _HP,
+      _MAXHP,
       _ID);
 }
 

@@ -158,6 +158,9 @@ void server::ServerStart()
 	gameObjects->AddComponent(LoginManager);
 	gameObjects->AddComponent(MonsterManager);
 
+
+	PlayerManager->GetComponent<cPlayer>()->MonsterManager = MonsterManager;
+
 	gameObjects->Start();
 
 	cLoop();

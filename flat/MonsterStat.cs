@@ -16,23 +16,27 @@ public struct MonsterStat : IFlatbufferObject
 
   public Class CType { get { int o = __p.__offset(4); return o != 0 ? (Class)__p.bb.GetInt(o + __p.bb_pos) : Class.Base; } }
   public int HP { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int ID { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int MAXHP { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int ID { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<MonsterStat> CreateMonsterStat(FlatBufferBuilder builder,
       Class cType = Class.Base,
       int HP = 0,
+      int MAXHP = 0,
       int ID = 0) {
-    builder.StartObject(3);
+    builder.StartObject(4);
     MonsterStat.AddID(builder, ID);
+    MonsterStat.AddMAXHP(builder, MAXHP);
     MonsterStat.AddHP(builder, HP);
     MonsterStat.AddCType(builder, cType);
     return MonsterStat.EndMonsterStat(builder);
   }
 
-  public static void StartMonsterStat(FlatBufferBuilder builder) { builder.StartObject(3); }
+  public static void StartMonsterStat(FlatBufferBuilder builder) { builder.StartObject(4); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddHP(FlatBufferBuilder builder, int HP) { builder.AddInt(1, HP, 0); }
-  public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(2, ID, 0); }
+  public static void AddMAXHP(FlatBufferBuilder builder, int MAXHP) { builder.AddInt(2, MAXHP, 0); }
+  public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(3, ID, 0); }
   public static Offset<MonsterStat> EndMonsterStat(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<MonsterStat>(o);

@@ -9,6 +9,9 @@ class cPlayer :
 
 	SendStateTo * SMTManager;
 
+
+
+
 public:
 	cPlayer(InputComponent* input) : Component(input) {};
 	~cPlayer();
@@ -16,5 +19,7 @@ public:
 	virtual void Start();
 	virtual void Update();
 	void FristSend(std::shared_ptr<session> client);
-};
 
+
+	InputComponent * MonsterManager;
+};

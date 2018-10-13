@@ -131,6 +131,7 @@ void oMonster::Update()
 void oMonster::Set(std::string Name, int ID ,double sX, double sY, int Hp, int Exp)
 {
 	State->wdata->HP = Hp;
+	State->wdata->MAXHP = Hp;
 	State->wdata->ID = ID;
 	Position->wdata->ID = ID;
 

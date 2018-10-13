@@ -11,7 +11,7 @@ cMonsterManager::~cMonsterManager()
 void cMonsterManager::Start()
 {
 
-		srand((unsigned int)time(NULL));
+	srand((unsigned int)time(NULL));
 
 	auto monList = MysqlManager::GetInstance()->GetMonsterInfo();
 
@@ -36,7 +36,14 @@ void cMonsterManager::Start()
 	ReadManager::ReadSome[Class::Class_MonsterStat] = [this](PackData* data, std::shared_ptr<session> client)
 	{
 		auto MonsterState = data->Get<MonsterStat>();
+		
+		printf("monster State [HP : %d -> %d]\n", Monsters[MonsterState->ID]->State->wdata->HP, MonsterState->HP);
+		
 		Monsters[MonsterState->ID]->State->wdata->HP = MonsterState->HP;
+
+
+
+
 		Monsters[MonsterState->ID]->State->Write();
 		delete data;
 	};

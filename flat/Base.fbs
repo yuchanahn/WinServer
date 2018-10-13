@@ -12,7 +12,13 @@ LogIn,
 FirstCharacterData,
 fItem,
 fInventory,
-fEquipSlots
+fEquipSlots,
+fheader
+}
+
+table fheader{
+cType:Class;
+PacketSize:int;
 }
 
 
@@ -130,6 +136,7 @@ Ani:float;
 table MonsterStat{
 cType:Class;
 HP:int;
+MAXHP:int;
 ID:int;
 }
 
