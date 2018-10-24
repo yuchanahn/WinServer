@@ -40,7 +40,11 @@ void ReadManager::Read(char data_[1024], size_t length, std::shared_ptr<session>
 		return;
 	}
 
+	//printf("패킷 읽어들임 : %s\n", EnumNameClass(data->cType()));
 	ReadSome[data->cType()](packData, Client->shared_from_this());
+
+
+
 	int faenalSize = size + startidx;
 	if (faenalSize < length) {
 		printf("패킷이 뭉쳐서옴. szie : %d\n", length);
@@ -48,14 +52,6 @@ void ReadManager::Read(char data_[1024], size_t length, std::shared_ptr<session>
 	}
 }
 
-int ReadManager::buffToInteger(char * buffer)
-{
-	int a = static_cast<int>(static_cast<unsigned char>(buffer[0]) << 24 |
-		static_cast<unsigned char>(buffer[1]) << 16 |
-		static_cast<unsigned char>(buffer[2]) << 8 |
-		static_cast<unsigned char>(buffer[3]));
-	return a;
-}
 std::map<Class, std::function<void(PackData*, std::shared_ptr<session>) >> ReadManager::ReadSome;
 
 

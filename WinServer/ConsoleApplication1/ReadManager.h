@@ -48,7 +48,6 @@ public:
 	~ReadManager();
 	static void Read(char data_[1024], size_t,std::shared_ptr<session>);
 	static int byteToInt(char data[], int idx);
-	static int buffToInteger(char * buffer);
 	static std::map<Class, std::function<void (PackData*,std::shared_ptr<session>) >> ReadSome;
 };
 

@@ -1,8 +1,6 @@
-﻿  Monster.cpp
+﻿  InventoryManager.cpp
   Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
   - add -D_WIN32_WINNT=0x0501 to the compiler command line; or
   - add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.
   Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
-c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\monster.cpp(114): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\monster.cpp(117): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ConsoleApplication1.vcxproj -> C:\Users\Atents\Desktop\git\WinServer\WinServer\x64\Debug\ConsoleApplication1.exe
+  ConsoleApplication1.vcxproj -> C:\Users\ahn yu chan\Desktop\git\WinServer\WinServer\x64\Debug\ConsoleApplication1.exe

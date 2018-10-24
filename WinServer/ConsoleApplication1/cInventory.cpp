@@ -13,9 +13,14 @@ void cInventory::Start()
 {
 	ReadManager::ReadSome[Class::Class_fItem] = [this](PackData* data, std::shared_ptr<session> client) {
 		auto item = data->Get<fItem>();
-		if(client->inventoryManager != nullptr)
-			client->inventoryManager->InvUpdate(item);
-		delete data;
+		if (client->inventoryManager != nullptr) {
+
+			client->UseStrand([=]() {
+				client->inventoryManager->InvUpdate(item);
+				delete data;
+			});
+
+		}
 	};
 
 	ReadManager::ReadSome[Class::Class_fInventory] = [this](PackData* data, std::shared_ptr<session> client) {

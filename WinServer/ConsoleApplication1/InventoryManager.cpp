@@ -50,13 +50,17 @@ void InventoryManager::InvUpdate(fItemT * item)
 		for (int i = 0; i < 30; i++) {
 			if (inventory->Get(i) == 0) continue;
 			if (Item::Items[inventory->Get(i)].wdata->id == item->id) {
-				item->count += Item::Items[inventory->Get(i)].wdata->count;
-				item->id = inventory->Get(i);
-				ItemCountUpdate(item);
+
+				printf("item %d(%d) += %d\n", inventory->Get(i), Item::Items[inventory->Get(i)].wdata->count ,item->count);
+				Item::Items[inventory->Get(i)].wdata->count += item->count;
+
+
+				ItemCountUpdate(Item::Items[inventory->Get(i)].wdata);
 				writefItem(Item::Items[inventory->Get(i)].wdata, inventory->Get(i));
 				return;
 			}
 		}
+		printf("CREATE ITEM\n");
 		int itemid = Item::CreateItem(item->id, item->count);
 		WriteNewItem(itemid);
 	}
