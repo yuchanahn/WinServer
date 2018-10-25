@@ -42,7 +42,7 @@ public:
 	void SetItem(int userItemid);
 	int CreateItem(int ItemCode, int count);
 
-	PlayerStatT * GetPlayerStat(int id);
+	PlayerStatT * GetPlayerStat(int id, std::string & name);
 	Vec3 * GetPlayerPos(int id);
 
 

@@ -125,7 +125,7 @@ void MysqlManager::SetItem(int userItemid, int count)
 {
 	char str[256];
 	sprintf_s(str, "UPDATE `Main`.`UserItem` SET `Count`='%d' WHERE  `ItemKey`=%d;", count, userItemid);
-	printf("uid : %d , count : %d\n", userItemid, count);
+	printf("[update] USER_ID : %d (Now_Count : %d)\n", userItemid, count);
 	auto m = mysql->executeSql(str);
 }
 
@@ -134,7 +134,7 @@ void MysqlManager::SetItem(int userItemid)
 {
 	char str[256];
 	sprintf_s(str, "DELETE FROM `Main`.`UserItem` WHERE  `ItemKey`=%d;", userItemid);
-	printf("[delete] uid : %d\n", userItemid);
+	printf("[delete] USER_ID : %d\n", userItemid);
 	auto m = mysql->executeSql(str);
 }
 
@@ -155,7 +155,7 @@ int MysqlManager::CreateItem(int ItemCode, int count)
 
 
 
-PlayerStatT * MysqlManager::GetPlayerStat(int id)
+PlayerStatT * MysqlManager::GetPlayerStat(int id, std::string & name)
 {
 	char str[256];
 	sprintf_s(str, "select * from PlayerInfo WHERE `UserKey`=%d LIMIT 1;", id);
@@ -172,7 +172,9 @@ PlayerStatT * MysqlManager::GetPlayerStat(int id)
 	stat->Attack = stoi(m["Attack"][0]);
 	stat->LV = stoi(m["Lv"][0]);
 	stat->ID = id;
-
+	
+	name = m["Name"][0];
+	printf("@ LOAD NAME : %s\n", name.c_str());
 	return stat;
 }
 
@@ -181,7 +183,7 @@ Vec3 * MysqlManager::GetPlayerPos(int id)
 	char str[256];
 	sprintf_s(str, "select * from PlayerInfo WHERE `UserKey`=%d LIMIT 1;", id);
 	auto m = mysql->executeSql(str);
-	printf("load data : %lf, %lf, %lf \n", stof(m["X"][0]), stof(m["Y"][0]), stof(m["Z"][0]));
+	printf("@ PLAYER POS LOAD : %lf, %lf, %lf \n", stof(m["X"][0]), stof(m["Y"][0]), stof(m["Z"][0]));
 	return new Vec3(stof(m["X"][0]), stof(m["Y"][0]), stof(m["Z"][0]));
 }
 
@@ -195,7 +197,7 @@ int MysqlManager::isPlayerIDandPass(char * id, char * pass)
 
 		if (!strcmp(mysql->executeSql(str)["pass"][0], pass)) {
 			sprintf_s(str, "select LoginData.key from LoginData Where LoginData.id = '%s';", id);
-			printf("mysql : %s\n", mysql->executeSql(str)["key"][0]);
+			printf("@ PLAYER NUMBER : %s\n", mysql->executeSql(str)["key"][0]);
 			int d = stoi(mysql->executeSql(str)["key"][0]);
 			return d;
 		}
@@ -207,18 +209,19 @@ int MysqlManager::isPlayerIDandPass(char * id, char * pass)
 void MysqlManager::GetPlayerInventory(int id, int inven[30]) {
 	bool DataNoneSave = true;
 
-	std::cout << "-- load inventory -- \n";
+	std::cout << "@ LOAD LIVENTORY\n";
 	char str[256];
 	sprintf_s(str, "SELECT * FROM `Main`.`Inventory` WHERE `UserKey`=%d LIMIT 1;", id);
 	auto m = mysql->executeSql(str);
 
 	for (int i = 0; i < 30; i++) {
-		printf("inv : %s\n", m[std::to_string(i + 1)][0]);
+		printf("%2d |%s| ", i+1, m[std::to_string(i + 1)][0]);
 		inven[i] = stoi(m[std::to_string(i + 1)][0]);
+
+		if ((i + 1) % 10 == 0) {
+			printf("\n");
+		}
 	}
-
-
-	std::cout << "-- load inventory end -- \n";
 }
 
 void MysqlManager::GetItems() {

@@ -39,23 +39,16 @@ void InventoryManager::WriteNewItem(int ItemKey)
 
 void InventoryManager::InvUpdate(fItemT * item)
 {
-	if (item->type == -1) {
-		printf("**** ITEM [+] ****\n");
-	}
-	else
-		printf("**** ITEM [-] ****\n");
+	if (item->type == -1)	printf("ITEM UPDATE[+]\n"); 
+	else					printf("ITEM UPDATE[-]\n");
 
 
 	if (item->type == -1) { // id-> Code
 		for (int i = 0; i < 30; i++) {
 			if (inventory->Get(i) == 0) continue;
 			if (Item::Items[inventory->Get(i)].wdata->id == item->id) {
-
-				printf("item %d(%d) += %d\n", inventory->Get(i), Item::Items[inventory->Get(i)].wdata->count ,item->count);
 				Item::Items[inventory->Get(i)].wdata->count += item->count;
-
-
-				ItemCountUpdate(Item::Items[inventory->Get(i)].wdata);
+				ItemCountUpdate(Item::Items[inventory->Get(i)].wdata, inventory->Get(i));
 				writefItem(Item::Items[inventory->Get(i)].wdata, inventory->Get(i));
 				return;
 			}
@@ -65,7 +58,8 @@ void InventoryManager::InvUpdate(fItemT * item)
 		WriteNewItem(itemid);
 	}
 	else {					// id-> ItemKey
-		ItemCountUpdate(item); 
+		Item::Items[item->id].wdata->count -= item->count;
+		ItemCountUpdate(item, item->id);
 		return;
 	}
 
@@ -74,25 +68,23 @@ void InventoryManager::InvUpdate(fItemT * item)
 
 void InventoryManager::SwapSlot(std::vector<int> NewInv)
 {
-	printf("-- inv update --\n");
+	printf("INVENTORY UPDATE\n");
 	for (int i = 0; i < 30; i++) {
 		inventory->Set(NewInv[i], i);
 	}
 }
 
-void InventoryManager::ItemCountUpdate(fItemT * item)
+void InventoryManager::ItemCountUpdate(fItemT * item, int id)
 {
-
-	if (item->count < 1)
+	if (Item::Items[id].wdata->count < 1)
 	{
-		Item::Items.erase(item->id);
-		Item::SetUserItem(item->id);
-		inventory->Set(0, inventory->GetSlotNum(item->id));
+		Item::Items.erase(id);
+		Item::SetUserItem(id);
+		inventory->Set(0, inventory->GetSlotNum(id));
 	}
 	else
 	{
-		Item::Items[item->id].wdata->count = item->count;
-		Item::SetUserItem(item->id, item->count);
+		Item::SetUserItem(id, item->count);
 	}
 }
 

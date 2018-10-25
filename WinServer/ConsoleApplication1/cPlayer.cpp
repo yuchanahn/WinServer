@@ -17,16 +17,16 @@ void cPlayer::Start()
 		if (data->Get<SendMeStat>()->StatDataType == Class::Class_MonsterStat) {
 			client->UseStrand([=]() {
 				MonsterManager->GetComponent<cMonsterManager>()->Monsters[data->Get<SendMeStat>()->ID]->State->Write(client);
-				printf("몬스터 스텟 요청, 몬스터 번호 : %d\n", data->Get<SendMeStat>()->ID);
+				printf("%d>>GetMonsterState(%d)\n", client->id,data->Get<SendMeStat>()->ID);
 			});
 		}
 		else {
 			client->UseStrand([=]() {
 				auto SMT = data->Get<SendMeStat>();
 
-				printf("%d가 %d의 State을 요청함.\n", client->id, session::InputSession[SMT->ID]->state->wdata->ID);
+				printf("%d>>GetState(%d)\n", client->id, session::InputSession[SMT->ID]->state->wdata->ID);
 				auto t = session::InputSession[SMT->ID]->state->wdata;
-				printf("%d State : %d/%d \n", t->ID, t->HP, t->HPLim);
+				printf("State(%d)   %d/%d \n", t->ID, t->HP, t->HPLim);
 
 				session::InputSession[SMT->ID]->state->Write(client);
 				delete data;
@@ -89,12 +89,14 @@ void cPlayer::FristSend(std::shared_ptr<session> client)
 
 	position_->wdata->pos.reset(MysqlManager::GetInstance()->GetPlayerPos(client->id));
 	position_->wdata->cType = Class::Class_Player;
-	state_->wdata = MysqlManager::GetInstance()->GetPlayerStat(client->id);
+	std::string player_name;
+	state_->wdata = MysqlManager::GetInstance()->GetPlayerStat(client->id, player_name);
 
 	client->position = position_;
 	client->state = state_;
 
 	FCDataManager fcdManager;
+	
 
 	fcdManager.wdata->ID = client->id;
 	fcdManager.wdata->Pos.reset(client->position->wdata->pos.get());
@@ -108,8 +110,7 @@ void cPlayer::FristSend(std::shared_ptr<session> client)
 	fcdManager.wdata->EXP = client->state->wdata->EXP;
 	fcdManager.wdata->Attack = client->state->wdata->Attack;
 	fcdManager.wdata->LV = client->state->wdata->LV;
-	
-
+	fcdManager.wdata->Name = player_name.c_str();
 
 	fcdManager.Write(client->shared_from_this());
 }

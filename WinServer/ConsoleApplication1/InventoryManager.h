@@ -21,7 +21,8 @@ public:
 	
 	void InvUpdate(fItemT *);
 	void SwapSlot(std::vector<int>);
-	void ItemCountUpdate(fItemT *);
+	void ItemCountUpdate(fItemT * item, int id);
+
 	fItemT * Get(int);
 };
 
