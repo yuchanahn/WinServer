@@ -6,6 +6,7 @@
 
 class MonsterPositionManager;
 class MonsterStateManager;
+class MonsterRewardManager;
 class session;
 
 
@@ -19,6 +20,13 @@ class oMonster
 
 public:
 	
+	bool isDead = false;
+
+
+	float RegenTime = 5;
+	float Regen_dt = 0;
+
+
 	float dt = 0;
 	float RandomTime = 3.0f;
 
@@ -26,7 +34,7 @@ public:
 	double Range;
 	int RandRange;
 	double MaxRange;
-		
+	
 	CPoint<double> StartPos;
 	CPoint<double> RandomPos;
 	CPoint<double> CurrentPos;
@@ -34,7 +42,7 @@ public:
 
 	MonsterPositionManager	* Position;
 	MonsterStateManager		* State;
-
+	MonsterRewardManager	* Reward;
 
 	std::shared_ptr<session> target = nullptr;
 

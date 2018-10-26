@@ -6,6 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fReward;
+struct fRewardT;
+
 struct fheader;
 struct fheaderT;
 
@@ -72,12 +75,13 @@ enum Class {
 	Class_fInventory = 12,
 	Class_fEquipSlots = 13,
 	Class_fheader = 14,
+	Class_fReward = 15,
 	Class_MIN = Class_Base,
-	Class_MAX = Class_fheader
+	Class_MAX = Class_fReward
 };
 
-inline const Class(&EnumValuesClass())[15]{
-	static const Class values[] = {
+inline const Class(&EnumValuesClass())[16]{
+  static const Class values[] = {
 	Class_Base,
 	Class_Player,
 	Class_id,
@@ -92,29 +96,31 @@ inline const Class(&EnumValuesClass())[15]{
 	Class_fItem,
 	Class_fInventory,
 	Class_fEquipSlots,
-	Class_fheader
-};
-return values;
+	Class_fheader,
+	Class_fReward
+  };
+  return values;
 }
 
 inline const char * const *EnumNamesClass() {
 	static const char * const names[] = {
-		"Base",
-		"Player",
-		"id",
-		"test",
-		"ping",
-		"PlayerStat",
-		"SendMeStat",
-		"Monster",
-		"MonsterStat",
-		"LogIn",
-		"FirstCharacterData",
-		"fItem",
-		"fInventory",
-		"fEquipSlots",
-		"fheader",
-		nullptr
+	  "Base",
+	  "Player",
+	  "id",
+	  "test",
+	  "ping",
+	  "PlayerStat",
+	  "SendMeStat",
+	  "Monster",
+	  "MonsterStat",
+	  "LogIn",
+	  "FirstCharacterData",
+	  "fItem",
+	  "fInventory",
+	  "fEquipSlots",
+	  "fheader",
+	  "fReward",
+	  nullptr
 	};
 	return names;
 }
@@ -150,6 +156,84 @@ public:
 	}
 };
 STRUCT_END(Vec3, 12);
+
+struct fRewardT : public flatbuffers::NativeTable {
+	typedef fReward TableType;
+	Class cType;
+	int32_t exp;
+	int32_t MonID;
+	fRewardT()
+		: cType(Class_Base),
+		exp(0),
+		MonID(0) {
+	}
+};
+
+struct fReward FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+	typedef fRewardT NativeTableType;
+	enum {
+		VT_CTYPE = 4,
+		VT_EXP = 6,
+		VT_MONID = 8
+	};
+	Class cType() const {
+		return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+	}
+	int32_t exp() const {
+		return GetField<int32_t>(VT_EXP, 0);
+	}
+	int32_t MonID() const {
+		return GetField<int32_t>(VT_MONID, 0);
+	}
+	bool Verify(flatbuffers::Verifier &verifier) const {
+		return VerifyTableStart(verifier) &&
+			VerifyField<int32_t>(verifier, VT_CTYPE) &&
+			VerifyField<int32_t>(verifier, VT_EXP) &&
+			VerifyField<int32_t>(verifier, VT_MONID) &&
+			verifier.EndTable();
+	}
+	fRewardT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+	void UnPackTo(fRewardT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+	static flatbuffers::Offset<fReward> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fRewardT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fRewardBuilder {
+	flatbuffers::FlatBufferBuilder &fbb_;
+	flatbuffers::uoffset_t start_;
+	void add_cType(Class cType) {
+		fbb_.AddElement<int32_t>(fReward::VT_CTYPE, static_cast<int32_t>(cType), 0);
+	}
+	void add_exp(int32_t exp) {
+		fbb_.AddElement<int32_t>(fReward::VT_EXP, exp, 0);
+	}
+	void add_MonID(int32_t MonID) {
+		fbb_.AddElement<int32_t>(fReward::VT_MONID, MonID, 0);
+	}
+	explicit fRewardBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+		: fbb_(_fbb) {
+		start_ = fbb_.StartTable();
+	}
+	fRewardBuilder &operator=(const fRewardBuilder &);
+	flatbuffers::Offset<fReward> Finish() {
+		const auto end = fbb_.EndTable(start_);
+		auto o = flatbuffers::Offset<fReward>(end);
+		return o;
+	}
+};
+
+inline flatbuffers::Offset<fReward> CreatefReward(
+	flatbuffers::FlatBufferBuilder &_fbb,
+	Class cType = Class_Base,
+	int32_t exp = 0,
+	int32_t MonID = 0) {
+	fRewardBuilder builder_(_fbb);
+	builder_.add_MonID(MonID);
+	builder_.add_exp(exp);
+	builder_.add_cType(cType);
+	return builder_.Finish();
+}
+
+flatbuffers::Offset<fReward> CreatefReward(flatbuffers::FlatBufferBuilder &_fbb, const fRewardT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fheaderT : public flatbuffers::NativeTable {
 	typedef fheader TableType;
@@ -1894,6 +1978,38 @@ inline flatbuffers::Offset<Base> CreateBase(
 }
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline fRewardT *fReward::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+	auto _o = new fRewardT();
+	UnPackTo(_o, _resolver);
+	return _o;
+}
+
+inline void fReward::UnPackTo(fRewardT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+	(void)_o;
+	(void)_resolver;
+	{ auto _e = cType(); _o->cType = _e; };
+	{ auto _e = exp(); _o->exp = _e; };
+	{ auto _e = MonID(); _o->MonID = _e; };
+}
+
+inline flatbuffers::Offset<fReward> fReward::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fRewardT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+	return CreatefReward(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fReward> CreatefReward(flatbuffers::FlatBufferBuilder &_fbb, const fRewardT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+	(void)_rehasher;
+	(void)_o;
+	struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fRewardT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher }; (void)_va;
+	auto _cType = _o->cType;
+	auto _exp = _o->exp;
+	auto _MonID = _o->MonID;
+	return CreatefReward(
+		_fbb,
+		_cType,
+		_exp,
+		_MonID);
+}
 
 inline fheaderT *fheader::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
 	auto _o = new fheaderT();

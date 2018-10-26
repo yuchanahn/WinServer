@@ -2,7 +2,9 @@
 #include "Monster.h"
 #include "MonsterStateManager.h"
 #include "MonsterPositionManager.h"
+#include "MonsterRewardManager.h"
 #include "MysqlManager.h"
+#include "PlayerStateManager.h"
 
 cMonsterManager::~cMonsterManager()
 {
@@ -41,10 +43,15 @@ void cMonsterManager::Start()
 		
 		Monsters[MonsterState->ID]->State->wdata->HP = MonsterState->HP;
 
-
-
+		if (Monsters[MonsterState->ID]->State->wdata->HP < 1)
+		{
+			server::UseStrand([=]() {Monsters[MonsterState->ID]->isDead = true; });
+			client->state->wdata->EXP += Monsters[MonsterState->ID]->Reward->wdata->exp;
+			client->state->isLevelUp();
+		}
 
 		Monsters[MonsterState->ID]->State->Write();
+		client->state->Write();
 		delete data;
 	};
 }

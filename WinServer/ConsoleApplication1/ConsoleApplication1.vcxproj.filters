@@ -91,6 +91,7 @@
     <ClInclude Include="ItemManager.h">
       <Filter>Component\Item</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterRewardManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="ItemManager.cpp">
       <Filter>Component\Item</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterRewardManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DB">

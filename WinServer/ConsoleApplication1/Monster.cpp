@@ -6,6 +6,7 @@
 
 #include "MonsterPositionManager.h"
 #include "MonsterStateManager.h"
+#include "MonsterRewardManager.h"
 #include "Time.h"
 
 #include <stdlib.h>
@@ -45,10 +46,11 @@ oMonster::oMonster()
 {
 	Position = new MonsterPositionManager;
 	State = new MonsterStateManager;
+	Reward = new MonsterRewardManager;
 
 	Position->wdata->cType = Class::Class_Monster;
 	State->wdata->cType = Class::Class_MonsterStat;
-
+	Reward->wdata->cType = Class::Class_fReward;
 
 
 	Range = 5;
@@ -126,6 +128,24 @@ void oMonster::Update()
 		dt = 0;
 		SetTargetPos_Random();
 	}
+
+	if (isDead)
+	{
+		Regen_dt += Time::deltaTime;
+
+		if (Regen_dt > RegenTime) 
+		{
+			Regen_dt = 0;
+			isDead = false;
+			target = nullptr;
+			SetTargetPos_Random();
+			CurrentPos.x = TargetPos.x;
+			CurrentPos.y = TargetPos.y;
+			State->wdata->HP = State->wdata->MAXHP;
+			State->Write();
+			Position->Write();
+		}
+	}
 }
 
 void oMonster::Set(std::string Name, int ID ,double sX, double sY, int Hp, int Exp)
@@ -134,6 +154,8 @@ void oMonster::Set(std::string Name, int ID ,double sX, double sY, int Hp, int E
 	State->wdata->MAXHP = Hp;
 	State->wdata->ID = ID;
 	Position->wdata->ID = ID;
+	Reward->wdata->exp = Exp;
+	Reward->wdata->MonID = ID;
 
 	StartPos.Set(sX, sY);
 }

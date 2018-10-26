@@ -8,6 +8,7 @@ public:
 	PlayerStateManager();
 	~PlayerStateManager();
 
+	void isLevelUp();
 	void Update(PlayerStatT);
 };
 

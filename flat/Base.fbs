@@ -13,8 +13,19 @@ FirstCharacterData,
 fItem,
 fInventory,
 fEquipSlots,
-fheader
+fheader,
+fReward
 }
+
+
+table fReward{
+cType:Class;
+exp:int;
+MonID:int;
+}
+
+
+
 
 table fheader{
 cType:Class;
