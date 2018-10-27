@@ -28,6 +28,8 @@ void PlayerStateManager::isLevelUp()
 			wdata->HP = wdata->HPLim;
 			wdata->MPLim = ((wdata->LV * 100) + (30 * (20 + wdata->LV)));
 			wdata->MP = wdata->MPLim;
+
+			printf("Player Lv Up!!\nHP : %d, MP : %d\n", wdata->HP, wdata->MP);
 		}
 		else {
 			break;

@@ -46,6 +46,7 @@ void cMonsterManager::Start()
 		if (Monsters[MonsterState->ID]->State->wdata->HP < 1)
 		{
 			server::UseStrand([=]() {Monsters[MonsterState->ID]->isDead = true; });
+			Monsters[MonsterState->ID]->State->wdata->HP = 0;
 			client->state->wdata->EXP += Monsters[MonsterState->ID]->Reward->wdata->exp;
 			client->state->isLevelUp();
 		}
