@@ -141,9 +141,9 @@ void oMonster::Update()
 			SetTargetPos_Random();
 			CurrentPos.x = TargetPos.x;
 			CurrentPos.y = TargetPos.y;
-			State->wdata->HP = State->wdata->MAXHP;
-			State->Write();
+			State->wdata->HP = State->wdata->MAXHP; 
 			Position->Write();
+			State->Write();
 		}
 	}
 }

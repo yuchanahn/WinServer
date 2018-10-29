@@ -39,9 +39,9 @@ void cMonsterManager::Start()
 	{
 		auto MonsterState = data->Get<MonsterStat>();
 		
-		printf("monster State [HP : %d -> %d]\n", Monsters[MonsterState->ID]->State->wdata->HP, MonsterState->HP);
+		printf("monster State [HP : (%d-%d)%d]\n", Monsters[MonsterState->ID]->State->wdata->HP, MonsterState->HP, Monsters[MonsterState->ID]->State->wdata->HP + MonsterState->HP);
 		
-		Monsters[MonsterState->ID]->State->wdata->HP = MonsterState->HP;
+		Monsters[MonsterState->ID]->State->wdata->HP += MonsterState->HP;
 
 		if (Monsters[MonsterState->ID]->State->wdata->HP < 1)
 		{

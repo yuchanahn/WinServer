@@ -13,7 +13,14 @@ InventoryManager::InventoryManager(int id)
 
 InventoryManager::~InventoryManager()
 {
-	delete inventory;
+	try
+	{
+		delete inventory;
+	}
+	catch (const std::exception& e)
+	{
+		printf("알수없는 예외....(code:%s)\n",e.what());
+	}
 }
 
 void InventoryManager::Write()

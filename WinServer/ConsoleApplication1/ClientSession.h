@@ -68,7 +68,6 @@ private:
 };
 
 class server {
-
 	tcp::acceptor acceptor_;
 	tcp::socket socket_;
 	asio::io_service::strand strand_;

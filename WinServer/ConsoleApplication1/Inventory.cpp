@@ -29,7 +29,7 @@ int Inventory::GetSlotNum(int Itemkey)
 
 void Inventory::Set(int val, int index)
 {
-	printf(" %2d |%d|", index, val);
+	printf(" %2d |%2d|", index, val);
 	inventory[index] = val;
 	if ((index + 1) % 10 == 0) 
 	{

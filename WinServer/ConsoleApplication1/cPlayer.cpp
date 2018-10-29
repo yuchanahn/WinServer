@@ -60,11 +60,12 @@ void cPlayer::Start()
 
 					if (Target != client->state)
 					{
-						Target->wdata->HP = data->Get<PlayerStat>()->HP;
+						Target->wdata->HP += data->Get<PlayerStat>()->HP;
 					}
 					else 
 					{
-						data->Get<PlayerStat, PlayerStatT>(Target->wdata);
+						Target->wdata->HP += data->Get<PlayerStat>()->HP;
+						Target->wdata->MP += data->Get<PlayerStat>()->MP;
 					}
 
 					Target->Write();
