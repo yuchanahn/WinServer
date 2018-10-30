@@ -7,6 +7,7 @@
 class MonsterPositionManager;
 class MonsterStateManager;
 class MonsterRewardManager;
+class DamageWriter;
 class session;
 
 

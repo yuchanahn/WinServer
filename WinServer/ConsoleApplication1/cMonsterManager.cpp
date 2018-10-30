@@ -5,9 +5,20 @@
 #include "MonsterRewardManager.h"
 #include "MysqlManager.h"
 #include "PlayerStateManager.h"
+#include "PlayerPositionManager.h"
 
 cMonsterManager::~cMonsterManager()
 {
+}
+
+void cMonsterManager::SendDamage(int damage, bool bCri, Vec3* pos_p)
+{
+	WriteManager<fDamage, fDamageT> mdamage;
+	mdamage.wdata->cType = Class::Class_fDamage;
+	mdamage.wdata->bCri = bCri;
+	mdamage.wdata->damage = damage;
+	mdamage.wdata->Pos.reset(pos_p);
+	mdamage.Write();
 }
 
 void cMonsterManager::Start()
@@ -37,22 +48,30 @@ void cMonsterManager::Start()
 
 	ReadManager::ReadSome[Class::Class_MonsterStat] = [this](PackData* data, std::shared_ptr<session> client)
 	{
-		auto MonsterState = data->Get<MonsterStat>();
-		
-		printf("monster State [HP : (%d-%d)%d]\n", Monsters[MonsterState->ID]->State->wdata->HP, MonsterState->HP, Monsters[MonsterState->ID]->State->wdata->HP + MonsterState->HP);
-		
-		Monsters[MonsterState->ID]->State->wdata->HP += MonsterState->HP;
 
-		if (Monsters[MonsterState->ID]->State->wdata->HP < 1)
+		auto MonsterState = data->Get<MonsterStat>();
+		auto mMonster = Monsters[MonsterState->ID];
+
+
+
+		printf("monster State [HP : (%d%d)%d]\n", mMonster->State->wdata->HP, MonsterState->HP, mMonster->State->wdata->HP + MonsterState->HP);
+		
+		mMonster->State->wdata->HP += MonsterState->HP;
+		
+		if (mMonster->State->wdata->HP < 1)
 		{
-			server::UseStrand([=]() {Monsters[MonsterState->ID]->isDead = true; });
-			Monsters[MonsterState->ID]->State->wdata->HP = 0;
-			client->state->wdata->EXP += Monsters[MonsterState->ID]->Reward->wdata->exp;
+			server::UseStrand([=]() {mMonster->isDead = true; });
+			mMonster->State->wdata->HP = 0;
+			client->state->wdata->EXP += mMonster->Reward->wdata->exp;
 			client->state->isLevelUp();
 		}
 
 		Monsters[MonsterState->ID]->State->Write();
 		client->state->Write();
+
+		auto monPos = mMonster->Position->wdata;
+
+		SendDamage(MonsterState->HP, false, new Vec3(monPos->pos->x() , monPos->pos->y()+1, monPos->pos->z()));
 		delete data;
 	};
 }

@@ -6,6 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fDamage;
+struct fDamageT;
+
 struct fReward;
 struct fRewardT;
 
@@ -76,11 +79,12 @@ enum Class {
   Class_fEquipSlots = 13,
   Class_fheader = 14,
   Class_fReward = 15,
+  Class_fDamage = 16,
   Class_MIN = Class_Base,
-  Class_MAX = Class_fReward
+  Class_MAX = Class_fDamage
 };
 
-inline const Class (&EnumValuesClass())[16] {
+inline const Class (&EnumValuesClass())[17] {
   static const Class values[] = {
     Class_Base,
     Class_Player,
@@ -97,7 +101,8 @@ inline const Class (&EnumValuesClass())[16] {
     Class_fInventory,
     Class_fEquipSlots,
     Class_fheader,
-    Class_fReward
+    Class_fReward,
+    Class_fDamage
   };
   return values;
 }
@@ -120,6 +125,7 @@ inline const char * const *EnumNamesClass() {
     "fEquipSlots",
     "fheader",
     "fReward",
+    "fDamage",
     nullptr
   };
   return names;
@@ -156,6 +162,95 @@ MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 STRUCT_END(Vec3, 12);
+
+struct fDamageT : public flatbuffers::NativeTable {
+  typedef fDamage TableType;
+  Class cType;
+  int32_t damage;
+  std::unique_ptr<Vec3> Pos;
+  bool bCri;
+  fDamageT()
+      : cType(Class_Base),
+        damage(0),
+        bCri(false) {
+  }
+};
+
+struct fDamage FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fDamageT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_DAMAGE = 6,
+    VT_POS = 8,
+    VT_BCRI = 10
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t damage() const {
+    return GetField<int32_t>(VT_DAMAGE, 0);
+  }
+  const Vec3 *Pos() const {
+    return GetStruct<const Vec3 *>(VT_POS);
+  }
+  bool bCri() const {
+    return GetField<uint8_t>(VT_BCRI, 0) != 0;
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_DAMAGE) &&
+           VerifyField<Vec3>(verifier, VT_POS) &&
+           VerifyField<uint8_t>(verifier, VT_BCRI) &&
+           verifier.EndTable();
+  }
+  fDamageT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fDamageT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fDamage> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fDamageT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fDamageBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fDamage::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_damage(int32_t damage) {
+    fbb_.AddElement<int32_t>(fDamage::VT_DAMAGE, damage, 0);
+  }
+  void add_Pos(const Vec3 *Pos) {
+    fbb_.AddStruct(fDamage::VT_POS, Pos);
+  }
+  void add_bCri(bool bCri) {
+    fbb_.AddElement<uint8_t>(fDamage::VT_BCRI, static_cast<uint8_t>(bCri), 0);
+  }
+  explicit fDamageBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fDamageBuilder &operator=(const fDamageBuilder &);
+  flatbuffers::Offset<fDamage> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fDamage>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fDamage> CreatefDamage(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t damage = 0,
+    const Vec3 *Pos = 0,
+    bool bCri = false) {
+  fDamageBuilder builder_(_fbb);
+  builder_.add_Pos(Pos);
+  builder_.add_damage(damage);
+  builder_.add_cType(cType);
+  builder_.add_bCri(bCri);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<fDamage> CreatefDamage(flatbuffers::FlatBufferBuilder &_fbb, const fDamageT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fRewardT : public flatbuffers::NativeTable {
   typedef fReward TableType;
@@ -1978,6 +2073,41 @@ inline flatbuffers::Offset<Base> CreateBase(
 }
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline fDamageT *fDamage::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fDamageT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fDamage::UnPackTo(fDamageT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = damage(); _o->damage = _e; };
+  { auto _e = Pos(); if (_e) _o->Pos = std::unique_ptr<Vec3>(new Vec3(*_e)); };
+  { auto _e = bCri(); _o->bCri = _e; };
+}
+
+inline flatbuffers::Offset<fDamage> fDamage::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fDamageT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefDamage(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fDamage> CreatefDamage(flatbuffers::FlatBufferBuilder &_fbb, const fDamageT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fDamageT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _damage = _o->damage;
+  auto _Pos = _o->Pos ? _o->Pos.get() : 0;
+  auto _bCri = _o->bCri;
+  return CreatefDamage(
+      _fbb,
+      _cType,
+      _damage,
+      _Pos,
+      _bCri);
+}
 
 inline fRewardT *fReward::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = new fRewardT();

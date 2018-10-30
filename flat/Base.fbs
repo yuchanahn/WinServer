@@ -14,9 +14,17 @@ fItem,
 fInventory,
 fEquipSlots,
 fheader,
-fReward
+fReward,
+fDamage
 }
 
+
+table fDamage{
+cType:Class;
+damage:int;
+Pos:Vec3;
+bCri:bool;
+}
 
 table fReward{
 cType:Class;

@@ -31,6 +31,7 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="CPoint.h" />
     <ClInclude Include="cServerFPS.h" />
+    <ClInclude Include="DamageWriter.h" />
     <ClInclude Include="FCDataManager.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Inventory.h" />
@@ -61,6 +62,7 @@
     <ClCompile Include="cPing.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cServerFPS.cpp" />
+    <ClCompile Include="DamageWriter.cpp" />
     <ClCompile Include="FCDataManager.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Inventory.cpp" />
