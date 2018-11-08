@@ -6,6 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fEquip;
+struct fEquipT;
+
 struct fDamage;
 struct fDamageT;
 
@@ -80,11 +83,12 @@ enum Class {
   Class_fheader = 14,
   Class_fReward = 15,
   Class_fDamage = 16,
+  Class_fEquip = 17,
   Class_MIN = Class_Base,
-  Class_MAX = Class_fDamage
+  Class_MAX = Class_fEquip
 };
 
-inline const Class (&EnumValuesClass())[17] {
+inline const Class (&EnumValuesClass())[18] {
   static const Class values[] = {
     Class_Base,
     Class_Player,
@@ -102,7 +106,8 @@ inline const Class (&EnumValuesClass())[17] {
     Class_fEquipSlots,
     Class_fheader,
     Class_fReward,
-    Class_fDamage
+    Class_fDamage,
+    Class_fEquip
   };
   return values;
 }
@@ -126,6 +131,7 @@ inline const char * const *EnumNamesClass() {
     "fheader",
     "fReward",
     "fDamage",
+    "fEquip",
     nullptr
   };
   return names;
@@ -162,6 +168,108 @@ MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 STRUCT_END(Vec3, 12);
+
+struct fEquipT : public flatbuffers::NativeTable {
+  typedef fEquip TableType;
+  Class cType;
+  int32_t weapon;
+  int32_t weapon2;
+  int32_t helm;
+  int32_t armor;
+  fEquipT()
+      : cType(Class_Base),
+        weapon(0),
+        weapon2(0),
+        helm(0),
+        armor(0) {
+  }
+};
+
+struct fEquip FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fEquipT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_WEAPON = 6,
+    VT_WEAPON2 = 8,
+    VT_HELM = 10,
+    VT_ARMOR = 12
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t weapon() const {
+    return GetField<int32_t>(VT_WEAPON, 0);
+  }
+  int32_t weapon2() const {
+    return GetField<int32_t>(VT_WEAPON2, 0);
+  }
+  int32_t helm() const {
+    return GetField<int32_t>(VT_HELM, 0);
+  }
+  int32_t armor() const {
+    return GetField<int32_t>(VT_ARMOR, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_WEAPON) &&
+           VerifyField<int32_t>(verifier, VT_WEAPON2) &&
+           VerifyField<int32_t>(verifier, VT_HELM) &&
+           VerifyField<int32_t>(verifier, VT_ARMOR) &&
+           verifier.EndTable();
+  }
+  fEquipT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fEquipT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fEquip> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fEquipT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fEquipBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fEquip::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_weapon(int32_t weapon) {
+    fbb_.AddElement<int32_t>(fEquip::VT_WEAPON, weapon, 0);
+  }
+  void add_weapon2(int32_t weapon2) {
+    fbb_.AddElement<int32_t>(fEquip::VT_WEAPON2, weapon2, 0);
+  }
+  void add_helm(int32_t helm) {
+    fbb_.AddElement<int32_t>(fEquip::VT_HELM, helm, 0);
+  }
+  void add_armor(int32_t armor) {
+    fbb_.AddElement<int32_t>(fEquip::VT_ARMOR, armor, 0);
+  }
+  explicit fEquipBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fEquipBuilder &operator=(const fEquipBuilder &);
+  flatbuffers::Offset<fEquip> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fEquip>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fEquip> CreatefEquip(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t weapon = 0,
+    int32_t weapon2 = 0,
+    int32_t helm = 0,
+    int32_t armor = 0) {
+  fEquipBuilder builder_(_fbb);
+  builder_.add_armor(armor);
+  builder_.add_helm(helm);
+  builder_.add_weapon2(weapon2);
+  builder_.add_weapon(weapon);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<fEquip> CreatefEquip(flatbuffers::FlatBufferBuilder &_fbb, const fEquipT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fDamageT : public flatbuffers::NativeTable {
   typedef fDamage TableType;
@@ -2073,6 +2181,44 @@ inline flatbuffers::Offset<Base> CreateBase(
 }
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline fEquipT *fEquip::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fEquipT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fEquip::UnPackTo(fEquipT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = weapon(); _o->weapon = _e; };
+  { auto _e = weapon2(); _o->weapon2 = _e; };
+  { auto _e = helm(); _o->helm = _e; };
+  { auto _e = armor(); _o->armor = _e; };
+}
+
+inline flatbuffers::Offset<fEquip> fEquip::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fEquipT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefEquip(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fEquip> CreatefEquip(flatbuffers::FlatBufferBuilder &_fbb, const fEquipT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fEquipT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _weapon = _o->weapon;
+  auto _weapon2 = _o->weapon2;
+  auto _helm = _o->helm;
+  auto _armor = _o->armor;
+  return CreatefEquip(
+      _fbb,
+      _cType,
+      _weapon,
+      _weapon2,
+      _helm,
+      _armor);
+}
 
 inline fDamageT *fDamage::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = new fDamageT();

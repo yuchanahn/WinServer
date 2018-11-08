@@ -4,6 +4,10 @@
 #include <vector>
 #include <list>
 
+
+const int EQUIP_SLOT_MAX = 4;
+
+
 class CreateMonsterData;
 struct LoginT;
 struct PlayerStatT;
@@ -40,6 +44,8 @@ public:
 	void SetInv(int inv[30],int id);
 	void SetItem(int userItemid, int count);
 	void SetItem(int userItemid);
+	void SetEquip(int EquipSlot[EQUIP_SLOT_MAX],int userId);
+
 	int CreateItem(int ItemCode, int count);
 
 	PlayerStatT * GetPlayerStat(int id, std::string & name);

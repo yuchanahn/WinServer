@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base_generated.h" />
+    <ClInclude Include="cEquip.h" />
     <ClInclude Include="cInventory.h" />
     <ClInclude Include="cItem.h" />
     <ClInclude Include="ClientSession.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="CPoint.h" />
     <ClInclude Include="cServerFPS.h" />
     <ClInclude Include="DamageWriter.h" />
+    <ClInclude Include="EquipManager.h" />
     <ClInclude Include="FCDataManager.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Inventory.h" />
@@ -53,6 +55,7 @@
     <ClInclude Include="WriteManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cEquip.cpp" />
     <ClCompile Include="cInventory.cpp" />
     <ClCompile Include="cItem.cpp" />
     <ClCompile Include="ClientSession.cpp" />
@@ -63,6 +66,7 @@
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cServerFPS.cpp" />
     <ClCompile Include="DamageWriter.cpp" />
+    <ClCompile Include="EquipManager.cpp" />
     <ClCompile Include="FCDataManager.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Inventory.cpp" />

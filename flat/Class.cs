@@ -21,5 +21,6 @@ public enum Class : int
  fheader = 14,
  fReward = 15,
  fDamage = 16,
+ fEquip = 17,
 };
 

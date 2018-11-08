@@ -14,25 +14,25 @@ ItemManager::~ItemManager()
 }
 void ItemManager::Input(map<const string, vector<const char*>> uItem)
 {
-		auto UserItems = uItem;
-		auto size = UserItems["ItemKey"].size();
+	auto UserItems = uItem;
+	auto size = UserItems["ItemKey"].size();
 
-		vector<int> key(size);
-		vector<int> code(size);
-		vector<int> count(size);
-		for (int i = 0; i < size; i++) {
-			key[i] = stoi(UserItems["ItemKey"][i]);
-			code[i] = stoi(UserItems["ItemId"][i]);
-			count[i] = stoi(UserItems["Count"][i]);
-		}
+	vector<int> key(size);
+	vector<int> code(size);
+	vector<int> count(size);
+	for (int i = 0; i < size; i++) {
+		key[i] = stoi(UserItems["ItemKey"][i]);
+		code[i] = stoi(UserItems["ItemId"][i]);
+		count[i] = stoi(UserItems["Count"][i]);
+	}
 
 
-		for (int i = 0; i < size; i++) {
-			*Item::Items[key[i]].wdata = *Items[code[i]];
-			Item::Items[key[i]].wdata->count = count[i];
+	for (int i = 0; i < size; i++) {
+		*Item::Items[key[i]].wdata = *Items[code[i]];
+		Item::Items[key[i]].wdata->count = count[i];
 
-			printf("<< [%s] item load... key : %d, code : %d\n",  Items[code[i]]->name.c_str(), key[i], code[i]);
-		}
+		printf("<< [%s] item load... key : %d, code : %d\n", Items[code[i]]->name.c_str(), key[i], code[i]);
+	}
 }
 
 void ItemManager::AddItem(int itemid, int itemCode)

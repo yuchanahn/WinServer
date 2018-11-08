@@ -15,9 +15,17 @@ fInventory,
 fEquipSlots,
 fheader,
 fReward,
-fDamage
+fDamage,
+fEquip
 }
 
+table fEquip{
+cType:Class;
+weapon:int;
+weapon2:int;
+helm:int;
+armor:int;
+}
 
 table fDamage{
 cType:Class;

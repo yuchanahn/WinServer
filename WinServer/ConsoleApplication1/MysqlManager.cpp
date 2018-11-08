@@ -138,6 +138,16 @@ void MysqlManager::SetItem(int userItemid)
 	auto m = mysql->executeSql(str);
 }
 
+void MysqlManager::SetEquip(int EquipSlot[EQUIP_SLOT_MAX], int userId)
+{
+	char str[256];
+	sprintf_s(str, 
+		"UPDATE `Main`.`EquipSlot` SET `weapon`='%d' , `weapon2`='%d' WHERE ,`helm`='%d',`armor`='%d' `Userkey`=%d;", 
+		EquipSlot[0], EquipSlot[1], EquipSlot[2], EquipSlot[3], userId);
+	printf("[update] EQUIPSLOT (PID : %d)\n", userId);
+	auto m = mysql->executeSql(str);
+}
+
 int MysqlManager::CreateItem(int ItemCode, int count)
 {
 	char str[256];
