@@ -96,7 +96,9 @@
     <ClInclude Include="cEquip.h">
       <Filter>Component\Inventory\Equip</Filter>
     </ClInclude>
-    <ClInclude Include="EquipManager.h" />
+    <ClInclude Include="EquipManager.h">
+      <Filter>Component\Inventory\Equip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -183,7 +185,9 @@
     <ClCompile Include="cEquip.cpp">
       <Filter>Component\Inventory\Equip</Filter>
     </ClCompile>
-    <ClCompile Include="EquipManager.cpp" />
+    <ClCompile Include="EquipManager.cpp">
+      <Filter>Component\Inventory\Equip</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DB">

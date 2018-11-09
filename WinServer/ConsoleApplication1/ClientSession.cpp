@@ -27,6 +27,7 @@
 
 #include "PlayerPositionManager.h"
 #include "PlayerStateManager.h"
+#include "EquipManager.h"
 
 using asio::ip::tcp;
 
@@ -76,6 +77,8 @@ session::~session()
 	if (state != nullptr)	delete state;
 	if (position != nullptr)delete position;
 	if (inventoryManager != nullptr) delete inventoryManager;
+	if (equipManager != nullptr) delete equipManager;
+
 	printf("클라이언트 접속 종료\nID : %d\n", id);
 }
 
@@ -103,6 +106,7 @@ void session::IsLogined() {
 	//// strand 문제있을 수 있음.
 	UseStrand([=]() {
 		inventoryManager = new InventoryManager(id); 
+		equipManager = new EquipManager(shared_from_this());
 	});
 }
 
@@ -147,6 +151,7 @@ void server::ServerStart()
 	PlayerManager->AddComponent<cInventory>(); 
 	PlayerManager->AddComponent<cPlayer>();
 	PlayerManager->AddComponent<cItem>();
+	PlayerManager->AddComponent<cEquip>();
 
 	ServerFpsManger->AddComponent<cServerFPS>();
 

@@ -30,6 +30,7 @@ class PlayerStateManager;
 class PlayerPositionManager;
 class SendStateTo;
 class InventoryManager;
+class EquipManager;
 
 using asio::ip::tcp;
 
@@ -49,6 +50,7 @@ public:
 	PlayerStateManager*		state    = nullptr;
 	PlayerPositionManager*	position = nullptr;
 	InventoryManager*		inventoryManager = nullptr;
+	EquipManager*			equipManager = nullptr;
 
 	int id;
 	bool isOffLine = false;
