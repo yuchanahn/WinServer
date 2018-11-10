@@ -6,7 +6,7 @@ class EquipManager
 	int mslot[4] = {0};
 	std::shared_ptr<session> mclient;
 public:
-	WriteManager<fEquip, fEquipT> w;
+	WriteManager<fItem, fItemT> w;
 	void Set(int nSlot, int value);
 	int Get(int index);
 

@@ -1,6 +1,6 @@
 #include "EquipManager.h"
 #include "MysqlManager.h"
-
+#include "Item.h"
 
 void EquipManager::Set(int nSlot, int value)
 {
@@ -14,8 +14,17 @@ int EquipManager::Get(int index)
 
 void EquipManager::write()
 {
-	w.wdata->cType = Class::Class_fEquip;
-	w.Write(mclient);
+	for (int i = 0; i < EQUIP_SLOT_MAX; i++) 
+	{
+		if (mslot[i] != 0) 
+		{
+			*w.wdata = *Item::Items[mslot[i]].wdata;
+			w.wdata->id = mslot[i];
+			w.wdata->val8 = i;
+			w.wdata->cType = Class::Class_fEquip;
+			w.Write(mclient);
+		}
+	}
 }
 
 EquipManager::EquipManager(std::shared_ptr<session> client)
