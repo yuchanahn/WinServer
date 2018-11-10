@@ -139,8 +139,8 @@ void oMonster::Update()
 			isDead = false;
 			target = nullptr;
 			SetTargetPos_Random();
-			CurrentPos.x = TargetPos.x;
-			CurrentPos.y = TargetPos.y;
+			CurrentPos.x = RandomPos.x;
+			CurrentPos.y = RandomPos.y;
 			State->wdata->HP = State->wdata->MAXHP; 
 			Position->Write();
 			State->Write();

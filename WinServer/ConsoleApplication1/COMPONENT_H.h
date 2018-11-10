@@ -1,6 +1,7 @@
 #pragma once
 #include "Time.h"
 #include "ReadManager.h"
+#include "cEquip.h"
 #include "cServerFPS.h"
 #include "cPing.h"
 #include "cPlayer.h"
@@ -8,4 +9,3 @@
 #include "cMonsterManager.h"
 #include "cInventory.h"
 #include "cItem.h"
-#include "cEquip.h"

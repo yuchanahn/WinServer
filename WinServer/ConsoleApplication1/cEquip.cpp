@@ -8,9 +8,10 @@ cEquip::~cEquip()
 
 
 
-void cInventory::Start()
+void cEquip::Start()
 {
-	ReadManager::ReadSome[Class::Class_fEquip] = [this](PackData* data, std::shared_ptr<session> client) {
+	ReadManager::ReadSome[Class::Class_fEquip] = [this](PackData* data, std::shared_ptr<session> client) 
+	{
 		auto EquipSlot = data->Get<fEquip>();
 		try
 		{

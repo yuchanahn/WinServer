@@ -47,6 +47,7 @@
     <ClInclude Include="MonsterStateManager.h" />
     <ClInclude Include="MysqlManager.h" />
     <ClInclude Include="mysqlpool.h" />
+    <ClInclude Include="PlayerEquipManager.h" />
     <ClInclude Include="PlayerPositionManager.h" />
     <ClInclude Include="PlayerStateManager.h" />
     <ClInclude Include="ReadManager.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="MonsterStateManager.cpp" />
     <ClCompile Include="MysqlManager.cpp" />
     <ClCompile Include="mysqlpool.cpp" />
+    <ClCompile Include="PlayerEquipManager.cpp" />
     <ClCompile Include="PlayerPositionManager.cpp" />
     <ClCompile Include="PlayerStateManager.cpp" />
     <ClCompile Include="ReadManager.cpp" />

@@ -103,10 +103,10 @@ void session::do_read()
 }
 
 void session::IsLogined() {
-	//// strand 문제있을 수 있음.
 	UseStrand([=]() {
-		inventoryManager = new InventoryManager(id); 
-		equipManager = new EquipManager(shared_from_this());
+		inventoryManager = new InventoryManager(id);
+		equipManager = new EquipManager(id);
+		equipManager->write(shared_from_this());
 	});
 }
 

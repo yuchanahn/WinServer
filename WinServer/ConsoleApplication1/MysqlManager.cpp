@@ -64,6 +64,18 @@ MysqlManager * MysqlManager::GetInstance()
 	return m;
 }
 
+void MysqlManager::GetEquipSlot(int Slot[EQUIP_SLOT_MAX], int id)
+{
+	char str[256];
+	sprintf_s(str, "SELECT * FROM `Main`.`EquipSlot` WHERE `UserKey`=%d LIMIT 1;", id);
+	auto m = mysql->executeSql(str);
+
+	Slot[0] = atoi(m["weapon"][0]);
+	Slot[1] = atoi(m["weapon2"][0]);
+	Slot[2] = atoi(m["helm"][0]);
+	Slot[3] = atoi(m["armor"][0]);
+}
+
 int MysqlManager::CreateID(LoginT * data)
 {
 	char str[256];
@@ -79,6 +91,8 @@ int MysqlManager::CreateID(LoginT * data)
 	sprintf_s(str, "INSERT INTO `SkillInfo`  (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
 	sprintf_s(str, "INSERT INTO `PlayerInfo` (`UserKey`) VALUES ('%d');", ID);
+	mysql->executeSql(str);
+	sprintf_s(str, "INSERT INTO `EquipSlot` (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
 
 	return ID;
@@ -142,7 +156,7 @@ void MysqlManager::SetEquip(int EquipSlot[EQUIP_SLOT_MAX], int userId)
 {
 	char str[256];
 	sprintf_s(str, 
-		"UPDATE `Main`.`EquipSlot` SET `weapon`='%d' , `weapon2`='%d' WHERE ,`helm`='%d',`armor`='%d' `Userkey`=%d;", 
+		"UPDATE `Main`.`EquipSlot` SET `weapon`='%d' , `weapon2`='%d',`helm`='%d',`armor`='%d' WHERE `Userkey`=%d;", 
 		EquipSlot[0], EquipSlot[1], EquipSlot[2], EquipSlot[3], userId);
 	printf("[update] EQUIPSLOT (PID : %d)\n", userId);
 	auto m = mysql->executeSql(str);

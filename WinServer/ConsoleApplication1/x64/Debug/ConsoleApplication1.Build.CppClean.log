@@ -1,36 +1,37 @@
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\vc141.pdb
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\vc141.idb
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\item.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\itemmanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monster.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monsterpositionmanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monsterstatemanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\mysqlmanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\playerpositionmanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\playerstatemanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\readmanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\tls.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\time.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cinventory.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\citem.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\clogin.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cmonstermanager.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cping.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cplayer.obj
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cserverfps.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\main.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\mysqlpool.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\clientsession.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\component.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\convertutf8.obj
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\fcdatamanager.obj
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\inputcomponent.obj
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\inventory.obj
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\inventorymanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\item.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\itemmanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\main.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monster.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monsterpositionmanager.obj
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monsterrewardmanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\monsterstatemanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\mysqlmanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\mysqlpool.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\playerpositionmanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\playerstatemanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\readmanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\time.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\tls.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\convertutf8.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cinventory.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\citem.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\clientsession.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\clogin.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cmonstermanager.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\component.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cping.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\cplayer.obj
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\consoleapplication1\x64\debug\damagewriter.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\vc141.pdb
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\vc141.idb
-c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cserverfps.obj
+c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\equipmanager.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\fcdatamanager.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\inputcomponent.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\inventory.obj
@@ -49,6 +50,8 @@ c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\pl
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\readmanager.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\time.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\tls.obj
+c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\convertutf8.obj
+c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cequip.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cinventory.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\citem.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\clientsession.obj
@@ -57,10 +60,14 @@ c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cm
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\component.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cping.obj
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cplayer.obj
-c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\x64\debug\consoleapplication1.exe
+c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\cserverfps.obj
+c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\damagewriter.obj
+c:\users\ahn yu chan\desktop\git\winserver\winserver\x64\debug\consoleapplication1.ilk
+c:\users\ahn yu chan\desktop\git\winserver\winserver\x64\debug\consoleapplication1.exe
+c:\users\ahn yu chan\desktop\git\winserver\winserver\x64\debug\consoleapplication1.pdb
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\x64\debug\consoleapplication1.ilk
+c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\x64\debug\consoleapplication1.exe
 c:\users\anyc1\onedrive\바탕 화면\mygit\winserver\winserver\x64\debug\consoleapplication1.pdb
-c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\convertutf8.obj
 c:\users\atents\desktop\git\winserver\winserver\x64\debug\consoleapplication1.pdb
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\consolea.918479c0.tlog\cl.command.1.tlog
 c:\users\atents\desktop\git\winserver\winserver\consoleapplication1\x64\debug\consolea.918479c0.tlog\cl.read.1.tlog

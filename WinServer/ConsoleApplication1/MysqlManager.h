@@ -68,5 +68,6 @@ public:
 
 
 	static MysqlManager* GetInstance();
+	void GetEquipSlot(int Slot[4], int id);
 };
 

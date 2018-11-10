@@ -78,7 +78,6 @@ void cMonsterManager::Start()
 
 void cMonsterManager::Update()
 {
-	
 	dt += Time::deltaTime;
 
 
@@ -89,7 +88,8 @@ void cMonsterManager::Update()
 
 		for (auto i : Monsters)
 		{
-			i.second->UpdatePosition();			
+			if(!i.second->isDead)
+				i.second->UpdatePosition();			
 		}
 		if (dt2 > SendRate) {
 			dt2 = 0;		

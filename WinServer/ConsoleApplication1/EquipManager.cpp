@@ -12,7 +12,7 @@ int EquipManager::Get(int index)
 	return mslot[index];
 }
 
-void EquipManager::write()
+void EquipManager::write(std::shared_ptr<session> client)
 {
 	for (int i = 0; i < EQUIP_SLOT_MAX; i++) 
 	{
@@ -22,14 +22,16 @@ void EquipManager::write()
 			w.wdata->id = mslot[i];
 			w.wdata->val8 = i;
 			w.wdata->cType = Class::Class_fEquip;
-			w.Write(mclient);
+			w.Write(client);
 		}
 	}
 }
 
-EquipManager::EquipManager(std::shared_ptr<session> client)
-	: mID(client->id) , mclient(client->shared_from_this())
-{}
+EquipManager::EquipManager(int id)
+	: mID(id)
+{
+	MysqlManager::GetInstance()->GetEquipSlot(mslot,mID);
+}
 
 
 EquipManager::~EquipManager()

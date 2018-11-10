@@ -7,5 +7,6 @@ class cEquip :
 public:
 	cEquip(InputComponent* input) : Component(input) {};
 	~cEquip();
+	virtual void Start();
 };
 
