@@ -6,6 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fIG_Effect;
+struct fIG_EffectT;
+
 struct fEquip;
 struct fEquipT;
 
@@ -84,11 +87,13 @@ enum Class {
   Class_fReward = 15,
   Class_fDamage = 16,
   Class_fEquip = 17,
+  Class_fIG_Effect = 18,
+  Class_fNetEffect = 19,
   Class_MIN = Class_Base,
-  Class_MAX = Class_fEquip
+  Class_MAX = Class_fNetEffect
 };
 
-inline const Class (&EnumValuesClass())[18] {
+inline const Class (&EnumValuesClass())[20] {
   static const Class values[] = {
     Class_Base,
     Class_Player,
@@ -107,7 +112,9 @@ inline const Class (&EnumValuesClass())[18] {
     Class_fheader,
     Class_fReward,
     Class_fDamage,
-    Class_fEquip
+    Class_fEquip,
+    Class_fIG_Effect,
+    Class_fNetEffect
   };
   return values;
 }
@@ -132,6 +139,8 @@ inline const char * const *EnumNamesClass() {
     "fReward",
     "fDamage",
     "fEquip",
+    "fIG_Effect",
+    "fNetEffect",
     nullptr
   };
   return names;
@@ -168,6 +177,138 @@ MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 STRUCT_END(Vec3, 12);
+
+struct fIG_EffectT : public flatbuffers::NativeTable {
+  typedef fIG_Effect TableType;
+  Class cType;
+  int32_t pID;
+  float x;
+  float y;
+  float z;
+  std::string eftName;
+  fIG_EffectT()
+      : cType(Class_Base),
+        pID(0),
+        x(0.0f),
+        y(0.0f),
+        z(0.0f) {
+  }
+};
+
+struct fIG_Effect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fIG_EffectT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_PID = 6,
+    VT_X = 8,
+    VT_Y = 10,
+    VT_Z = 12,
+    VT_EFTNAME = 14
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t pID() const {
+    return GetField<int32_t>(VT_PID, 0);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  float z() const {
+    return GetField<float>(VT_Z, 0.0f);
+  }
+  const flatbuffers::String *eftName() const {
+    return GetPointer<const flatbuffers::String *>(VT_EFTNAME);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_PID) &&
+           VerifyField<float>(verifier, VT_X) &&
+           VerifyField<float>(verifier, VT_Y) &&
+           VerifyField<float>(verifier, VT_Z) &&
+           VerifyOffset(verifier, VT_EFTNAME) &&
+           verifier.Verify(eftName()) &&
+           verifier.EndTable();
+  }
+  fIG_EffectT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fIG_EffectT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fIG_Effect> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fIG_EffectBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fIG_Effect::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_pID(int32_t pID) {
+    fbb_.AddElement<int32_t>(fIG_Effect::VT_PID, pID, 0);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(fIG_Effect::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(fIG_Effect::VT_Y, y, 0.0f);
+  }
+  void add_z(float z) {
+    fbb_.AddElement<float>(fIG_Effect::VT_Z, z, 0.0f);
+  }
+  void add_eftName(flatbuffers::Offset<flatbuffers::String> eftName) {
+    fbb_.AddOffset(fIG_Effect::VT_EFTNAME, eftName);
+  }
+  explicit fIG_EffectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fIG_EffectBuilder &operator=(const fIG_EffectBuilder &);
+  flatbuffers::Offset<fIG_Effect> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fIG_Effect>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fIG_Effect> CreatefIG_Effect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f,
+    flatbuffers::Offset<flatbuffers::String> eftName = 0) {
+  fIG_EffectBuilder builder_(_fbb);
+  builder_.add_eftName(eftName);
+  builder_.add_z(z);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  builder_.add_pID(pID);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fIG_Effect> CreatefIG_EffectDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f,
+    const char *eftName = nullptr) {
+  return CreatefIG_Effect(
+      _fbb,
+      cType,
+      pID,
+      x,
+      y,
+      z,
+      eftName ? _fbb.CreateString(eftName) : 0);
+}
+
+flatbuffers::Offset<fIG_Effect> CreatefIG_Effect(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fEquipT : public flatbuffers::NativeTable {
   typedef fEquip TableType;
@@ -2181,6 +2322,47 @@ inline flatbuffers::Offset<Base> CreateBase(
 }
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+inline fIG_EffectT *fIG_Effect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fIG_EffectT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fIG_Effect::UnPackTo(fIG_EffectT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = pID(); _o->pID = _e; };
+  { auto _e = x(); _o->x = _e; };
+  { auto _e = y(); _o->y = _e; };
+  { auto _e = z(); _o->z = _e; };
+  { auto _e = eftName(); if (_e) _o->eftName = _e->str(); };
+}
+
+inline flatbuffers::Offset<fIG_Effect> fIG_Effect::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefIG_Effect(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fIG_Effect> CreatefIG_Effect(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fIG_EffectT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _pID = _o->pID;
+  auto _x = _o->x;
+  auto _y = _o->y;
+  auto _z = _o->z;
+  auto _eftName = _o->eftName.empty() ? 0 : _fbb.CreateString(_o->eftName);
+  return CreatefIG_Effect(
+      _fbb,
+      _cType,
+      _pID,
+      _x,
+      _y,
+      _z,
+      _eftName);
+}
 
 inline fEquipT *fEquip::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = new fEquipT();

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base_generated.h" />
+    <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEquip.h" />
     <ClInclude Include="cInventory.h" />
     <ClInclude Include="cItem.h" />
@@ -56,6 +57,7 @@
     <ClInclude Include="WriteManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cEquip.cpp" />
     <ClCompile Include="cInventory.cpp" />
     <ClCompile Include="cItem.cpp" />

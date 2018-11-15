@@ -9,4 +9,3 @@ public:
 	~cEquip();
 	virtual void Start();
 };
-

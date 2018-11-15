@@ -9,3 +9,4 @@
 #include "cMonsterManager.h"
 #include "cInventory.h"
 #include "cItem.h"
+#include "cEffect.h"

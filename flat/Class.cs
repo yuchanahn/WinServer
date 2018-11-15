@@ -22,5 +22,7 @@ public enum Class : int
  fReward = 15,
  fDamage = 16,
  fEquip = 17,
+ fIG_Effect = 18,
+ fNetEffect = 19,
 };
 

@@ -16,8 +16,21 @@ fEquipSlots,
 fheader,
 fReward,
 fDamage,
-fEquip
+fEquip,
+fIG_Effect,
+fNetEffect,
 }
+
+table fIG_Effect{
+cType:Class;
+pID:int;
+x:float;
+y:float;
+z:float;
+eftName:string;
+}
+
+
 
 table fEquip{
 cType:Class;

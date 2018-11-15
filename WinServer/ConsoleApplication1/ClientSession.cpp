@@ -152,6 +152,7 @@ void server::ServerStart()
 	PlayerManager->AddComponent<cPlayer>();
 	PlayerManager->AddComponent<cItem>();
 	PlayerManager->AddComponent<cEquip>();
+	PlayerManager->AddComponent<cEffect>();
 
 	ServerFpsManger->AddComponent<cServerFPS>();
 
