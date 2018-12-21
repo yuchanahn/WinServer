@@ -103,6 +103,10 @@
       <Filter>Component\Inventory\Equip</Filter>
     </ClInclude>
     <ClInclude Include="cEffect.h" />
+    <ClInclude Include="cKeySlot.h" />
+    <ClInclude Include="cSkillSlot.h" />
+    <ClInclude Include="cChat.h" />
+    <ClInclude Include="AStar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -196,6 +200,10 @@
       <Filter>Component\Inventory\Equip</Filter>
     </ClCompile>
     <ClCompile Include="cEffect.cpp" />
+    <ClCompile Include="cKeySlot.cpp" />
+    <ClCompile Include="cSkillSlot.cpp" />
+    <ClCompile Include="cChat.cpp" />
+    <ClCompile Include="AStar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DB">

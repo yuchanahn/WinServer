@@ -6,8 +6,26 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fChat;
+struct fChatT;
+
+struct fSkillSlot;
+struct fSkillSlotT;
+
+struct fKeySlot;
+struct fKeySlotT;
+
+struct fIG_EffectPos;
+struct fIG_EffectPosT;
+
+struct fIG_ProjectileEffect;
+struct fIG_ProjectileEffectT;
+
 struct fIG_Effect;
 struct fIG_EffectT;
+
+struct fEquipSome;
+struct fEquipSomeT;
 
 struct fEquip;
 struct fEquipT;
@@ -89,11 +107,17 @@ enum Class {
   Class_fEquip = 17,
   Class_fIG_Effect = 18,
   Class_fNetEffect = 19,
+  Class_fEquipSome = 20,
+  Class_fKeySlot = 21,
+  Class_fSkillSlot = 22,
+  Class_fChat = 23,
+  Class_fIG_ProjectileEffect = 24,
+  Class_fIG_EffectPos = 25,
   Class_MIN = Class_Base,
-  Class_MAX = Class_fNetEffect
+  Class_MAX = Class_fIG_EffectPos
 };
 
-inline const Class (&EnumValuesClass())[20] {
+inline const Class (&EnumValuesClass())[26] {
   static const Class values[] = {
     Class_Base,
     Class_Player,
@@ -114,7 +138,13 @@ inline const Class (&EnumValuesClass())[20] {
     Class_fDamage,
     Class_fEquip,
     Class_fIG_Effect,
-    Class_fNetEffect
+    Class_fNetEffect,
+    Class_fEquipSome,
+    Class_fKeySlot,
+    Class_fSkillSlot,
+    Class_fChat,
+    Class_fIG_ProjectileEffect,
+    Class_fIG_EffectPos
   };
   return values;
 }
@@ -141,6 +171,12 @@ inline const char * const *EnumNamesClass() {
     "fEquip",
     "fIG_Effect",
     "fNetEffect",
+    "fEquipSome",
+    "fKeySlot",
+    "fSkillSlot",
+    "fChat",
+    "fIG_ProjectileEffect",
+    "fIG_EffectPos",
     nullptr
   };
   return names;
@@ -177,6 +213,568 @@ MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 STRUCT_END(Vec3, 12);
+
+struct fChatT : public flatbuffers::NativeTable {
+  typedef fChat TableType;
+  Class cType;
+  int32_t pID;
+  std::string str;
+  fChatT()
+      : cType(Class_Base),
+        pID(0) {
+  }
+};
+
+struct fChat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fChatT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_PID = 6,
+    VT_STR = 8
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t pID() const {
+    return GetField<int32_t>(VT_PID, 0);
+  }
+  const flatbuffers::String *str() const {
+    return GetPointer<const flatbuffers::String *>(VT_STR);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_PID) &&
+           VerifyOffset(verifier, VT_STR) &&
+           verifier.Verify(str()) &&
+           verifier.EndTable();
+  }
+  fChatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fChatT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fChat> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fChatT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fChatBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fChat::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_pID(int32_t pID) {
+    fbb_.AddElement<int32_t>(fChat::VT_PID, pID, 0);
+  }
+  void add_str(flatbuffers::Offset<flatbuffers::String> str) {
+    fbb_.AddOffset(fChat::VT_STR, str);
+  }
+  explicit fChatBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fChatBuilder &operator=(const fChatBuilder &);
+  flatbuffers::Offset<fChat> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fChat>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fChat> CreatefChat(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    flatbuffers::Offset<flatbuffers::String> str = 0) {
+  fChatBuilder builder_(_fbb);
+  builder_.add_str(str);
+  builder_.add_pID(pID);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fChat> CreatefChatDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    const char *str = nullptr) {
+  return CreatefChat(
+      _fbb,
+      cType,
+      pID,
+      str ? _fbb.CreateString(str) : 0);
+}
+
+flatbuffers::Offset<fChat> CreatefChat(flatbuffers::FlatBufferBuilder &_fbb, const fChatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fSkillSlotT : public flatbuffers::NativeTable {
+  typedef fSkillSlot TableType;
+  Class cType;
+  std::vector<int32_t> slotNum;
+  fSkillSlotT()
+      : cType(Class_Base) {
+  }
+};
+
+struct fSkillSlot FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fSkillSlotT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_SLOTNUM = 6
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  const flatbuffers::Vector<int32_t> *slotNum() const {
+    return GetPointer<const flatbuffers::Vector<int32_t> *>(VT_SLOTNUM);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyOffset(verifier, VT_SLOTNUM) &&
+           verifier.Verify(slotNum()) &&
+           verifier.EndTable();
+  }
+  fSkillSlotT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fSkillSlotT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fSkillSlot> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fSkillSlotT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fSkillSlotBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fSkillSlot::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_slotNum(flatbuffers::Offset<flatbuffers::Vector<int32_t>> slotNum) {
+    fbb_.AddOffset(fSkillSlot::VT_SLOTNUM, slotNum);
+  }
+  explicit fSkillSlotBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fSkillSlotBuilder &operator=(const fSkillSlotBuilder &);
+  flatbuffers::Offset<fSkillSlot> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fSkillSlot>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fSkillSlot> CreatefSkillSlot(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    flatbuffers::Offset<flatbuffers::Vector<int32_t>> slotNum = 0) {
+  fSkillSlotBuilder builder_(_fbb);
+  builder_.add_slotNum(slotNum);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fSkillSlot> CreatefSkillSlotDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    const std::vector<int32_t> *slotNum = nullptr) {
+  return CreatefSkillSlot(
+      _fbb,
+      cType,
+      slotNum ? _fbb.CreateVector<int32_t>(*slotNum) : 0);
+}
+
+flatbuffers::Offset<fSkillSlot> CreatefSkillSlot(flatbuffers::FlatBufferBuilder &_fbb, const fSkillSlotT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fKeySlotT : public flatbuffers::NativeTable {
+  typedef fKeySlot TableType;
+  Class cType;
+  std::vector<int32_t> slotNum;
+  fKeySlotT()
+      : cType(Class_Base) {
+  }
+};
+
+struct fKeySlot FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fKeySlotT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_SLOTNUM = 6
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  const flatbuffers::Vector<int32_t> *slotNum() const {
+    return GetPointer<const flatbuffers::Vector<int32_t> *>(VT_SLOTNUM);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyOffset(verifier, VT_SLOTNUM) &&
+           verifier.Verify(slotNum()) &&
+           verifier.EndTable();
+  }
+  fKeySlotT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fKeySlotT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fKeySlot> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fKeySlotT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fKeySlotBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fKeySlot::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_slotNum(flatbuffers::Offset<flatbuffers::Vector<int32_t>> slotNum) {
+    fbb_.AddOffset(fKeySlot::VT_SLOTNUM, slotNum);
+  }
+  explicit fKeySlotBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fKeySlotBuilder &operator=(const fKeySlotBuilder &);
+  flatbuffers::Offset<fKeySlot> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fKeySlot>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fKeySlot> CreatefKeySlot(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    flatbuffers::Offset<flatbuffers::Vector<int32_t>> slotNum = 0) {
+  fKeySlotBuilder builder_(_fbb);
+  builder_.add_slotNum(slotNum);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fKeySlot> CreatefKeySlotDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    const std::vector<int32_t> *slotNum = nullptr) {
+  return CreatefKeySlot(
+      _fbb,
+      cType,
+      slotNum ? _fbb.CreateVector<int32_t>(*slotNum) : 0);
+}
+
+flatbuffers::Offset<fKeySlot> CreatefKeySlot(flatbuffers::FlatBufferBuilder &_fbb, const fKeySlotT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fIG_EffectPosT : public flatbuffers::NativeTable {
+  typedef fIG_EffectPos TableType;
+  Class cType;
+  int32_t eftID;
+  std::string eftName;
+  float x;
+  float y;
+  float z;
+  fIG_EffectPosT()
+      : cType(Class_Base),
+        eftID(0),
+        x(0.0f),
+        y(0.0f),
+        z(0.0f) {
+  }
+};
+
+struct fIG_EffectPos FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fIG_EffectPosT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_EFTID = 6,
+    VT_EFTNAME = 8,
+    VT_X = 10,
+    VT_Y = 12,
+    VT_Z = 14
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t eftID() const {
+    return GetField<int32_t>(VT_EFTID, 0);
+  }
+  const flatbuffers::String *eftName() const {
+    return GetPointer<const flatbuffers::String *>(VT_EFTNAME);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  float z() const {
+    return GetField<float>(VT_Z, 0.0f);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_EFTID) &&
+           VerifyOffset(verifier, VT_EFTNAME) &&
+           verifier.Verify(eftName()) &&
+           VerifyField<float>(verifier, VT_X) &&
+           VerifyField<float>(verifier, VT_Y) &&
+           VerifyField<float>(verifier, VT_Z) &&
+           verifier.EndTable();
+  }
+  fIG_EffectPosT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fIG_EffectPosT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fIG_EffectPos> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectPosT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fIG_EffectPosBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fIG_EffectPos::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_eftID(int32_t eftID) {
+    fbb_.AddElement<int32_t>(fIG_EffectPos::VT_EFTID, eftID, 0);
+  }
+  void add_eftName(flatbuffers::Offset<flatbuffers::String> eftName) {
+    fbb_.AddOffset(fIG_EffectPos::VT_EFTNAME, eftName);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(fIG_EffectPos::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(fIG_EffectPos::VT_Y, y, 0.0f);
+  }
+  void add_z(float z) {
+    fbb_.AddElement<float>(fIG_EffectPos::VT_Z, z, 0.0f);
+  }
+  explicit fIG_EffectPosBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fIG_EffectPosBuilder &operator=(const fIG_EffectPosBuilder &);
+  flatbuffers::Offset<fIG_EffectPos> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fIG_EffectPos>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t eftID = 0,
+    flatbuffers::Offset<flatbuffers::String> eftName = 0,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f) {
+  fIG_EffectPosBuilder builder_(_fbb);
+  builder_.add_z(z);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  builder_.add_eftName(eftName);
+  builder_.add_eftID(eftID);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPosDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t eftID = 0,
+    const char *eftName = nullptr,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f) {
+  return CreatefIG_EffectPos(
+      _fbb,
+      cType,
+      eftID,
+      eftName ? _fbb.CreateString(eftName) : 0,
+      x,
+      y,
+      z);
+}
+
+flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectPosT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fIG_ProjectileEffectT : public flatbuffers::NativeTable {
+  typedef fIG_ProjectileEffect TableType;
+  Class cType;
+  int32_t pID;
+  float speed;
+  float x;
+  float y;
+  float z;
+  float tx;
+  float ty;
+  float tz;
+  std::string eftName;
+  fIG_ProjectileEffectT()
+      : cType(Class_Base),
+        pID(0),
+        speed(0.0f),
+        x(0.0f),
+        y(0.0f),
+        z(0.0f),
+        tx(0.0f),
+        ty(0.0f),
+        tz(0.0f) {
+  }
+};
+
+struct fIG_ProjectileEffect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fIG_ProjectileEffectT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_PID = 6,
+    VT_SPEED = 8,
+    VT_X = 10,
+    VT_Y = 12,
+    VT_Z = 14,
+    VT_TX = 16,
+    VT_TY = 18,
+    VT_TZ = 20,
+    VT_EFTNAME = 22
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t pID() const {
+    return GetField<int32_t>(VT_PID, 0);
+  }
+  float speed() const {
+    return GetField<float>(VT_SPEED, 0.0f);
+  }
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  float z() const {
+    return GetField<float>(VT_Z, 0.0f);
+  }
+  float tx() const {
+    return GetField<float>(VT_TX, 0.0f);
+  }
+  float ty() const {
+    return GetField<float>(VT_TY, 0.0f);
+  }
+  float tz() const {
+    return GetField<float>(VT_TZ, 0.0f);
+  }
+  const flatbuffers::String *eftName() const {
+    return GetPointer<const flatbuffers::String *>(VT_EFTNAME);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_PID) &&
+           VerifyField<float>(verifier, VT_SPEED) &&
+           VerifyField<float>(verifier, VT_X) &&
+           VerifyField<float>(verifier, VT_Y) &&
+           VerifyField<float>(verifier, VT_Z) &&
+           VerifyField<float>(verifier, VT_TX) &&
+           VerifyField<float>(verifier, VT_TY) &&
+           VerifyField<float>(verifier, VT_TZ) &&
+           VerifyOffset(verifier, VT_EFTNAME) &&
+           verifier.Verify(eftName()) &&
+           verifier.EndTable();
+  }
+  fIG_ProjectileEffectT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fIG_ProjectileEffectT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fIG_ProjectileEffect> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_ProjectileEffectT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fIG_ProjectileEffectBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fIG_ProjectileEffect::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_pID(int32_t pID) {
+    fbb_.AddElement<int32_t>(fIG_ProjectileEffect::VT_PID, pID, 0);
+  }
+  void add_speed(float speed) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_SPEED, speed, 0.0f);
+  }
+  void add_x(float x) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_Y, y, 0.0f);
+  }
+  void add_z(float z) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_Z, z, 0.0f);
+  }
+  void add_tx(float tx) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_TX, tx, 0.0f);
+  }
+  void add_ty(float ty) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_TY, ty, 0.0f);
+  }
+  void add_tz(float tz) {
+    fbb_.AddElement<float>(fIG_ProjectileEffect::VT_TZ, tz, 0.0f);
+  }
+  void add_eftName(flatbuffers::Offset<flatbuffers::String> eftName) {
+    fbb_.AddOffset(fIG_ProjectileEffect::VT_EFTNAME, eftName);
+  }
+  explicit fIG_ProjectileEffectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fIG_ProjectileEffectBuilder &operator=(const fIG_ProjectileEffectBuilder &);
+  flatbuffers::Offset<fIG_ProjectileEffect> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fIG_ProjectileEffect>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    float speed = 0.0f,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f,
+    float tx = 0.0f,
+    float ty = 0.0f,
+    float tz = 0.0f,
+    flatbuffers::Offset<flatbuffers::String> eftName = 0) {
+  fIG_ProjectileEffectBuilder builder_(_fbb);
+  builder_.add_eftName(eftName);
+  builder_.add_tz(tz);
+  builder_.add_ty(ty);
+  builder_.add_tx(tx);
+  builder_.add_z(z);
+  builder_.add_y(y);
+  builder_.add_x(x);
+  builder_.add_speed(speed);
+  builder_.add_pID(pID);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffectDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    float speed = 0.0f,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f,
+    float tx = 0.0f,
+    float ty = 0.0f,
+    float tz = 0.0f,
+    const char *eftName = nullptr) {
+  return CreatefIG_ProjectileEffect(
+      _fbb,
+      cType,
+      pID,
+      speed,
+      x,
+      y,
+      z,
+      tx,
+      ty,
+      tz,
+      eftName ? _fbb.CreateString(eftName) : 0);
+}
+
+flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffect(flatbuffers::FlatBufferBuilder &_fbb, const fIG_ProjectileEffectT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fIG_EffectT : public flatbuffers::NativeTable {
   typedef fIG_Effect TableType;
@@ -309,6 +907,96 @@ inline flatbuffers::Offset<fIG_Effect> CreatefIG_EffectDirect(
 }
 
 flatbuffers::Offset<fIG_Effect> CreatefIG_Effect(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fEquipSomeT : public flatbuffers::NativeTable {
+  typedef fEquipSome TableType;
+  Class cType;
+  int32_t pID;
+  int32_t objNum;
+  int32_t slotNum;
+  fEquipSomeT()
+      : cType(Class_Base),
+        pID(0),
+        objNum(0),
+        slotNum(0) {
+  }
+};
+
+struct fEquipSome FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef fEquipSomeT NativeTableType;
+  enum {
+    VT_CTYPE = 4,
+    VT_PID = 6,
+    VT_OBJNUM = 8,
+    VT_SLOTNUM = 10
+  };
+  Class cType() const {
+    return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  int32_t pID() const {
+    return GetField<int32_t>(VT_PID, 0);
+  }
+  int32_t objNum() const {
+    return GetField<int32_t>(VT_OBJNUM, 0);
+  }
+  int32_t slotNum() const {
+    return GetField<int32_t>(VT_SLOTNUM, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyField<int32_t>(verifier, VT_PID) &&
+           VerifyField<int32_t>(verifier, VT_OBJNUM) &&
+           VerifyField<int32_t>(verifier, VT_SLOTNUM) &&
+           verifier.EndTable();
+  }
+  fEquipSomeT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(fEquipSomeT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<fEquipSome> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fEquipSomeT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fEquipSomeBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_cType(Class cType) {
+    fbb_.AddElement<int32_t>(fEquipSome::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_pID(int32_t pID) {
+    fbb_.AddElement<int32_t>(fEquipSome::VT_PID, pID, 0);
+  }
+  void add_objNum(int32_t objNum) {
+    fbb_.AddElement<int32_t>(fEquipSome::VT_OBJNUM, objNum, 0);
+  }
+  void add_slotNum(int32_t slotNum) {
+    fbb_.AddElement<int32_t>(fEquipSome::VT_SLOTNUM, slotNum, 0);
+  }
+  explicit fEquipSomeBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  fEquipSomeBuilder &operator=(const fEquipSomeBuilder &);
+  flatbuffers::Offset<fEquipSome> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<fEquipSome>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<fEquipSome> CreatefEquipSome(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t pID = 0,
+    int32_t objNum = 0,
+    int32_t slotNum = 0) {
+  fEquipSomeBuilder builder_(_fbb);
+  builder_.add_slotNum(slotNum);
+  builder_.add_objNum(objNum);
+  builder_.add_pID(pID);
+  builder_.add_cType(cType);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<fEquipSome> CreatefEquipSome(flatbuffers::FlatBufferBuilder &_fbb, const fEquipSomeT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fEquipT : public flatbuffers::NativeTable {
   typedef fEquip TableType;
@@ -1347,6 +2035,7 @@ struct LoginT : public flatbuffers::NativeTable {
   std::string id;
   std::string pass;
   bool isSuccess;
+  std::string nikName;
   LoginT()
       : cType(Class_Base),
         isSignin(false),
@@ -1361,7 +2050,8 @@ struct Login FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_ISSIGNIN = 6,
     VT_ID = 8,
     VT_PASS = 10,
-    VT_ISSUCCESS = 12
+    VT_ISSUCCESS = 12,
+    VT_NIKNAME = 14
   };
   Class cType() const {
     return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
@@ -1378,6 +2068,9 @@ struct Login FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool isSuccess() const {
     return GetField<uint8_t>(VT_ISSUCCESS, 0) != 0;
   }
+  const flatbuffers::String *nikName() const {
+    return GetPointer<const flatbuffers::String *>(VT_NIKNAME);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_CTYPE) &&
@@ -1387,6 +2080,8 @@ struct Login FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyOffset(verifier, VT_PASS) &&
            verifier.Verify(pass()) &&
            VerifyField<uint8_t>(verifier, VT_ISSUCCESS) &&
+           VerifyOffset(verifier, VT_NIKNAME) &&
+           verifier.Verify(nikName()) &&
            verifier.EndTable();
   }
   LoginT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1412,6 +2107,9 @@ struct LoginBuilder {
   void add_isSuccess(bool isSuccess) {
     fbb_.AddElement<uint8_t>(Login::VT_ISSUCCESS, static_cast<uint8_t>(isSuccess), 0);
   }
+  void add_nikName(flatbuffers::Offset<flatbuffers::String> nikName) {
+    fbb_.AddOffset(Login::VT_NIKNAME, nikName);
+  }
   explicit LoginBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1430,8 +2128,10 @@ inline flatbuffers::Offset<Login> CreateLogin(
     bool isSignin = false,
     flatbuffers::Offset<flatbuffers::String> id = 0,
     flatbuffers::Offset<flatbuffers::String> pass = 0,
-    bool isSuccess = false) {
+    bool isSuccess = false,
+    flatbuffers::Offset<flatbuffers::String> nikName = 0) {
   LoginBuilder builder_(_fbb);
+  builder_.add_nikName(nikName);
   builder_.add_pass(pass);
   builder_.add_id(id);
   builder_.add_cType(cType);
@@ -1446,14 +2146,16 @@ inline flatbuffers::Offset<Login> CreateLoginDirect(
     bool isSignin = false,
     const char *id = nullptr,
     const char *pass = nullptr,
-    bool isSuccess = false) {
+    bool isSuccess = false,
+    const char *nikName = nullptr) {
   return CreateLogin(
       _fbb,
       cType,
       isSignin,
       id ? _fbb.CreateString(id) : 0,
       pass ? _fbb.CreateString(pass) : 0,
-      isSuccess);
+      isSuccess,
+      nikName ? _fbb.CreateString(nikName) : 0);
 }
 
 flatbuffers::Offset<Login> CreateLogin(flatbuffers::FlatBufferBuilder &_fbb, const LoginT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -1847,11 +2549,13 @@ struct MonsterT : public flatbuffers::NativeTable {
   int32_t TargetID;
   std::unique_ptr<Vec3> TargetPos;
   float Ani;
+  float mDamage;
   MonsterT()
       : cType(Class_Base),
         ID(0),
         TargetID(0),
-        Ani(0.0f) {
+        Ani(0.0f),
+        mDamage(0.0f) {
   }
 };
 
@@ -1863,7 +2567,8 @@ struct Monster FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_ID = 8,
     VT_TARGETID = 10,
     VT_TARGETPOS = 12,
-    VT_ANI = 14
+    VT_ANI = 14,
+    VT_MDAMAGE = 16
   };
   Class cType() const {
     return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
@@ -1883,6 +2588,9 @@ struct Monster FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   float Ani() const {
     return GetField<float>(VT_ANI, 0.0f);
   }
+  float mDamage() const {
+    return GetField<float>(VT_MDAMAGE, 0.0f);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_CTYPE) &&
@@ -1891,6 +2599,7 @@ struct Monster FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_TARGETID) &&
            VerifyField<Vec3>(verifier, VT_TARGETPOS) &&
            VerifyField<float>(verifier, VT_ANI) &&
+           VerifyField<float>(verifier, VT_MDAMAGE) &&
            verifier.EndTable();
   }
   MonsterT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1919,6 +2628,9 @@ struct MonsterBuilder {
   void add_Ani(float Ani) {
     fbb_.AddElement<float>(Monster::VT_ANI, Ani, 0.0f);
   }
+  void add_mDamage(float mDamage) {
+    fbb_.AddElement<float>(Monster::VT_MDAMAGE, mDamage, 0.0f);
+  }
   explicit MonsterBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1938,8 +2650,10 @@ inline flatbuffers::Offset<Monster> CreateMonster(
     int32_t ID = 0,
     int32_t TargetID = 0,
     const Vec3 *TargetPos = 0,
-    float Ani = 0.0f) {
+    float Ani = 0.0f,
+    float mDamage = 0.0f) {
   MonsterBuilder builder_(_fbb);
+  builder_.add_mDamage(mDamage);
   builder_.add_Ani(Ani);
   builder_.add_TargetPos(TargetPos);
   builder_.add_TargetID(TargetID);
@@ -1954,6 +2668,7 @@ flatbuffers::Offset<Monster> CreateMonster(flatbuffers::FlatBufferBuilder &_fbb,
 struct MonsterStatT : public flatbuffers::NativeTable {
   typedef MonsterStat TableType;
   Class cType;
+  std::string MonName;
   int32_t HP;
   int32_t MAXHP;
   int32_t ID;
@@ -1969,12 +2684,16 @@ struct MonsterStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef MonsterStatT NativeTableType;
   enum {
     VT_CTYPE = 4,
-    VT_HP = 6,
-    VT_MAXHP = 8,
-    VT_ID = 10
+    VT_MONNAME = 6,
+    VT_HP = 8,
+    VT_MAXHP = 10,
+    VT_ID = 12
   };
   Class cType() const {
     return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+  }
+  const flatbuffers::String *MonName() const {
+    return GetPointer<const flatbuffers::String *>(VT_MONNAME);
   }
   int32_t HP() const {
     return GetField<int32_t>(VT_HP, 0);
@@ -1988,6 +2707,8 @@ struct MonsterStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_CTYPE) &&
+           VerifyOffset(verifier, VT_MONNAME) &&
+           verifier.Verify(MonName()) &&
            VerifyField<int32_t>(verifier, VT_HP) &&
            VerifyField<int32_t>(verifier, VT_MAXHP) &&
            VerifyField<int32_t>(verifier, VT_ID) &&
@@ -2003,6 +2724,9 @@ struct MonsterStatBuilder {
   flatbuffers::uoffset_t start_;
   void add_cType(Class cType) {
     fbb_.AddElement<int32_t>(MonsterStat::VT_CTYPE, static_cast<int32_t>(cType), 0);
+  }
+  void add_MonName(flatbuffers::Offset<flatbuffers::String> MonName) {
+    fbb_.AddOffset(MonsterStat::VT_MONNAME, MonName);
   }
   void add_HP(int32_t HP) {
     fbb_.AddElement<int32_t>(MonsterStat::VT_HP, HP, 0);
@@ -2028,6 +2752,7 @@ struct MonsterStatBuilder {
 inline flatbuffers::Offset<MonsterStat> CreateMonsterStat(
     flatbuffers::FlatBufferBuilder &_fbb,
     Class cType = Class_Base,
+    flatbuffers::Offset<flatbuffers::String> MonName = 0,
     int32_t HP = 0,
     int32_t MAXHP = 0,
     int32_t ID = 0) {
@@ -2035,8 +2760,25 @@ inline flatbuffers::Offset<MonsterStat> CreateMonsterStat(
   builder_.add_ID(ID);
   builder_.add_MAXHP(MAXHP);
   builder_.add_HP(HP);
+  builder_.add_MonName(MonName);
   builder_.add_cType(cType);
   return builder_.Finish();
+}
+
+inline flatbuffers::Offset<MonsterStat> CreateMonsterStatDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    const char *MonName = nullptr,
+    int32_t HP = 0,
+    int32_t MAXHP = 0,
+    int32_t ID = 0) {
+  return CreateMonsterStat(
+      _fbb,
+      cType,
+      MonName ? _fbb.CreateString(MonName) : 0,
+      HP,
+      MAXHP,
+      ID);
 }
 
 flatbuffers::Offset<MonsterStat> CreateMonsterStat(flatbuffers::FlatBufferBuilder &_fbb, const MonsterStatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -2052,6 +2794,7 @@ struct PlayerStatT : public flatbuffers::NativeTable {
   int32_t Attack;
   int32_t LV;
   int32_t ID;
+  std::string nikName;
   PlayerStatT()
       : cType(Class_Base),
         HP(0),
@@ -2076,7 +2819,8 @@ struct PlayerStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_EXP = 14,
     VT_ATTACK = 16,
     VT_LV = 18,
-    VT_ID = 20
+    VT_ID = 20,
+    VT_NIKNAME = 22
   };
   Class cType() const {
     return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
@@ -2105,6 +2849,9 @@ struct PlayerStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t ID() const {
     return GetField<int32_t>(VT_ID, 0);
   }
+  const flatbuffers::String *nikName() const {
+    return GetPointer<const flatbuffers::String *>(VT_NIKNAME);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_CTYPE) &&
@@ -2116,6 +2863,8 @@ struct PlayerStat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_ATTACK) &&
            VerifyField<int32_t>(verifier, VT_LV) &&
            VerifyField<int32_t>(verifier, VT_ID) &&
+           VerifyOffset(verifier, VT_NIKNAME) &&
+           verifier.Verify(nikName()) &&
            verifier.EndTable();
   }
   PlayerStatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -2153,6 +2902,9 @@ struct PlayerStatBuilder {
   void add_ID(int32_t ID) {
     fbb_.AddElement<int32_t>(PlayerStat::VT_ID, ID, 0);
   }
+  void add_nikName(flatbuffers::Offset<flatbuffers::String> nikName) {
+    fbb_.AddOffset(PlayerStat::VT_NIKNAME, nikName);
+  }
   explicit PlayerStatBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -2175,8 +2927,10 @@ inline flatbuffers::Offset<PlayerStat> CreatePlayerStat(
     int32_t EXP = 0,
     int32_t Attack = 0,
     int32_t LV = 0,
-    int32_t ID = 0) {
+    int32_t ID = 0,
+    flatbuffers::Offset<flatbuffers::String> nikName = 0) {
   PlayerStatBuilder builder_(_fbb);
+  builder_.add_nikName(nikName);
   builder_.add_ID(ID);
   builder_.add_LV(LV);
   builder_.add_Attack(Attack);
@@ -2187,6 +2941,32 @@ inline flatbuffers::Offset<PlayerStat> CreatePlayerStat(
   builder_.add_HP(HP);
   builder_.add_cType(cType);
   return builder_.Finish();
+}
+
+inline flatbuffers::Offset<PlayerStat> CreatePlayerStatDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Class cType = Class_Base,
+    int32_t HP = 0,
+    int32_t HPLim = 0,
+    int32_t MP = 0,
+    int32_t MPLim = 0,
+    int32_t EXP = 0,
+    int32_t Attack = 0,
+    int32_t LV = 0,
+    int32_t ID = 0,
+    const char *nikName = nullptr) {
+  return CreatePlayerStat(
+      _fbb,
+      cType,
+      HP,
+      HPLim,
+      MP,
+      MPLim,
+      EXP,
+      Attack,
+      LV,
+      ID,
+      nikName ? _fbb.CreateString(nikName) : 0);
 }
 
 flatbuffers::Offset<PlayerStat> CreatePlayerStat(flatbuffers::FlatBufferBuilder &_fbb, const PlayerStatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -2323,6 +3103,190 @@ inline flatbuffers::Offset<Base> CreateBase(
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+inline fChatT *fChat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fChatT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fChat::UnPackTo(fChatT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = pID(); _o->pID = _e; };
+  { auto _e = str(); if (_e) _o->str = _e->str(); };
+}
+
+inline flatbuffers::Offset<fChat> fChat::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fChatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefChat(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fChat> CreatefChat(flatbuffers::FlatBufferBuilder &_fbb, const fChatT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fChatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _pID = _o->pID;
+  auto _str = _o->str.empty() ? 0 : _fbb.CreateString(_o->str);
+  return CreatefChat(
+      _fbb,
+      _cType,
+      _pID,
+      _str);
+}
+
+inline fSkillSlotT *fSkillSlot::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fSkillSlotT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fSkillSlot::UnPackTo(fSkillSlotT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = slotNum(); if (_e) { _o->slotNum.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->slotNum[_i] = _e->Get(_i); } } };
+}
+
+inline flatbuffers::Offset<fSkillSlot> fSkillSlot::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fSkillSlotT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefSkillSlot(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fSkillSlot> CreatefSkillSlot(flatbuffers::FlatBufferBuilder &_fbb, const fSkillSlotT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fSkillSlotT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _slotNum = _o->slotNum.size() ? _fbb.CreateVector(_o->slotNum) : 0;
+  return CreatefSkillSlot(
+      _fbb,
+      _cType,
+      _slotNum);
+}
+
+inline fKeySlotT *fKeySlot::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fKeySlotT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fKeySlot::UnPackTo(fKeySlotT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = slotNum(); if (_e) { _o->slotNum.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->slotNum[_i] = _e->Get(_i); } } };
+}
+
+inline flatbuffers::Offset<fKeySlot> fKeySlot::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fKeySlotT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefKeySlot(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fKeySlot> CreatefKeySlot(flatbuffers::FlatBufferBuilder &_fbb, const fKeySlotT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fKeySlotT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _slotNum = _o->slotNum.size() ? _fbb.CreateVector(_o->slotNum) : 0;
+  return CreatefKeySlot(
+      _fbb,
+      _cType,
+      _slotNum);
+}
+
+inline fIG_EffectPosT *fIG_EffectPos::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fIG_EffectPosT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fIG_EffectPos::UnPackTo(fIG_EffectPosT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = eftID(); _o->eftID = _e; };
+  { auto _e = eftName(); if (_e) _o->eftName = _e->str(); };
+  { auto _e = x(); _o->x = _e; };
+  { auto _e = y(); _o->y = _e; };
+  { auto _e = z(); _o->z = _e; };
+}
+
+inline flatbuffers::Offset<fIG_EffectPos> fIG_EffectPos::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectPosT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefIG_EffectPos(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectPosT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fIG_EffectPosT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _eftID = _o->eftID;
+  auto _eftName = _o->eftName.empty() ? 0 : _fbb.CreateString(_o->eftName);
+  auto _x = _o->x;
+  auto _y = _o->y;
+  auto _z = _o->z;
+  return CreatefIG_EffectPos(
+      _fbb,
+      _cType,
+      _eftID,
+      _eftName,
+      _x,
+      _y,
+      _z);
+}
+
+inline fIG_ProjectileEffectT *fIG_ProjectileEffect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fIG_ProjectileEffectT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fIG_ProjectileEffect::UnPackTo(fIG_ProjectileEffectT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = pID(); _o->pID = _e; };
+  { auto _e = speed(); _o->speed = _e; };
+  { auto _e = x(); _o->x = _e; };
+  { auto _e = y(); _o->y = _e; };
+  { auto _e = z(); _o->z = _e; };
+  { auto _e = tx(); _o->tx = _e; };
+  { auto _e = ty(); _o->ty = _e; };
+  { auto _e = tz(); _o->tz = _e; };
+  { auto _e = eftName(); if (_e) _o->eftName = _e->str(); };
+}
+
+inline flatbuffers::Offset<fIG_ProjectileEffect> fIG_ProjectileEffect::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_ProjectileEffectT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefIG_ProjectileEffect(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffect(flatbuffers::FlatBufferBuilder &_fbb, const fIG_ProjectileEffectT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fIG_ProjectileEffectT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _pID = _o->pID;
+  auto _speed = _o->speed;
+  auto _x = _o->x;
+  auto _y = _o->y;
+  auto _z = _o->z;
+  auto _tx = _o->tx;
+  auto _ty = _o->ty;
+  auto _tz = _o->tz;
+  auto _eftName = _o->eftName.empty() ? 0 : _fbb.CreateString(_o->eftName);
+  return CreatefIG_ProjectileEffect(
+      _fbb,
+      _cType,
+      _pID,
+      _speed,
+      _x,
+      _y,
+      _z,
+      _tx,
+      _ty,
+      _tz,
+      _eftName);
+}
+
 inline fIG_EffectT *fIG_Effect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = new fIG_EffectT();
   UnPackTo(_o, _resolver);
@@ -2362,6 +3326,41 @@ inline flatbuffers::Offset<fIG_Effect> CreatefIG_Effect(flatbuffers::FlatBufferB
       _y,
       _z,
       _eftName);
+}
+
+inline fEquipSomeT *fEquipSome::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = new fEquipSomeT();
+  UnPackTo(_o, _resolver);
+  return _o;
+}
+
+inline void fEquipSome::UnPackTo(fEquipSomeT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = cType(); _o->cType = _e; };
+  { auto _e = pID(); _o->pID = _e; };
+  { auto _e = objNum(); _o->objNum = _e; };
+  { auto _e = slotNum(); _o->slotNum = _e; };
+}
+
+inline flatbuffers::Offset<fEquipSome> fEquipSome::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fEquipSomeT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreatefEquipSome(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fEquipSome> CreatefEquipSome(flatbuffers::FlatBufferBuilder &_fbb, const fEquipSomeT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fEquipSomeT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _cType = _o->cType;
+  auto _pID = _o->pID;
+  auto _objNum = _o->objNum;
+  auto _slotNum = _o->slotNum;
+  return CreatefEquipSome(
+      _fbb,
+      _cType,
+      _pID,
+      _objNum,
+      _slotNum);
 }
 
 inline fEquipT *fEquip::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -2729,6 +3728,7 @@ inline void Login::UnPackTo(LoginT *_o, const flatbuffers::resolver_function_t *
   { auto _e = id(); if (_e) _o->id = _e->str(); };
   { auto _e = pass(); if (_e) _o->pass = _e->str(); };
   { auto _e = isSuccess(); _o->isSuccess = _e; };
+  { auto _e = nikName(); if (_e) _o->nikName = _e->str(); };
 }
 
 inline flatbuffers::Offset<Login> Login::Pack(flatbuffers::FlatBufferBuilder &_fbb, const LoginT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -2744,13 +3744,15 @@ inline flatbuffers::Offset<Login> CreateLogin(flatbuffers::FlatBufferBuilder &_f
   auto _id = _o->id.empty() ? 0 : _fbb.CreateString(_o->id);
   auto _pass = _o->pass.empty() ? 0 : _fbb.CreateString(_o->pass);
   auto _isSuccess = _o->isSuccess;
+  auto _nikName = _o->nikName.empty() ? 0 : _fbb.CreateString(_o->nikName);
   return CreateLogin(
       _fbb,
       _cType,
       _isSignin,
       _id,
       _pass,
-      _isSuccess);
+      _isSuccess,
+      _nikName);
 }
 
 inline idT *id::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -2914,6 +3916,7 @@ inline void Monster::UnPackTo(MonsterT *_o, const flatbuffers::resolver_function
   { auto _e = TargetID(); _o->TargetID = _e; };
   { auto _e = TargetPos(); if (_e) _o->TargetPos = std::unique_ptr<Vec3>(new Vec3(*_e)); };
   { auto _e = Ani(); _o->Ani = _e; };
+  { auto _e = mDamage(); _o->mDamage = _e; };
 }
 
 inline flatbuffers::Offset<Monster> Monster::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MonsterT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -2930,6 +3933,7 @@ inline flatbuffers::Offset<Monster> CreateMonster(flatbuffers::FlatBufferBuilder
   auto _TargetID = _o->TargetID;
   auto _TargetPos = _o->TargetPos ? _o->TargetPos.get() : 0;
   auto _Ani = _o->Ani;
+  auto _mDamage = _o->mDamage;
   return CreateMonster(
       _fbb,
       _cType,
@@ -2937,7 +3941,8 @@ inline flatbuffers::Offset<Monster> CreateMonster(flatbuffers::FlatBufferBuilder
       _ID,
       _TargetID,
       _TargetPos,
-      _Ani);
+      _Ani,
+      _mDamage);
 }
 
 inline MonsterStatT *MonsterStat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -2950,6 +3955,7 @@ inline void MonsterStat::UnPackTo(MonsterStatT *_o, const flatbuffers::resolver_
   (void)_o;
   (void)_resolver;
   { auto _e = cType(); _o->cType = _e; };
+  { auto _e = MonName(); if (_e) _o->MonName = _e->str(); };
   { auto _e = HP(); _o->HP = _e; };
   { auto _e = MAXHP(); _o->MAXHP = _e; };
   { auto _e = ID(); _o->ID = _e; };
@@ -2964,12 +3970,14 @@ inline flatbuffers::Offset<MonsterStat> CreateMonsterStat(flatbuffers::FlatBuffe
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MonsterStatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _cType = _o->cType;
+  auto _MonName = _o->MonName.empty() ? 0 : _fbb.CreateString(_o->MonName);
   auto _HP = _o->HP;
   auto _MAXHP = _o->MAXHP;
   auto _ID = _o->ID;
   return CreateMonsterStat(
       _fbb,
       _cType,
+      _MonName,
       _HP,
       _MAXHP,
       _ID);
@@ -2993,6 +4001,7 @@ inline void PlayerStat::UnPackTo(PlayerStatT *_o, const flatbuffers::resolver_fu
   { auto _e = Attack(); _o->Attack = _e; };
   { auto _e = LV(); _o->LV = _e; };
   { auto _e = ID(); _o->ID = _e; };
+  { auto _e = nikName(); if (_e) _o->nikName = _e->str(); };
 }
 
 inline flatbuffers::Offset<PlayerStat> PlayerStat::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PlayerStatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -3012,6 +4021,7 @@ inline flatbuffers::Offset<PlayerStat> CreatePlayerStat(flatbuffers::FlatBufferB
   auto _Attack = _o->Attack;
   auto _LV = _o->LV;
   auto _ID = _o->ID;
+  auto _nikName = _o->nikName.empty() ? 0 : _fbb.CreateString(_o->nikName);
   return CreatePlayerStat(
       _fbb,
       _cType,
@@ -3022,7 +4032,8 @@ inline flatbuffers::Offset<PlayerStat> CreatePlayerStat(flatbuffers::FlatBufferB
       _EXP,
       _Attack,
       _LV,
-      _ID);
+      _ID,
+      _nikName);
 }
 
 inline SendMeStatT *SendMeStat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {

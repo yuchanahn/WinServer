@@ -19,11 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Base_generated.h" />
+    <ClInclude Include="cChat.h" />
     <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEquip.h" />
     <ClInclude Include="cInventory.h" />
     <ClInclude Include="cItem.h" />
+    <ClInclude Include="cKeySlot.h" />
     <ClInclude Include="ClientSession.h" />
     <ClInclude Include="cLogin.h" />
     <ClInclude Include="cMonsterManager.h" />
@@ -33,6 +36,7 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="CPoint.h" />
     <ClInclude Include="cServerFPS.h" />
+    <ClInclude Include="cSkillSlot.h" />
     <ClInclude Include="DamageWriter.h" />
     <ClInclude Include="EquipManager.h" />
     <ClInclude Include="FCDataManager.h" />
@@ -57,10 +61,13 @@
     <ClInclude Include="WriteManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="cChat.cpp" />
     <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cEquip.cpp" />
     <ClCompile Include="cInventory.cpp" />
     <ClCompile Include="cItem.cpp" />
+    <ClCompile Include="cKeySlot.cpp" />
     <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="cLogin.cpp" />
     <ClCompile Include="cMonsterManager.cpp" />
@@ -68,6 +75,7 @@
     <ClCompile Include="cPing.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cServerFPS.cpp" />
+    <ClCompile Include="cSkillSlot.cpp" />
     <ClCompile Include="DamageWriter.cpp" />
     <ClCompile Include="EquipManager.cpp" />
     <ClCompile Include="FCDataManager.cpp" />

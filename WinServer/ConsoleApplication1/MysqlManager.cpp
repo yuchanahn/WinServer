@@ -50,7 +50,14 @@ std::list<CreateMonsterData*> MysqlManager::GetMonsterInfo()
 			atof(m["StartX"][i]),
 			atof(m["StartY"][i]),
 			atoi(m["HP"][i]),
-			atoi(m["Exp"][i])
+			atoi(m["Exp"][i]),
+			atof(m["Speed"][i]),
+			atof(m["Range"][i]),
+			atof(m["FollowRange"][i]),
+			atof(m["RandRange"][i]),
+			atof(m["ATKAttribute"][i]),
+			atof(m["ATKDamage"][i]),
+			atof(m["ATKTime"][i])
 		));
 	}
 
@@ -62,6 +69,70 @@ MysqlManager * MysqlManager::GetInstance()
 	static MysqlManager * m = new MysqlManager();
 
 	return m;
+}
+
+void MysqlManager::SetSkillSlot(int slot[], int UserKey)
+{
+	char str[50];
+	string m_kstr = "";
+
+	sprintf_s(str, "UPDATE `Main`.`SkillSlot` SET `1`='%d'", slot[0]);
+	m_kstr.append(str);
+
+	for (int i = 1; i < 30; i++) {
+		sprintf_s(str, ",`%d`='%d'", i + 1, slot[i]);
+		m_kstr.append(str);
+	}
+
+	sprintf_s(str, "WHERE  `UserKey`=%d;", UserKey);
+	m_kstr.append(str);
+
+	mysql->executeSql(m_kstr.c_str());
+}
+void MysqlManager::GetSkillSlot(int slot[], int UserKey)
+{
+	char str[256];
+	sprintf_s(str, "SELECT * FROM `Main`.`SkillSlot` WHERE `UserKey`=%d LIMIT 1;", UserKey);
+	auto m = mysql->executeSql(str);
+
+	for (int i = 0; i < 30; i++) {
+		slot[i] = stoi(m[std::to_string(i + 1)][0]);
+	}
+}
+
+
+void MysqlManager::SetKeySlot(int slot[], int UserKey)
+{
+	char str[256];
+	sprintf_s(str, 
+		"UPDATE `Main`.`KeySlot` SET `q`='%d', `w`='%d', `e`='%d', `r`='%d', `a`='%d', `s`='%d', `d`='%d', `f`='%d'  WHERE  `UserKey`=%d LIMIT 1;",
+		slot[0],
+		slot[1], 
+		slot[2], 
+		slot[3], 
+		slot[4], 
+		slot[5],
+		slot[6],
+		slot[7],
+		UserKey);
+
+	mysql->executeSql(str);
+}
+
+void MysqlManager::GetKeySlot(int slot[], int UserKey)
+{
+	char str[256];
+	sprintf_s(str, "SELECT * FROM `Main`.`KeySlot` WHERE `UserKey`=%d LIMIT 1;", UserKey);
+	auto mSlot = mysql->executeSql(str);
+
+	slot[0] = stoi(mSlot["q"][0]);
+	slot[1] = stoi(mSlot["w"][0]);
+	slot[2] = stoi(mSlot["e"][0]);
+	slot[3] = stoi(mSlot["r"][0]);
+	slot[4] = stoi(mSlot["a"][0]);
+	slot[5] = stoi(mSlot["s"][0]);
+	slot[6] = stoi(mSlot["d"][0]);
+	slot[7] = stoi(mSlot["f"][0]);
 }
 
 void MysqlManager::GetEquipSlot(int Slot[EQUIP_SLOT_MAX], int id)
@@ -92,7 +163,15 @@ int MysqlManager::CreateID(LoginT * data)
 	mysql->executeSql(str);
 	sprintf_s(str, "INSERT INTO `PlayerInfo` (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
+
+	sprintf_s(str, "UPDATE `PlayerInfo`  SET `Name`='%s' WHERE  `UserKey`=%d LIMIT 1;", data->nikName.c_str(),ID);
+	mysql->executeSql(str);
+
 	sprintf_s(str, "INSERT INTO `EquipSlot` (`UserKey`) VALUES ('%d');", ID);
+	mysql->executeSql(str);
+	sprintf_s(str, "INSERT INTO `SkillSlot` (`UserKey`) VALUES ('%d');", ID);
+	mysql->executeSql(str);
+	sprintf_s(str, "INSERT INTO `KeySlot` (`UserKey`) VALUES ('%d');", ID);
 	mysql->executeSql(str);
 
 	return ID;
@@ -196,6 +275,7 @@ PlayerStatT * MysqlManager::GetPlayerStat(int id, std::string & name)
 	stat->Attack = stoi(m["Attack"][0]);
 	stat->LV = stoi(m["Lv"][0]);
 	stat->ID = id;
+	stat->nikName = m["Name"][0];
 	
 	name = m["Name"][0];
 	printf("@ LOAD NAME : %s\n", name.c_str());

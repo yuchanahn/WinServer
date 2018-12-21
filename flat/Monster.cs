@@ -20,14 +20,16 @@ public struct Monster : IFlatbufferObject
   public int TargetID { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public Vec3? TargetPos { get { int o = __p.__offset(12); return o != 0 ? (Vec3?)(new Vec3()).__assign(o + __p.bb_pos, __p.bb) : null; } }
   public float Ani { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float MDamage { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
 
-  public static void StartMonster(FlatBufferBuilder builder) { builder.StartObject(6); }
+  public static void StartMonster(FlatBufferBuilder builder) { builder.StartObject(7); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddPos(FlatBufferBuilder builder, Offset<Vec3> posOffset) { builder.AddStruct(1, posOffset.Value, 0); }
   public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(2, ID, 0); }
   public static void AddTargetID(FlatBufferBuilder builder, int TargetID) { builder.AddInt(3, TargetID, 0); }
   public static void AddTargetPos(FlatBufferBuilder builder, Offset<Vec3> TargetPosOffset) { builder.AddStruct(4, TargetPosOffset.Value, 0); }
   public static void AddAni(FlatBufferBuilder builder, float Ani) { builder.AddFloat(5, Ani, 0.0f); }
+  public static void AddMDamage(FlatBufferBuilder builder, float mDamage) { builder.AddFloat(6, mDamage, 0.0f); }
   public static Offset<Monster> EndMonster(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<Monster>(o);

@@ -80,6 +80,7 @@ class server {
 
 public:
 
+	static InputComponent* PlayerManager;
 	static void UseStrand(std::function<void()>);
 
 	server(asio::io_service& io_service, short port)

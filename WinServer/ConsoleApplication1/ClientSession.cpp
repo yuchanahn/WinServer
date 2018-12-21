@@ -78,6 +78,8 @@ session::~session()
 	if (position != nullptr)delete position;
 	if (inventoryManager != nullptr) delete inventoryManager;
 	if (equipManager != nullptr) delete equipManager;
+	server::PlayerManager->GetComponent<cSkillSlot>()->EndSkillSlot(id);
+	server::PlayerManager->GetComponent<cKeySlot>()->EndKeySlot(id);
 
 	printf("클라이언트 접속 종료\nID : %d\n", id);
 }
@@ -107,6 +109,8 @@ void session::IsLogined() {
 		inventoryManager = new InventoryManager(id);
 		equipManager = new EquipManager(id);
 		equipManager->write(shared_from_this());
+		server::PlayerManager->GetComponent<cSkillSlot>()->StartSkillSlot(id);
+		server::PlayerManager->GetComponent<cKeySlot>()->StartKeySlot(id);
 	});
 }
 
@@ -137,8 +141,8 @@ void server::ServerStart()
 {
 	gameObjects = new InputComponent;
 
-	InputComponent* PingManager = new InputComponent;
-	InputComponent* PlayerManager = new InputComponent;
+	InputComponent* PingManager = new InputComponent; 
+	PlayerManager = new InputComponent;
 	InputComponent* ServerFpsManger = new InputComponent;
 	InputComponent* LoginManager = new InputComponent;
 	InputComponent* MonsterManager = new InputComponent;
@@ -147,12 +151,15 @@ void server::ServerStart()
 
 	LoginManager->AddComponent<cLogin>();
 
-	
+
+	PlayerManager->AddComponent<cChat>();
 	PlayerManager->AddComponent<cInventory>(); 
 	PlayerManager->AddComponent<cPlayer>();
 	PlayerManager->AddComponent<cItem>();
 	PlayerManager->AddComponent<cEquip>();
 	PlayerManager->AddComponent<cEffect>();
+	PlayerManager->AddComponent<cSkillSlot>();
+	PlayerManager->AddComponent<cKeySlot>();
 
 	ServerFpsManger->AddComponent<cServerFPS>();
 
@@ -185,3 +192,4 @@ void server::cLoop()
 }
 
 asio::io_service::strand * server::ServerStrand;
+InputComponent * server::PlayerManager;

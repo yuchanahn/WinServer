@@ -23,6 +23,8 @@ public struct PlayerStat : IFlatbufferObject
   public int Attack { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int LV { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int ID { get { int o = __p.__offset(20); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public string NikName { get { int o = __p.__offset(22); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public ArraySegment<byte>? GetNikNameBytes() { return __p.__vector_as_arraysegment(22); }
 
   public static Offset<PlayerStat> CreatePlayerStat(FlatBufferBuilder builder,
       Class cType = Class.Base,
@@ -33,8 +35,10 @@ public struct PlayerStat : IFlatbufferObject
       int EXP = 0,
       int Attack = 0,
       int LV = 0,
-      int ID = 0) {
-    builder.StartObject(9);
+      int ID = 0,
+      StringOffset nikNameOffset = default(StringOffset)) {
+    builder.StartObject(10);
+    PlayerStat.AddNikName(builder, nikNameOffset);
     PlayerStat.AddID(builder, ID);
     PlayerStat.AddLV(builder, LV);
     PlayerStat.AddAttack(builder, Attack);
@@ -47,7 +51,7 @@ public struct PlayerStat : IFlatbufferObject
     return PlayerStat.EndPlayerStat(builder);
   }
 
-  public static void StartPlayerStat(FlatBufferBuilder builder) { builder.StartObject(9); }
+  public static void StartPlayerStat(FlatBufferBuilder builder) { builder.StartObject(10); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddHP(FlatBufferBuilder builder, int HP) { builder.AddInt(1, HP, 0); }
   public static void AddHPLim(FlatBufferBuilder builder, int HPLim) { builder.AddInt(2, HPLim, 0); }
@@ -57,6 +61,7 @@ public struct PlayerStat : IFlatbufferObject
   public static void AddAttack(FlatBufferBuilder builder, int Attack) { builder.AddInt(6, Attack, 0); }
   public static void AddLV(FlatBufferBuilder builder, int LV) { builder.AddInt(7, LV, 0); }
   public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(8, ID, 0); }
+  public static void AddNikName(FlatBufferBuilder builder, StringOffset nikNameOffset) { builder.AddOffset(9, nikNameOffset.Value, 0); }
   public static Offset<PlayerStat> EndPlayerStat(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<PlayerStat>(o);

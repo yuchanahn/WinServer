@@ -21,14 +21,18 @@ public struct Login : IFlatbufferObject
   public string Pass { get { int o = __p.__offset(10); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
   public ArraySegment<byte>? GetPassBytes() { return __p.__vector_as_arraysegment(10); }
   public bool IsSuccess { get { int o = __p.__offset(12); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public string NikName { get { int o = __p.__offset(14); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public ArraySegment<byte>? GetNikNameBytes() { return __p.__vector_as_arraysegment(14); }
 
   public static Offset<Login> CreateLogin(FlatBufferBuilder builder,
       Class cType = Class.Base,
       bool isSignin = false,
       StringOffset idOffset = default(StringOffset),
       StringOffset passOffset = default(StringOffset),
-      bool isSuccess = false) {
-    builder.StartObject(5);
+      bool isSuccess = false,
+      StringOffset nikNameOffset = default(StringOffset)) {
+    builder.StartObject(6);
+    Login.AddNikName(builder, nikNameOffset);
     Login.AddPass(builder, passOffset);
     Login.AddId(builder, idOffset);
     Login.AddCType(builder, cType);
@@ -37,12 +41,13 @@ public struct Login : IFlatbufferObject
     return Login.EndLogin(builder);
   }
 
-  public static void StartLogin(FlatBufferBuilder builder) { builder.StartObject(5); }
+  public static void StartLogin(FlatBufferBuilder builder) { builder.StartObject(6); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddIsSignin(FlatBufferBuilder builder, bool isSignin) { builder.AddBool(1, isSignin, false); }
   public static void AddId(FlatBufferBuilder builder, StringOffset idOffset) { builder.AddOffset(2, idOffset.Value, 0); }
   public static void AddPass(FlatBufferBuilder builder, StringOffset passOffset) { builder.AddOffset(3, passOffset.Value, 0); }
   public static void AddIsSuccess(FlatBufferBuilder builder, bool isSuccess) { builder.AddBool(4, isSuccess, false); }
+  public static void AddNikName(FlatBufferBuilder builder, StringOffset nikNameOffset) { builder.AddOffset(5, nikNameOffset.Value, 0); }
   public static Offset<Login> EndLogin(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<Login>(o);

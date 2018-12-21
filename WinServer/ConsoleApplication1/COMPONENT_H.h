@@ -10,3 +10,6 @@
 #include "cInventory.h"
 #include "cItem.h"
 #include "cEffect.h"
+#include "cKeySlot.h"
+#include "cSkillSlot.h"
+#include "cChat.h"

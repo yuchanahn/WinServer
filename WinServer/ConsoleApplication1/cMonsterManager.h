@@ -12,10 +12,24 @@ class CreateMonsterData {
 	float Y;
 	int Hp;
 	int Exp;
+	float Speed;
+	float Range;
+	float FollowRange;
+	float RandRange;
+	int ATKAttribute;
+	int ATKDamage;
+	float ATKTime;
+
 public:
 
-	CreateMonsterData(std::string _name, float _x, float _y, int _hp, int _exp) :
-		name(_name), X(_x), Y(_y), Hp(_hp), Exp(_exp)
+	CreateMonsterData(std::string _name, float _x, float _y, int _hp, int _exp,
+		float _speed, float _range, float _FollowRange, float _RandRange,
+		int _ATKAttribute, int _ATKDamage, float _ATKTime
+
+	) :
+		name(_name), X(_x), Y(_y), Hp(_hp), Exp(_exp), Speed(_speed),
+		Range(_range), FollowRange(_FollowRange), RandRange(_RandRange),
+		ATKAttribute(_ATKAttribute), ATKDamage(_ATKDamage), ATKTime(_ATKTime)
 	{}
 
 

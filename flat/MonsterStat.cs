@@ -15,28 +15,33 @@ public struct MonsterStat : IFlatbufferObject
   public MonsterStat __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public Class CType { get { int o = __p.__offset(4); return o != 0 ? (Class)__p.bb.GetInt(o + __p.bb_pos) : Class.Base; } }
-  public int HP { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int MAXHP { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int ID { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public string MonName { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public ArraySegment<byte>? GetMonNameBytes() { return __p.__vector_as_arraysegment(6); }
+  public int HP { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int MAXHP { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int ID { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<MonsterStat> CreateMonsterStat(FlatBufferBuilder builder,
       Class cType = Class.Base,
+      StringOffset MonNameOffset = default(StringOffset),
       int HP = 0,
       int MAXHP = 0,
       int ID = 0) {
-    builder.StartObject(4);
+    builder.StartObject(5);
     MonsterStat.AddID(builder, ID);
     MonsterStat.AddMAXHP(builder, MAXHP);
     MonsterStat.AddHP(builder, HP);
+    MonsterStat.AddMonName(builder, MonNameOffset);
     MonsterStat.AddCType(builder, cType);
     return MonsterStat.EndMonsterStat(builder);
   }
 
-  public static void StartMonsterStat(FlatBufferBuilder builder) { builder.StartObject(4); }
+  public static void StartMonsterStat(FlatBufferBuilder builder) { builder.StartObject(5); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
-  public static void AddHP(FlatBufferBuilder builder, int HP) { builder.AddInt(1, HP, 0); }
-  public static void AddMAXHP(FlatBufferBuilder builder, int MAXHP) { builder.AddInt(2, MAXHP, 0); }
-  public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(3, ID, 0); }
+  public static void AddMonName(FlatBufferBuilder builder, StringOffset MonNameOffset) { builder.AddOffset(1, MonNameOffset.Value, 0); }
+  public static void AddHP(FlatBufferBuilder builder, int HP) { builder.AddInt(2, HP, 0); }
+  public static void AddMAXHP(FlatBufferBuilder builder, int MAXHP) { builder.AddInt(3, MAXHP, 0); }
+  public static void AddID(FlatBufferBuilder builder, int ID) { builder.AddInt(4, ID, 0); }
   public static Offset<MonsterStat> EndMonsterStat(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<MonsterStat>(o);

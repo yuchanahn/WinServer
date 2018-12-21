@@ -68,6 +68,9 @@ public:
 
 
 	static MysqlManager* GetInstance();
+	void SetSkillSlot(int slot[], int UserKey);
+	void GetSkillSlot(int slot[], int UserKey);
+	void SetKeySlot(int slot[], int UserKey);
+	void GetKeySlot(int slot[], int UserKey);
 	void GetEquipSlot(int Slot[4], int id);
 };
-

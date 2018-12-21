@@ -32,7 +32,7 @@ void cMonsterManager::Start()
 
 	for (auto i : monList)
 	{
-		for (int ii = 0; ii < 11; ii++) {
+		for (int ii = 0; ii < 4; ii++) {
 			auto mons = new oMonster();
 			Monsters[++n] = mons;
 			i->Set(mons, n);
@@ -111,5 +111,6 @@ void cMonsterManager::Update()
 
 void CreateMonsterData::Set(oMonster * monster, int id)
 {
-	monster->Set(name,id,X,Y,Hp,Exp);
+	monster->Set(name,id,X,Y,Hp,Exp,Speed,Range,FollowRange,RandRange,
+		ATKAttribute, ATKDamage, ATKTime);
 }

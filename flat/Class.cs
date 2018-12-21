@@ -24,5 +24,11 @@ public enum Class : int
  fEquip = 17,
  fIG_Effect = 18,
  fNetEffect = 19,
+ fEquipSome = 20,
+ fKeySlot = 21,
+ fSkillSlot = 22,
+ fChat = 23,
+ fIG_ProjectileEffect = 24,
+ fIG_EffectPos = 25,
 };
 
