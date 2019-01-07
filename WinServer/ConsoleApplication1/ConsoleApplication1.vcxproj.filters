@@ -107,6 +107,7 @@
     <ClInclude Include="cSkillSlot.h" />
     <ClInclude Include="cChat.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="ShootObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="cSkillSlot.cpp" />
     <ClCompile Include="cChat.cpp" />
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="ShootObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DB">

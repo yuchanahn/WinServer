@@ -25,6 +25,29 @@ fSkillSlot,
 fChat,
 fIG_ProjectileEffect,
 fIG_EffectPos,
+fDropItem,
+fItemGet,
+}
+
+table fItemGet{
+cType:Class;
+
+dID:int;
+
+count:int;
+}
+
+table fDropItem{
+cType:Class;
+
+dID:int;
+dName:string;
+
+x:float;
+y:float;
+z:float;
+
+count:int;
 }
 
 table fChat{
@@ -53,12 +76,18 @@ eftName:string;
 x:float;
 y:float;
 z:float;
+
+rx:float;
+ry:float;
+rz:float;
+rw:float;
 }
 
 table fIG_ProjectileEffect{
 cType:Class;
 pID:int;
 speed:float;
+range:float;
 
 x:float;
 y:float;
@@ -67,6 +96,7 @@ z:float;
 tx:float;
 ty:float;
 tz:float;
+tw:float;
 
 eftName:string;
 }
@@ -98,6 +128,7 @@ armor:int;
 table fDamage{
 cType:Class;
 damage:int;
+dcolor:int;
 Pos:Vec3;
 bCri:bool;
 }

@@ -5,6 +5,7 @@
 #include "PlayerPositionManager.h"
 #include "Monster.h"
 #include "MonsterStateManager.h"
+#include "EquipManager.h"
 
 cPlayer::~cPlayer()
 {
@@ -29,6 +30,7 @@ void cPlayer::Start()
 				printf("State(%d)   %d/%d \n", t->ID, t->HP, t->HPLim);
 
 				session::InputSession[SMT->ID]->state->Write(client);
+				session::InputSession[SMT->ID]->equipManager->WriteSome();
 				delete data;
 			});
 		}
@@ -56,28 +58,52 @@ void cPlayer::Start()
 			else
 			{
 				if (session::InputSession.find(data->Get<PlayerStat>()->ID) != session::InputSession.end()) {
-					auto Target = session::InputSession[data->Get<PlayerStat>()->ID]->state;
 
-					if (Target != client->state)
-					{
-						Target->wdata->HP += data->Get<PlayerStat>()->HP;
-					}
-					else 
-					{
-						Target->wdata->HP += data->Get<PlayerStat>()->HP;
-						Target->wdata->MP += data->Get<PlayerStat>()->MP;
-					}
+					auto TargetClient = session::InputSession[data->Get<PlayerStat>()->ID];
+					TargetClient->UseStrand([=]() {
 
-					Target->Write();
+						auto Target = TargetClient->state;
+
+						if (Target != client->state)
+						{
+							Target->wdata->HP += data->Get<PlayerStat>()->HP;
+						}
+						else
+						{
+							Target->wdata->HP += data->Get<PlayerStat>()->HP;
+							Target->wdata->MP += data->Get<PlayerStat>()->MP;
+						}
+
+						Target->Write();
+
+						auto x = TargetClient->position->wdata->pos->x();
+						auto y = TargetClient->position->wdata->pos->y();
+						auto z = TargetClient->position->wdata->pos->z();
+
+						SendDamage(data->Get<PlayerStat>()->HP, false, new Vec3(x, y, z)); 
+						delete data;
+					});
 				}
 				else {
 					printf("좀비 클라이언트에게 요청 들어옴. player ID : %d 삭제.\n", data->Get<PlayerStat>()->ID);
 				}
-				delete data;
+				
 			}
 		});
 	};
 }
+
+void cPlayer::SendDamage(int damage, bool bCri, Vec3* pos_p, int dcolor)
+{
+	WriteManager<fDamage, fDamageT> mdamage;
+	mdamage.wdata->cType = Class::Class_fDamage;
+	mdamage.wdata->bCri = bCri;
+	mdamage.wdata->damage = damage;
+	mdamage.wdata->Pos.reset(pos_p);
+	mdamage.wdata->dcolor = dcolor;
+	mdamage.Write();
+}
+
 
 void cPlayer::Update()
 {

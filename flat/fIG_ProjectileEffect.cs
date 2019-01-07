@@ -17,51 +17,59 @@ public struct fIG_ProjectileEffect : IFlatbufferObject
   public Class CType { get { int o = __p.__offset(4); return o != 0 ? (Class)__p.bb.GetInt(o + __p.bb_pos) : Class.Base; } }
   public int PID { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public float Speed { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float X { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Y { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Z { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Tx { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Ty { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public float Tz { get { int o = __p.__offset(20); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
-  public string EftName { get { int o = __p.__offset(22); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
-  public ArraySegment<byte>? GetEftNameBytes() { return __p.__vector_as_arraysegment(22); }
+  public float Range { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float X { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Y { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Z { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Tx { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Ty { get { int o = __p.__offset(20); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Tz { get { int o = __p.__offset(22); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Tw { get { int o = __p.__offset(24); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public string EftName { get { int o = __p.__offset(26); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public ArraySegment<byte>? GetEftNameBytes() { return __p.__vector_as_arraysegment(26); }
 
   public static Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffect(FlatBufferBuilder builder,
       Class cType = Class.Base,
       int pID = 0,
       float speed = 0.0f,
+      float range = 0.0f,
       float x = 0.0f,
       float y = 0.0f,
       float z = 0.0f,
       float tx = 0.0f,
       float ty = 0.0f,
       float tz = 0.0f,
+      float tw = 0.0f,
       StringOffset eftNameOffset = default(StringOffset)) {
-    builder.StartObject(10);
+    builder.StartObject(12);
     fIG_ProjectileEffect.AddEftName(builder, eftNameOffset);
+    fIG_ProjectileEffect.AddTw(builder, tw);
     fIG_ProjectileEffect.AddTz(builder, tz);
     fIG_ProjectileEffect.AddTy(builder, ty);
     fIG_ProjectileEffect.AddTx(builder, tx);
     fIG_ProjectileEffect.AddZ(builder, z);
     fIG_ProjectileEffect.AddY(builder, y);
     fIG_ProjectileEffect.AddX(builder, x);
+    fIG_ProjectileEffect.AddRange(builder, range);
     fIG_ProjectileEffect.AddSpeed(builder, speed);
     fIG_ProjectileEffect.AddPID(builder, pID);
     fIG_ProjectileEffect.AddCType(builder, cType);
     return fIG_ProjectileEffect.EndfIG_ProjectileEffect(builder);
   }
 
-  public static void StartfIG_ProjectileEffect(FlatBufferBuilder builder) { builder.StartObject(10); }
+  public static void StartfIG_ProjectileEffect(FlatBufferBuilder builder) { builder.StartObject(12); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddPID(FlatBufferBuilder builder, int pID) { builder.AddInt(1, pID, 0); }
   public static void AddSpeed(FlatBufferBuilder builder, float speed) { builder.AddFloat(2, speed, 0.0f); }
-  public static void AddX(FlatBufferBuilder builder, float x) { builder.AddFloat(3, x, 0.0f); }
-  public static void AddY(FlatBufferBuilder builder, float y) { builder.AddFloat(4, y, 0.0f); }
-  public static void AddZ(FlatBufferBuilder builder, float z) { builder.AddFloat(5, z, 0.0f); }
-  public static void AddTx(FlatBufferBuilder builder, float tx) { builder.AddFloat(6, tx, 0.0f); }
-  public static void AddTy(FlatBufferBuilder builder, float ty) { builder.AddFloat(7, ty, 0.0f); }
-  public static void AddTz(FlatBufferBuilder builder, float tz) { builder.AddFloat(8, tz, 0.0f); }
-  public static void AddEftName(FlatBufferBuilder builder, StringOffset eftNameOffset) { builder.AddOffset(9, eftNameOffset.Value, 0); }
+  public static void AddRange(FlatBufferBuilder builder, float range) { builder.AddFloat(3, range, 0.0f); }
+  public static void AddX(FlatBufferBuilder builder, float x) { builder.AddFloat(4, x, 0.0f); }
+  public static void AddY(FlatBufferBuilder builder, float y) { builder.AddFloat(5, y, 0.0f); }
+  public static void AddZ(FlatBufferBuilder builder, float z) { builder.AddFloat(6, z, 0.0f); }
+  public static void AddTx(FlatBufferBuilder builder, float tx) { builder.AddFloat(7, tx, 0.0f); }
+  public static void AddTy(FlatBufferBuilder builder, float ty) { builder.AddFloat(8, ty, 0.0f); }
+  public static void AddTz(FlatBufferBuilder builder, float tz) { builder.AddFloat(9, tz, 0.0f); }
+  public static void AddTw(FlatBufferBuilder builder, float tw) { builder.AddFloat(10, tw, 0.0f); }
+  public static void AddEftName(FlatBufferBuilder builder, StringOffset eftNameOffset) { builder.AddOffset(11, eftNameOffset.Value, 0); }
   public static Offset<fIG_ProjectileEffect> EndfIG_ProjectileEffect(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<fIG_ProjectileEffect>(o);

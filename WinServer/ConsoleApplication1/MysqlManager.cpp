@@ -11,7 +11,7 @@ using namespace std;
 MysqlManager::MysqlManager()
 {
 	mysql = MysqlPool::getMysqlPoolObject();
-	mysql->setParameter("35.229.140.57", "anyc123", "123", "Main", 3306, NULL, 0, 50);
+	mysql->setParameter("35.200.70.203", "anyc123", "123", "Main", 3306, NULL, 0, 50);
 }
 
 MysqlManager::~MysqlManager()

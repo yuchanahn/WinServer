@@ -21,6 +21,10 @@ public struct fIG_EffectPos : IFlatbufferObject
   public float X { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float Y { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
   public float Z { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Rx { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Ry { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Rz { get { int o = __p.__offset(20); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
+  public float Rw { get { int o = __p.__offset(22); return o != 0 ? __p.bb.GetFloat(o + __p.bb_pos) : (float)0.0f; } }
 
   public static Offset<fIG_EffectPos> CreatefIG_EffectPos(FlatBufferBuilder builder,
       Class cType = Class.Base,
@@ -28,8 +32,16 @@ public struct fIG_EffectPos : IFlatbufferObject
       StringOffset eftNameOffset = default(StringOffset),
       float x = 0.0f,
       float y = 0.0f,
-      float z = 0.0f) {
-    builder.StartObject(6);
+      float z = 0.0f,
+      float rx = 0.0f,
+      float ry = 0.0f,
+      float rz = 0.0f,
+      float rw = 0.0f) {
+    builder.StartObject(10);
+    fIG_EffectPos.AddRw(builder, rw);
+    fIG_EffectPos.AddRz(builder, rz);
+    fIG_EffectPos.AddRy(builder, ry);
+    fIG_EffectPos.AddRx(builder, rx);
     fIG_EffectPos.AddZ(builder, z);
     fIG_EffectPos.AddY(builder, y);
     fIG_EffectPos.AddX(builder, x);
@@ -39,13 +51,17 @@ public struct fIG_EffectPos : IFlatbufferObject
     return fIG_EffectPos.EndfIG_EffectPos(builder);
   }
 
-  public static void StartfIG_EffectPos(FlatBufferBuilder builder) { builder.StartObject(6); }
+  public static void StartfIG_EffectPos(FlatBufferBuilder builder) { builder.StartObject(10); }
   public static void AddCType(FlatBufferBuilder builder, Class cType) { builder.AddInt(0, (int)cType, 0); }
   public static void AddEftID(FlatBufferBuilder builder, int eftID) { builder.AddInt(1, eftID, 0); }
   public static void AddEftName(FlatBufferBuilder builder, StringOffset eftNameOffset) { builder.AddOffset(2, eftNameOffset.Value, 0); }
   public static void AddX(FlatBufferBuilder builder, float x) { builder.AddFloat(3, x, 0.0f); }
   public static void AddY(FlatBufferBuilder builder, float y) { builder.AddFloat(4, y, 0.0f); }
   public static void AddZ(FlatBufferBuilder builder, float z) { builder.AddFloat(5, z, 0.0f); }
+  public static void AddRx(FlatBufferBuilder builder, float rx) { builder.AddFloat(6, rx, 0.0f); }
+  public static void AddRy(FlatBufferBuilder builder, float ry) { builder.AddFloat(7, ry, 0.0f); }
+  public static void AddRz(FlatBufferBuilder builder, float rz) { builder.AddFloat(8, rz, 0.0f); }
+  public static void AddRw(FlatBufferBuilder builder, float rw) { builder.AddFloat(9, rw, 0.0f); }
   public static Offset<fIG_EffectPos> EndfIG_EffectPos(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<fIG_EffectPos>(o);

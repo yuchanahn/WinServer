@@ -21,6 +21,7 @@ public:
 	
 	void InvUpdate(fItemT *);
 	void SwapSlot(std::vector<int>);
+	void InvSet(int itemKey, int NewItemKey = 0);
 	void ItemCountUpdate(fItemT * item, int id);
 
 	fItemT * Get(int);

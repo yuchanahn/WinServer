@@ -33,6 +33,18 @@ void EquipManager::write(std::shared_ptr<session> client)
 		}
 	}
 }
+void EquipManager::WriteSome()
+{
+	for (int i = 0; i < EQUIP_SLOT_MAX; i++)
+	{
+		if (mslot[i] != 0)
+		{
+			EquipSome(Item::Items[mslot[i]].wdata->id, i);
+		}
+	}
+}
+
+
 
 void EquipManager::EquipSome(int objNum, int slotNum) {
 	WriteManager<fEquipSome, fEquipSomeT> w;

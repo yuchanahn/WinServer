@@ -13,6 +13,8 @@ public:
 
 	void write(std::shared_ptr<session> client);
 
+	void WriteSome();
+
 	void EquipSome(int objNum, int slotNum);
 
 	EquipManager(int id);

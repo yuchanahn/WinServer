@@ -11,15 +11,17 @@ cMonsterManager::~cMonsterManager()
 {
 }
 
-void cMonsterManager::SendDamage(int damage, bool bCri, Vec3* pos_p)
+void cMonsterManager::SendDamage(int damage, bool bCri, Vec3* pos_p, int dcolor)
 {
 	WriteManager<fDamage, fDamageT> mdamage;
 	mdamage.wdata->cType = Class::Class_fDamage;
 	mdamage.wdata->bCri = bCri;
 	mdamage.wdata->damage = damage;
 	mdamage.wdata->Pos.reset(pos_p);
+	mdamage.wdata->dcolor = dcolor;
 	mdamage.Write();
 }
+
 
 void cMonsterManager::Start()
 {

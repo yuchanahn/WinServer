@@ -49,7 +49,8 @@ public:
 	cMonsterManager(InputComponent* input) : Component(input) {};
 	~cMonsterManager();
 
-	void SendDamage(int damage, bool bCri, Vec3* pos);
+	void SendDamage(int damage, bool bCri, Vec3 * pos_p, int dcolor = 0);
+
 
 	virtual void Start();
 	virtual void Update();

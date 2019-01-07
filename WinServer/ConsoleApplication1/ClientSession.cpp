@@ -111,6 +111,7 @@ void session::IsLogined() {
 		equipManager->write(shared_from_this());
 		server::PlayerManager->GetComponent<cSkillSlot>()->StartSkillSlot(id);
 		server::PlayerManager->GetComponent<cKeySlot>()->StartKeySlot(id);
+		server::PlayerManager->GetComponent<cItem>()->GetDropItem(shared_from_this());
 	});
 }
 

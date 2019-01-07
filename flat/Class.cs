@@ -30,5 +30,7 @@ public enum Class : int
  fChat = 23,
  fIG_ProjectileEffect = 24,
  fIG_EffectPos = 25,
+ fDropItem = 26,
+ fItemGet = 27,
 };
 

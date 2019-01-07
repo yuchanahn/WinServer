@@ -64,7 +64,6 @@ void ItemManager::getItemData() {
 
 			printf("Item Load : %s\n", Items[i]->name.c_str());
 		}
-
 	}
 }
 

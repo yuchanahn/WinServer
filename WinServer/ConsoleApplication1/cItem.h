@@ -9,5 +9,10 @@ public:
 	~cItem();
 
 	void Start();
+
+	void DropEND(int ItemID);
+
+	void GetDropItem(std::shared_ptr<session> client);
+
 };
 

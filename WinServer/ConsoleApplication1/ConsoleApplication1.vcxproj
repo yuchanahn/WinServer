@@ -57,6 +57,7 @@
     <ClInclude Include="PlayerStateManager.h" />
     <ClInclude Include="ReadManager.h" />
     <ClInclude Include="ConvertUTF8.h" />
+    <ClInclude Include="ShootObject.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="WriteManager.h" />
   </ItemGroup>
@@ -95,6 +96,7 @@
     <ClCompile Include="PlayerPositionManager.cpp" />
     <ClCompile Include="PlayerStateManager.cpp" />
     <ClCompile Include="ReadManager.cpp" />
+    <ClCompile Include="ShootObject.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="TLS.cpp" />
     <ClCompile Include="ConvertUTF8.cpp" />

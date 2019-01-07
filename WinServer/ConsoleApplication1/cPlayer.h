@@ -17,6 +17,7 @@ public:
 	~cPlayer();
 
 	virtual void Start();
+	void SendDamage(int damage, bool bCri, Vec3 * pos_p, int dcolor = 1);
 	virtual void Update();
 	void FristSend(std::shared_ptr<session> client);
 

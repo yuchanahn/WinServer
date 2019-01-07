@@ -46,7 +46,7 @@ void InventoryManager::WriteNewItem(int ItemKey)
 
 void InventoryManager::InvUpdate(fItemT * item)
 {
-	if (item->type == -1)	printf("ITEM UPDATE[+]\n"); 
+	if (item->type == -1)	printf("ITEM UPDATE[+]\n");
 	else					printf("ITEM UPDATE[-]\n");
 
 
@@ -69,8 +69,6 @@ void InventoryManager::InvUpdate(fItemT * item)
 		ItemCountUpdate(item, item->id);
 		return;
 	}
-
-
 }
 
 void InventoryManager::SwapSlot(std::vector<int> NewInv)
@@ -80,6 +78,12 @@ void InventoryManager::SwapSlot(std::vector<int> NewInv)
 		inventory->Set(NewInv[i], i);
 	}
 }
+
+void InventoryManager::InvSet(int itemKey, int NewItemKey)
+{
+	inventory->Set(NewItemKey, inventory->GetSlotNum(itemKey));
+}
+
 
 void InventoryManager::ItemCountUpdate(fItemT * item, int id)
 {

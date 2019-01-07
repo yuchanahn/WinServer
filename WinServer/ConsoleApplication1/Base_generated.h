@@ -6,6 +6,12 @@
 
 #include "flatbuffers/flatbuffers.h"
 
+struct fItemGet;
+struct fItemGetT;
+
+struct fDropItem;
+struct fDropItemT;
+
 struct fChat;
 struct fChatT;
 
@@ -113,11 +119,13 @@ enum Class {
 	Class_fChat = 23,
 	Class_fIG_ProjectileEffect = 24,
 	Class_fIG_EffectPos = 25,
+	Class_fDropItem = 26,
+	Class_fItemGet = 27,
 	Class_MIN = Class_Base,
-	Class_MAX = Class_fIG_EffectPos
+	Class_MAX = Class_fItemGet
 };
 
-inline const Class(&EnumValuesClass())[26]{
+inline const Class(&EnumValuesClass())[28]{
   static const Class values[] = {
 	Class_Base,
 	Class_Player,
@@ -144,7 +152,9 @@ inline const Class(&EnumValuesClass())[26]{
 	Class_fSkillSlot,
 	Class_fChat,
 	Class_fIG_ProjectileEffect,
-	Class_fIG_EffectPos
+	Class_fIG_EffectPos,
+	Class_fDropItem,
+	Class_fItemGet
   };
   return values;
 }
@@ -177,6 +187,8 @@ inline const char * const *EnumNamesClass() {
 	  "fChat",
 	  "fIG_ProjectileEffect",
 	  "fIG_EffectPos",
+	  "fDropItem",
+	  "fItemGet",
 	  nullptr
 	};
 	return names;
@@ -213,6 +225,230 @@ public:
 	}
 };
 STRUCT_END(Vec3, 12);
+
+struct fItemGetT : public flatbuffers::NativeTable {
+	typedef fItemGet TableType;
+	Class cType;
+	int32_t dID;
+	int32_t count;
+	fItemGetT()
+		: cType(Class_Base),
+		dID(0),
+		count(0) {
+	}
+};
+
+struct fItemGet FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+	typedef fItemGetT NativeTableType;
+	enum {
+		VT_CTYPE = 4,
+		VT_DID = 6,
+		VT_COUNT = 8
+	};
+	Class cType() const {
+		return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+	}
+	int32_t dID() const {
+		return GetField<int32_t>(VT_DID, 0);
+	}
+	int32_t count() const {
+		return GetField<int32_t>(VT_COUNT, 0);
+	}
+	bool Verify(flatbuffers::Verifier &verifier) const {
+		return VerifyTableStart(verifier) &&
+			VerifyField<int32_t>(verifier, VT_CTYPE) &&
+			VerifyField<int32_t>(verifier, VT_DID) &&
+			VerifyField<int32_t>(verifier, VT_COUNT) &&
+			verifier.EndTable();
+	}
+	fItemGetT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+	void UnPackTo(fItemGetT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+	static flatbuffers::Offset<fItemGet> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fItemGetT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fItemGetBuilder {
+	flatbuffers::FlatBufferBuilder &fbb_;
+	flatbuffers::uoffset_t start_;
+	void add_cType(Class cType) {
+		fbb_.AddElement<int32_t>(fItemGet::VT_CTYPE, static_cast<int32_t>(cType), 0);
+	}
+	void add_dID(int32_t dID) {
+		fbb_.AddElement<int32_t>(fItemGet::VT_DID, dID, 0);
+	}
+	void add_count(int32_t count) {
+		fbb_.AddElement<int32_t>(fItemGet::VT_COUNT, count, 0);
+	}
+	explicit fItemGetBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+		: fbb_(_fbb) {
+		start_ = fbb_.StartTable();
+	}
+	fItemGetBuilder &operator=(const fItemGetBuilder &);
+	flatbuffers::Offset<fItemGet> Finish() {
+		const auto end = fbb_.EndTable(start_);
+		auto o = flatbuffers::Offset<fItemGet>(end);
+		return o;
+	}
+};
+
+inline flatbuffers::Offset<fItemGet> CreatefItemGet(
+	flatbuffers::FlatBufferBuilder &_fbb,
+	Class cType = Class_Base,
+	int32_t dID = 0,
+	int32_t count = 0) {
+	fItemGetBuilder builder_(_fbb);
+	builder_.add_count(count);
+	builder_.add_dID(dID);
+	builder_.add_cType(cType);
+	return builder_.Finish();
+}
+
+flatbuffers::Offset<fItemGet> CreatefItemGet(flatbuffers::FlatBufferBuilder &_fbb, const fItemGetT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct fDropItemT : public flatbuffers::NativeTable {
+	typedef fDropItem TableType;
+	Class cType;
+	int32_t dID;
+	std::string dName;
+	float x;
+	float y;
+	float z;
+	int32_t count;
+	fDropItemT()
+		: cType(Class_Base),
+		dID(0),
+		x(0.0f),
+		y(0.0f),
+		z(0.0f),
+		count(0) {
+	}
+};
+
+struct fDropItem FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+	typedef fDropItemT NativeTableType;
+	enum {
+		VT_CTYPE = 4,
+		VT_DID = 6,
+		VT_DNAME = 8,
+		VT_X = 10,
+		VT_Y = 12,
+		VT_Z = 14,
+		VT_COUNT = 16
+	};
+	Class cType() const {
+		return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
+	}
+	int32_t dID() const {
+		return GetField<int32_t>(VT_DID, 0);
+	}
+	const flatbuffers::String *dName() const {
+		return GetPointer<const flatbuffers::String *>(VT_DNAME);
+	}
+	float x() const {
+		return GetField<float>(VT_X, 0.0f);
+	}
+	float y() const {
+		return GetField<float>(VT_Y, 0.0f);
+	}
+	float z() const {
+		return GetField<float>(VT_Z, 0.0f);
+	}
+	int32_t count() const {
+		return GetField<int32_t>(VT_COUNT, 0);
+	}
+	bool Verify(flatbuffers::Verifier &verifier) const {
+		return VerifyTableStart(verifier) &&
+			VerifyField<int32_t>(verifier, VT_CTYPE) &&
+			VerifyField<int32_t>(verifier, VT_DID) &&
+			VerifyOffset(verifier, VT_DNAME) &&
+			verifier.Verify(dName()) &&
+			VerifyField<float>(verifier, VT_X) &&
+			VerifyField<float>(verifier, VT_Y) &&
+			VerifyField<float>(verifier, VT_Z) &&
+			VerifyField<int32_t>(verifier, VT_COUNT) &&
+			verifier.EndTable();
+	}
+	fDropItemT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+	void UnPackTo(fDropItemT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+	static flatbuffers::Offset<fDropItem> Pack(flatbuffers::FlatBufferBuilder &_fbb, const fDropItemT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct fDropItemBuilder {
+	flatbuffers::FlatBufferBuilder &fbb_;
+	flatbuffers::uoffset_t start_;
+	void add_cType(Class cType) {
+		fbb_.AddElement<int32_t>(fDropItem::VT_CTYPE, static_cast<int32_t>(cType), 0);
+	}
+	void add_dID(int32_t dID) {
+		fbb_.AddElement<int32_t>(fDropItem::VT_DID, dID, 0);
+	}
+	void add_dName(flatbuffers::Offset<flatbuffers::String> dName) {
+		fbb_.AddOffset(fDropItem::VT_DNAME, dName);
+	}
+	void add_x(float x) {
+		fbb_.AddElement<float>(fDropItem::VT_X, x, 0.0f);
+	}
+	void add_y(float y) {
+		fbb_.AddElement<float>(fDropItem::VT_Y, y, 0.0f);
+	}
+	void add_z(float z) {
+		fbb_.AddElement<float>(fDropItem::VT_Z, z, 0.0f);
+	}
+	void add_count(int32_t count) {
+		fbb_.AddElement<int32_t>(fDropItem::VT_COUNT, count, 0);
+	}
+	explicit fDropItemBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+		: fbb_(_fbb) {
+		start_ = fbb_.StartTable();
+	}
+	fDropItemBuilder &operator=(const fDropItemBuilder &);
+	flatbuffers::Offset<fDropItem> Finish() {
+		const auto end = fbb_.EndTable(start_);
+		auto o = flatbuffers::Offset<fDropItem>(end);
+		return o;
+	}
+};
+
+inline flatbuffers::Offset<fDropItem> CreatefDropItem(
+	flatbuffers::FlatBufferBuilder &_fbb,
+	Class cType = Class_Base,
+	int32_t dID = 0,
+	flatbuffers::Offset<flatbuffers::String> dName = 0,
+	float x = 0.0f,
+	float y = 0.0f,
+	float z = 0.0f,
+	int32_t count = 0) {
+	fDropItemBuilder builder_(_fbb);
+	builder_.add_count(count);
+	builder_.add_z(z);
+	builder_.add_y(y);
+	builder_.add_x(x);
+	builder_.add_dName(dName);
+	builder_.add_dID(dID);
+	builder_.add_cType(cType);
+	return builder_.Finish();
+}
+
+inline flatbuffers::Offset<fDropItem> CreatefDropItemDirect(
+	flatbuffers::FlatBufferBuilder &_fbb,
+	Class cType = Class_Base,
+	int32_t dID = 0,
+	const char *dName = nullptr,
+	float x = 0.0f,
+	float y = 0.0f,
+	float z = 0.0f,
+	int32_t count = 0) {
+	return CreatefDropItem(
+		_fbb,
+		cType,
+		dID,
+		dName ? _fbb.CreateString(dName) : 0,
+		x,
+		y,
+		z,
+		count);
+}
+
+flatbuffers::Offset<fDropItem> CreatefDropItem(flatbuffers::FlatBufferBuilder &_fbb, const fDropItemT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct fChatT : public flatbuffers::NativeTable {
 	typedef fChat TableType;
@@ -464,12 +700,20 @@ struct fIG_EffectPosT : public flatbuffers::NativeTable {
 	float x;
 	float y;
 	float z;
+	float rx;
+	float ry;
+	float rz;
+	float rw;
 	fIG_EffectPosT()
 		: cType(Class_Base),
 		eftID(0),
 		x(0.0f),
 		y(0.0f),
-		z(0.0f) {
+		z(0.0f),
+		rx(0.0f),
+		ry(0.0f),
+		rz(0.0f),
+		rw(0.0f) {
 	}
 };
 
@@ -481,7 +725,11 @@ struct fIG_EffectPos FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 		VT_EFTNAME = 8,
 		VT_X = 10,
 		VT_Y = 12,
-		VT_Z = 14
+		VT_Z = 14,
+		VT_RX = 16,
+		VT_RY = 18,
+		VT_RZ = 20,
+		VT_RW = 22
 	};
 	Class cType() const {
 		return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
@@ -501,6 +749,18 @@ struct fIG_EffectPos FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 	float z() const {
 		return GetField<float>(VT_Z, 0.0f);
 	}
+	float rx() const {
+		return GetField<float>(VT_RX, 0.0f);
+	}
+	float ry() const {
+		return GetField<float>(VT_RY, 0.0f);
+	}
+	float rz() const {
+		return GetField<float>(VT_RZ, 0.0f);
+	}
+	float rw() const {
+		return GetField<float>(VT_RW, 0.0f);
+	}
 	bool Verify(flatbuffers::Verifier &verifier) const {
 		return VerifyTableStart(verifier) &&
 			VerifyField<int32_t>(verifier, VT_CTYPE) &&
@@ -510,6 +770,10 @@ struct fIG_EffectPos FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 			VerifyField<float>(verifier, VT_X) &&
 			VerifyField<float>(verifier, VT_Y) &&
 			VerifyField<float>(verifier, VT_Z) &&
+			VerifyField<float>(verifier, VT_RX) &&
+			VerifyField<float>(verifier, VT_RY) &&
+			VerifyField<float>(verifier, VT_RZ) &&
+			VerifyField<float>(verifier, VT_RW) &&
 			verifier.EndTable();
 	}
 	fIG_EffectPosT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -538,6 +802,18 @@ struct fIG_EffectPosBuilder {
 	void add_z(float z) {
 		fbb_.AddElement<float>(fIG_EffectPos::VT_Z, z, 0.0f);
 	}
+	void add_rx(float rx) {
+		fbb_.AddElement<float>(fIG_EffectPos::VT_RX, rx, 0.0f);
+	}
+	void add_ry(float ry) {
+		fbb_.AddElement<float>(fIG_EffectPos::VT_RY, ry, 0.0f);
+	}
+	void add_rz(float rz) {
+		fbb_.AddElement<float>(fIG_EffectPos::VT_RZ, rz, 0.0f);
+	}
+	void add_rw(float rw) {
+		fbb_.AddElement<float>(fIG_EffectPos::VT_RW, rw, 0.0f);
+	}
 	explicit fIG_EffectPosBuilder(flatbuffers::FlatBufferBuilder &_fbb)
 		: fbb_(_fbb) {
 		start_ = fbb_.StartTable();
@@ -557,8 +833,16 @@ inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(
 	flatbuffers::Offset<flatbuffers::String> eftName = 0,
 	float x = 0.0f,
 	float y = 0.0f,
-	float z = 0.0f) {
+	float z = 0.0f,
+	float rx = 0.0f,
+	float ry = 0.0f,
+	float rz = 0.0f,
+	float rw = 0.0f) {
 	fIG_EffectPosBuilder builder_(_fbb);
+	builder_.add_rw(rw);
+	builder_.add_rz(rz);
+	builder_.add_ry(ry);
+	builder_.add_rx(rx);
 	builder_.add_z(z);
 	builder_.add_y(y);
 	builder_.add_x(x);
@@ -575,7 +859,11 @@ inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPosDirect(
 	const char *eftName = nullptr,
 	float x = 0.0f,
 	float y = 0.0f,
-	float z = 0.0f) {
+	float z = 0.0f,
+	float rx = 0.0f,
+	float ry = 0.0f,
+	float rz = 0.0f,
+	float rw = 0.0f) {
 	return CreatefIG_EffectPos(
 		_fbb,
 		cType,
@@ -583,7 +871,11 @@ inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPosDirect(
 		eftName ? _fbb.CreateString(eftName) : 0,
 		x,
 		y,
-		z);
+		z,
+		rx,
+		ry,
+		rz,
+		rw);
 }
 
 flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectPosT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -593,23 +885,27 @@ struct fIG_ProjectileEffectT : public flatbuffers::NativeTable {
 	Class cType;
 	int32_t pID;
 	float speed;
+	float range;
 	float x;
 	float y;
 	float z;
 	float tx;
 	float ty;
 	float tz;
+	float tw;
 	std::string eftName;
 	fIG_ProjectileEffectT()
 		: cType(Class_Base),
 		pID(0),
 		speed(0.0f),
+		range(0.0f),
 		x(0.0f),
 		y(0.0f),
 		z(0.0f),
 		tx(0.0f),
 		ty(0.0f),
-		tz(0.0f) {
+		tz(0.0f),
+		tw(0.0f) {
 	}
 };
 
@@ -619,13 +915,15 @@ struct fIG_ProjectileEffect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
 		VT_CTYPE = 4,
 		VT_PID = 6,
 		VT_SPEED = 8,
-		VT_X = 10,
-		VT_Y = 12,
-		VT_Z = 14,
-		VT_TX = 16,
-		VT_TY = 18,
-		VT_TZ = 20,
-		VT_EFTNAME = 22
+		VT_RANGE = 10,
+		VT_X = 12,
+		VT_Y = 14,
+		VT_Z = 16,
+		VT_TX = 18,
+		VT_TY = 20,
+		VT_TZ = 22,
+		VT_TW = 24,
+		VT_EFTNAME = 26
 	};
 	Class cType() const {
 		return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
@@ -635,6 +933,9 @@ struct fIG_ProjectileEffect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
 	}
 	float speed() const {
 		return GetField<float>(VT_SPEED, 0.0f);
+	}
+	float range() const {
+		return GetField<float>(VT_RANGE, 0.0f);
 	}
 	float x() const {
 		return GetField<float>(VT_X, 0.0f);
@@ -654,6 +955,9 @@ struct fIG_ProjectileEffect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
 	float tz() const {
 		return GetField<float>(VT_TZ, 0.0f);
 	}
+	float tw() const {
+		return GetField<float>(VT_TW, 0.0f);
+	}
 	const flatbuffers::String *eftName() const {
 		return GetPointer<const flatbuffers::String *>(VT_EFTNAME);
 	}
@@ -662,12 +966,14 @@ struct fIG_ProjectileEffect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
 			VerifyField<int32_t>(verifier, VT_CTYPE) &&
 			VerifyField<int32_t>(verifier, VT_PID) &&
 			VerifyField<float>(verifier, VT_SPEED) &&
+			VerifyField<float>(verifier, VT_RANGE) &&
 			VerifyField<float>(verifier, VT_X) &&
 			VerifyField<float>(verifier, VT_Y) &&
 			VerifyField<float>(verifier, VT_Z) &&
 			VerifyField<float>(verifier, VT_TX) &&
 			VerifyField<float>(verifier, VT_TY) &&
 			VerifyField<float>(verifier, VT_TZ) &&
+			VerifyField<float>(verifier, VT_TW) &&
 			VerifyOffset(verifier, VT_EFTNAME) &&
 			verifier.Verify(eftName()) &&
 			verifier.EndTable();
@@ -689,6 +995,9 @@ struct fIG_ProjectileEffectBuilder {
 	void add_speed(float speed) {
 		fbb_.AddElement<float>(fIG_ProjectileEffect::VT_SPEED, speed, 0.0f);
 	}
+	void add_range(float range) {
+		fbb_.AddElement<float>(fIG_ProjectileEffect::VT_RANGE, range, 0.0f);
+	}
 	void add_x(float x) {
 		fbb_.AddElement<float>(fIG_ProjectileEffect::VT_X, x, 0.0f);
 	}
@@ -706,6 +1015,9 @@ struct fIG_ProjectileEffectBuilder {
 	}
 	void add_tz(float tz) {
 		fbb_.AddElement<float>(fIG_ProjectileEffect::VT_TZ, tz, 0.0f);
+	}
+	void add_tw(float tw) {
+		fbb_.AddElement<float>(fIG_ProjectileEffect::VT_TW, tw, 0.0f);
 	}
 	void add_eftName(flatbuffers::Offset<flatbuffers::String> eftName) {
 		fbb_.AddOffset(fIG_ProjectileEffect::VT_EFTNAME, eftName);
@@ -727,21 +1039,25 @@ inline flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffect(
 	Class cType = Class_Base,
 	int32_t pID = 0,
 	float speed = 0.0f,
+	float range = 0.0f,
 	float x = 0.0f,
 	float y = 0.0f,
 	float z = 0.0f,
 	float tx = 0.0f,
 	float ty = 0.0f,
 	float tz = 0.0f,
+	float tw = 0.0f,
 	flatbuffers::Offset<flatbuffers::String> eftName = 0) {
 	fIG_ProjectileEffectBuilder builder_(_fbb);
 	builder_.add_eftName(eftName);
+	builder_.add_tw(tw);
 	builder_.add_tz(tz);
 	builder_.add_ty(ty);
 	builder_.add_tx(tx);
 	builder_.add_z(z);
 	builder_.add_y(y);
 	builder_.add_x(x);
+	builder_.add_range(range);
 	builder_.add_speed(speed);
 	builder_.add_pID(pID);
 	builder_.add_cType(cType);
@@ -753,24 +1069,28 @@ inline flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffectDirec
 	Class cType = Class_Base,
 	int32_t pID = 0,
 	float speed = 0.0f,
+	float range = 0.0f,
 	float x = 0.0f,
 	float y = 0.0f,
 	float z = 0.0f,
 	float tx = 0.0f,
 	float ty = 0.0f,
 	float tz = 0.0f,
+	float tw = 0.0f,
 	const char *eftName = nullptr) {
 	return CreatefIG_ProjectileEffect(
 		_fbb,
 		cType,
 		pID,
 		speed,
+		range,
 		x,
 		y,
 		z,
 		tx,
 		ty,
 		tz,
+		tw,
 		eftName ? _fbb.CreateString(eftName) : 0);
 }
 
@@ -1104,11 +1424,13 @@ struct fDamageT : public flatbuffers::NativeTable {
 	typedef fDamage TableType;
 	Class cType;
 	int32_t damage;
+	int32_t dcolor;
 	std::unique_ptr<Vec3> Pos;
 	bool bCri;
 	fDamageT()
 		: cType(Class_Base),
 		damage(0),
+		dcolor(0),
 		bCri(false) {
 	}
 };
@@ -1118,14 +1440,18 @@ struct fDamage FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 	enum {
 		VT_CTYPE = 4,
 		VT_DAMAGE = 6,
-		VT_POS = 8,
-		VT_BCRI = 10
+		VT_DCOLOR = 8,
+		VT_POS = 10,
+		VT_BCRI = 12
 	};
 	Class cType() const {
 		return static_cast<Class>(GetField<int32_t>(VT_CTYPE, 0));
 	}
 	int32_t damage() const {
 		return GetField<int32_t>(VT_DAMAGE, 0);
+	}
+	int32_t dcolor() const {
+		return GetField<int32_t>(VT_DCOLOR, 0);
 	}
 	const Vec3 *Pos() const {
 		return GetStruct<const Vec3 *>(VT_POS);
@@ -1137,6 +1463,7 @@ struct fDamage FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 		return VerifyTableStart(verifier) &&
 			VerifyField<int32_t>(verifier, VT_CTYPE) &&
 			VerifyField<int32_t>(verifier, VT_DAMAGE) &&
+			VerifyField<int32_t>(verifier, VT_DCOLOR) &&
 			VerifyField<Vec3>(verifier, VT_POS) &&
 			VerifyField<uint8_t>(verifier, VT_BCRI) &&
 			verifier.EndTable();
@@ -1154,6 +1481,9 @@ struct fDamageBuilder {
 	}
 	void add_damage(int32_t damage) {
 		fbb_.AddElement<int32_t>(fDamage::VT_DAMAGE, damage, 0);
+	}
+	void add_dcolor(int32_t dcolor) {
+		fbb_.AddElement<int32_t>(fDamage::VT_DCOLOR, dcolor, 0);
 	}
 	void add_Pos(const Vec3 *Pos) {
 		fbb_.AddStruct(fDamage::VT_POS, Pos);
@@ -1177,10 +1507,12 @@ inline flatbuffers::Offset<fDamage> CreatefDamage(
 	flatbuffers::FlatBufferBuilder &_fbb,
 	Class cType = Class_Base,
 	int32_t damage = 0,
+	int32_t dcolor = 0,
 	const Vec3 *Pos = 0,
 	bool bCri = false) {
 	fDamageBuilder builder_(_fbb);
 	builder_.add_Pos(Pos);
+	builder_.add_dcolor(dcolor);
 	builder_.add_damage(damage);
 	builder_.add_cType(cType);
 	builder_.add_bCri(bCri);
@@ -3103,6 +3435,82 @@ inline flatbuffers::Offset<Base> CreateBase(
 
 flatbuffers::Offset<Base> CreateBase(flatbuffers::FlatBufferBuilder &_fbb, const BaseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+inline fItemGetT *fItemGet::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+	auto _o = new fItemGetT();
+	UnPackTo(_o, _resolver);
+	return _o;
+}
+
+inline void fItemGet::UnPackTo(fItemGetT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+	(void)_o;
+	(void)_resolver;
+	{ auto _e = cType(); _o->cType = _e; };
+	{ auto _e = dID(); _o->dID = _e; };
+	{ auto _e = count(); _o->count = _e; };
+}
+
+inline flatbuffers::Offset<fItemGet> fItemGet::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fItemGetT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+	return CreatefItemGet(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fItemGet> CreatefItemGet(flatbuffers::FlatBufferBuilder &_fbb, const fItemGetT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+	(void)_rehasher;
+	(void)_o;
+	struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fItemGetT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher }; (void)_va;
+	auto _cType = _o->cType;
+	auto _dID = _o->dID;
+	auto _count = _o->count;
+	return CreatefItemGet(
+		_fbb,
+		_cType,
+		_dID,
+		_count);
+}
+
+inline fDropItemT *fDropItem::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+	auto _o = new fDropItemT();
+	UnPackTo(_o, _resolver);
+	return _o;
+}
+
+inline void fDropItem::UnPackTo(fDropItemT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+	(void)_o;
+	(void)_resolver;
+	{ auto _e = cType(); _o->cType = _e; };
+	{ auto _e = dID(); _o->dID = _e; };
+	{ auto _e = dName(); if (_e) _o->dName = _e->str(); };
+	{ auto _e = x(); _o->x = _e; };
+	{ auto _e = y(); _o->y = _e; };
+	{ auto _e = z(); _o->z = _e; };
+	{ auto _e = count(); _o->count = _e; };
+}
+
+inline flatbuffers::Offset<fDropItem> fDropItem::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fDropItemT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+	return CreatefDropItem(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<fDropItem> CreatefDropItem(flatbuffers::FlatBufferBuilder &_fbb, const fDropItemT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+	(void)_rehasher;
+	(void)_o;
+	struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fDropItemT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher }; (void)_va;
+	auto _cType = _o->cType;
+	auto _dID = _o->dID;
+	auto _dName = _o->dName.empty() ? 0 : _fbb.CreateString(_o->dName);
+	auto _x = _o->x;
+	auto _y = _o->y;
+	auto _z = _o->z;
+	auto _count = _o->count;
+	return CreatefDropItem(
+		_fbb,
+		_cType,
+		_dID,
+		_dName,
+		_x,
+		_y,
+		_z,
+		_count);
+}
+
 inline fChatT *fChat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
 	auto _o = new fChatT();
 	UnPackTo(_o, _resolver);
@@ -3208,6 +3616,10 @@ inline void fIG_EffectPos::UnPackTo(fIG_EffectPosT *_o, const flatbuffers::resol
 	{ auto _e = x(); _o->x = _e; };
 	{ auto _e = y(); _o->y = _e; };
 	{ auto _e = z(); _o->z = _e; };
+	{ auto _e = rx(); _o->rx = _e; };
+	{ auto _e = ry(); _o->ry = _e; };
+	{ auto _e = rz(); _o->rz = _e; };
+	{ auto _e = rw(); _o->rw = _e; };
 }
 
 inline flatbuffers::Offset<fIG_EffectPos> fIG_EffectPos::Pack(flatbuffers::FlatBufferBuilder &_fbb, const fIG_EffectPosT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -3224,6 +3636,10 @@ inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(flatbuffers::FlatB
 	auto _x = _o->x;
 	auto _y = _o->y;
 	auto _z = _o->z;
+	auto _rx = _o->rx;
+	auto _ry = _o->ry;
+	auto _rz = _o->rz;
+	auto _rw = _o->rw;
 	return CreatefIG_EffectPos(
 		_fbb,
 		_cType,
@@ -3231,7 +3647,11 @@ inline flatbuffers::Offset<fIG_EffectPos> CreatefIG_EffectPos(flatbuffers::FlatB
 		_eftName,
 		_x,
 		_y,
-		_z);
+		_z,
+		_rx,
+		_ry,
+		_rz,
+		_rw);
 }
 
 inline fIG_ProjectileEffectT *fIG_ProjectileEffect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -3246,12 +3666,14 @@ inline void fIG_ProjectileEffect::UnPackTo(fIG_ProjectileEffectT *_o, const flat
 	{ auto _e = cType(); _o->cType = _e; };
 	{ auto _e = pID(); _o->pID = _e; };
 	{ auto _e = speed(); _o->speed = _e; };
+	{ auto _e = range(); _o->range = _e; };
 	{ auto _e = x(); _o->x = _e; };
 	{ auto _e = y(); _o->y = _e; };
 	{ auto _e = z(); _o->z = _e; };
 	{ auto _e = tx(); _o->tx = _e; };
 	{ auto _e = ty(); _o->ty = _e; };
 	{ auto _e = tz(); _o->tz = _e; };
+	{ auto _e = tw(); _o->tw = _e; };
 	{ auto _e = eftName(); if (_e) _o->eftName = _e->str(); };
 }
 
@@ -3266,24 +3688,28 @@ inline flatbuffers::Offset<fIG_ProjectileEffect> CreatefIG_ProjectileEffect(flat
 	auto _cType = _o->cType;
 	auto _pID = _o->pID;
 	auto _speed = _o->speed;
+	auto _range = _o->range;
 	auto _x = _o->x;
 	auto _y = _o->y;
 	auto _z = _o->z;
 	auto _tx = _o->tx;
 	auto _ty = _o->ty;
 	auto _tz = _o->tz;
+	auto _tw = _o->tw;
 	auto _eftName = _o->eftName.empty() ? 0 : _fbb.CreateString(_o->eftName);
 	return CreatefIG_ProjectileEffect(
 		_fbb,
 		_cType,
 		_pID,
 		_speed,
+		_range,
 		_x,
 		_y,
 		_z,
 		_tx,
 		_ty,
 		_tz,
+		_tw,
 		_eftName);
 }
 
@@ -3412,6 +3838,7 @@ inline void fDamage::UnPackTo(fDamageT *_o, const flatbuffers::resolver_function
 	(void)_resolver;
 	{ auto _e = cType(); _o->cType = _e; };
 	{ auto _e = damage(); _o->damage = _e; };
+	{ auto _e = dcolor(); _o->dcolor = _e; };
 	{ auto _e = Pos(); if (_e) _o->Pos = std::unique_ptr<Vec3>(new Vec3(*_e)); };
 	{ auto _e = bCri(); _o->bCri = _e; };
 }
@@ -3426,12 +3853,14 @@ inline flatbuffers::Offset<fDamage> CreatefDamage(flatbuffers::FlatBufferBuilder
 	struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const fDamageT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher }; (void)_va;
 	auto _cType = _o->cType;
 	auto _damage = _o->damage;
+	auto _dcolor = _o->dcolor;
 	auto _Pos = _o->Pos ? _o->Pos.get() : 0;
 	auto _bCri = _o->bCri;
 	return CreatefDamage(
 		_fbb,
 		_cType,
 		_damage,
+		_dcolor,
 		_Pos,
 		_bCri);
 }
